@@ -11,7 +11,7 @@ export default function Navbar() {
     <>
       <nav className="sticky top-0 z-50 bg-gradient-to-b from-white/95 via-white/60 to-transparent backdrop-blur-md">
         <div className="flex items-center justify-between w-full px-6 md:px-16 py-5">
-          <span className="font-heading font-extrabold tracking-widest text-xl text-[#111111] uppercase">
+          <span className="font-heading font-extrabold tracking-widest text-xl text-text-primary uppercase">
             LUXORA
           </span>
 
@@ -20,7 +20,7 @@ export default function Navbar() {
               <a
                 key={link}
                 href="#"
-                className="font-body font-medium text-sm text-[#111111] transition-colors duration-300 hover:text-[#666666]"
+                className="font-body font-medium text-sm text-text-primary transition-colors duration-300 hover:text-text-muted"
               >
                 {link}
               </a>
@@ -38,27 +38,28 @@ export default function Navbar() {
 
           <button
             onClick={() => setOpen(!open)}
-            className="block md:hidden p-2"
-            aria-label="Toggle menu"
+            className="block md:hidden p-2 z-50 relative"
+            aria-label={open ? "Close menu" : "Open menu"}
           >
             <span
-              className={`block h-0.5 w-5 bg-[#111111] transition-transform duration-300 ${open ? "translate-y-2 rotate-45" : ""}`}
+              className={`block h-0.5 w-5 bg-[#111111] transition-all duration-300 ease-out ${open ? "translate-y-2 rotate-45" : "rotate-0 translate-y-0"}`}
             />
             <span
-              className={`block h-0.5 w-5 bg-[#111111] mt-1.5 transition-opacity duration-300 ${open ? "opacity-0" : ""}`}
+              className={`block h-0.5 w-5 bg-[#111111] mt-1.5 transition-all duration-300 ease-out ${open ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}
             />
             <span
-              className={`block h-0.5 w-5 bg-[#111111] mt-1.5 transition-transform duration-300 ${open ? "-translate-y-2 -rotate-45" : ""}`}
+              className={`block h-0.5 w-5 bg-[#111111] mt-1.5 transition-all duration-300 ease-out ${open ? "-translate-y-2 -rotate-45" : "-rotate-0 translate-y-0"}`}
             />
           </button>
         </div>
       </nav>
 
       <div
-        className={`fixed inset-0 h-screen w-full bg-white z-[60] transition-transform duration-300 md:hidden ${open ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-0 h-screen w-full bg-white z-40 transition-transform duration-300 ease-out md:hidden ${open ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}
+        aria-hidden={!open}
       >
         <div className="flex items-center justify-between px-6 py-5">
-          <span className="font-heading font-extrabold tracking-widest text-xl text-[#111111] uppercase">
+          <span className="font-heading font-extrabold tracking-widest text-xl text-text-primary uppercase">
             LUXORA
           </span>
           <button
@@ -76,7 +77,7 @@ export default function Navbar() {
             <a
               key={link}
               href="#"
-              className="font-heading font-bold text-2xl text-[#111111] transition-colors duration-300 hover:text-[#666666]"
+              className="font-heading font-bold text-2xl text-text-primary transition-colors duration-300 hover:text-text-muted"
               onClick={() => setOpen(false)}
             >
               {link}

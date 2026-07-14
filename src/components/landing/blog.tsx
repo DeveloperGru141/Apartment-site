@@ -29,7 +29,7 @@ export default function Blog() {
   return (
     <section className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-[#111111] mb-10 md:mb-16">
+        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-10 md:mb-16">
           EXPLORING THOUGHTFUL
           <br />
           DESIGN AND LUXURY
@@ -46,7 +46,7 @@ export default function Blog() {
               <span className="font-heading font-medium text-xs tracking-widest text-[#666666] uppercase">
                 {featured.category}
               </span>
-              <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] mt-2">
+              <h3 className="font-heading font-bold text-lg md:text-xl text-text-primary mt-2">
                 {featured.title}
               </h3>
             </div>
@@ -61,13 +61,13 @@ export default function Blog() {
                   className="w-32 h-32 object-cover transition-transform duration-700 group-hover:scale-105 flex-shrink-0"
                 />
                 <div>
-                  <span className="font-heading font-medium text-xs tracking-widest text-[#666666] uppercase">
+<span className="font-heading font-medium text-xs tracking-widest text-text-muted uppercase">
                     {article.category}
                   </span>
                   <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] mt-1">
                     {article.title}
                   </h3>
-                  <p className="font-body font-normal text-base leading-relaxed text-[#555555] mt-2">
+                  <p className="font-body font-normal text-base leading-relaxed text-text-body mt-2">
                     Discover the latest trends and insights shaping the world of
                     luxury real estate and interior design.
                   </p>

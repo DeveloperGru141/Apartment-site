@@ -23,7 +23,7 @@ export default function Concierge() {
   return (
     <section className="py-16 md:py-32 bg-bg-alt">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-[#111111] mb-12 md:mb-20">
+        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-12 md:mb-20">
           PERSONALIZED CONCIERGE
           <br />
           FOR ELEVATED LIVING
@@ -35,10 +35,10 @@ export default function Concierge() {
               <p className="text-7xl md:text-9xl font-bold text-gray-100 leading-none mb-4 md:mb-6 select-none">
                 {step.number}
               </p>
-              <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] tracking-wider mb-4">
+              <h3 className="font-heading font-bold text-lg md:text-xl text-text-primary tracking-wider mb-4">
                 {step.title}
               </h3>
-              <p className="font-body font-normal text-base leading-relaxed text-[#555555]">
+              <p className="font-body font-normal text-base leading-relaxed text-text-body">
                 {step.description}
               </p>
             </div>

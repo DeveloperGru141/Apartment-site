@@ -20,7 +20,7 @@ export default function Services() {
   return (
     <section className="py-16 md:py-32 bg-bg-alt">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-[#111111] mb-10 md:mb-16">
+        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-10 md:mb-16">
           PREMIUM SERVICES DESIGNED
           <br />
           FOR LUXURY LIVING

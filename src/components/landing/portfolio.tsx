@@ -33,7 +33,7 @@ export default function Portfolio() {
   return (
     <section className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-[#111111] mb-10 md:mb-16">
+        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-10 md:mb-16">
           TIMELESS DESIGNS ACROSS
           <br />
           OUR LUXURY PORTFOLIO
@@ -54,13 +54,13 @@ export default function Portfolio() {
                 />
               </div>
               <div className={i % 2 === 1 ? "md:order-1 md:text-right" : ""}>
-                <span className="font-heading font-medium text-xs tracking-widest text-[#666666] uppercase">
+                <span className="font-heading font-medium text-xs tracking-widest text-text-muted uppercase">
                   {item.tag}
                 </span>
-                <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] mt-2 mb-3">
+                <h3 className="font-heading font-bold text-lg md:text-xl text-text-primary mt-2 mb-3">
                   {item.title}
                 </h3>
-                <p className="font-body font-normal text-base leading-relaxed text-[#555555]">
+                <p className="font-body font-normal text-base leading-relaxed text-text-body">
                   A meticulously crafted living space that redefines modern
                   luxury through thoughtful design and premium materials.
                 </p>

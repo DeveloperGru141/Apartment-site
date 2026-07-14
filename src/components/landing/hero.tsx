@@ -11,7 +11,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <h1 className="font-heading font-extrabold text-4xl sm:text-5xl md:text-7xl tracking-tighter text-[#111111] uppercase text-white mb-6">
+        <h1 className="font-heading font-extrabold text-4xl sm:text-5xl md:text-7xl tracking-tighter text-text-primary uppercase text-white mb-6">
           WHERE DREAMS
           <br />
           MEET REALITY
