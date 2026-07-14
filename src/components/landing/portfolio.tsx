@@ -1,0 +1,77 @@
+const portfolio = [
+  {
+    title: "LUXURY COLLECTION",
+    tag: "PENTHOUSE",
+    image:
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=900&q=80",
+    date: "2026",
+  },
+  {
+    title: "EXCLUSIVE HOMES",
+    tag: "RESIDENCE",
+    image:
+      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=900&q=80",
+    date: "2025",
+  },
+  {
+    title: "URBAN SANCTUARY",
+    tag: "APARTMENT",
+    image:
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=900&q=80",
+    date: "2026",
+  },
+  {
+    title: "OCEANFRONT LIVING",
+    tag: "VILLA",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80",
+    date: "2025",
+  },
+];
+
+export default function Portfolio() {
+  return (
+    <section className="py-16 md:py-32 bg-bg-primary">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-[#111111] mb-10 md:mb-16">
+          TIMELESS DESIGNS ACROSS
+          <br />
+          OUR LUXURY PORTFOLIO
+        </h2>
+
+        <div className="space-y-12">
+          {portfolio.map((item, i) => (
+            <a
+              key={item.title}
+              href="#"
+              className="group grid md:grid-cols-2 gap-8 items-center"
+            >
+              <div className={i % 2 === 1 ? "md:order-2" : ""}>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-72 md:h-96 object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+              </div>
+              <div className={i % 2 === 1 ? "md:order-1 md:text-right" : ""}>
+                <span className="font-heading font-medium text-xs tracking-widest text-[#666666] uppercase">
+                  {item.tag}
+                </span>
+                <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] mt-2 mb-3">
+                  {item.title}
+                </h3>
+                <p className="font-body font-normal text-base leading-relaxed text-[#555555]">
+                  A meticulously crafted living space that redefines modern
+                  luxury through thoughtful design and premium materials.
+                </p>
+                <span className="inline-block mt-4 text-text-primary font-body font-semibold text-sm tracking-normal border-b border-text-primary pb-0.5 transition-all duration-300 group-hover:border-b-2">
+                  VIEW PROJECT
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
