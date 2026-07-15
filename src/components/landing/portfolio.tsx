@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const portfolio = [
   {
     title: "LUXURY COLLECTION",
@@ -31,7 +33,7 @@ const portfolio = [
 
 export default function Portfolio() {
   return (
-    <section className="py-16 md:py-32 bg-bg-primary">
+    <section id="portfolio" className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-10 md:mb-16">
           TIMELESS DESIGNS ACROSS
@@ -41,9 +43,9 @@ export default function Portfolio() {
 
         <div className="space-y-12">
           {portfolio.map((item, i) => (
-            <a
+            <Link
               key={item.title}
-              href="#"
+              href="/signup"
               className="group grid md:grid-cols-2 gap-8 items-center"
             >
               <div className={i % 2 === 1 ? "md:order-2" : ""}>
@@ -68,7 +70,7 @@ export default function Portfolio() {
                   VIEW PROJECT
                 </span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

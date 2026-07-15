@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
-    <section className="relative h-screen min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
+    <section id="home" className="relative h-screen min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
@@ -16,12 +18,12 @@ export default function Hero() {
           <br />
           MEET REALITY
         </h1>
-        <a
-          href="#"
+        <Link
+          href="/signup"
           className="inline-block px-8 py-3.5 md:px-10 md:py-4 bg-white text-text-primary font-body font-semibold text-sm tracking-normal transition-all duration-300 hover:bg-gray-100 hover:scale-105"
         >
           EXPLORE COLLECTION
-        </a>
+        </Link>
         <p className="mt-6 text-white/70 font-body font-normal text-sm tracking-normal">
           Curated luxury residences in the world&apos;s most sought-after locations
         </p>

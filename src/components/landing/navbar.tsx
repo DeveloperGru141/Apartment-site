@@ -1,39 +1,55 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
-const navLinks = ["Home", "Services", "About Us", "Blog", "Contact"];
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "Services", href: "#services" },
+  { label: "About Us", href: "#about" },
+  { label: "Blog", href: "#blog" },
+  { label: "Contact", href: "#contact" },
+];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <nav className="sticky top-0 z-50 bg-gradient-to-b from-white/95 via-white/60 to-transparent backdrop-blur-md">
-        <div className="flex items-center justify-between w-full px-6 md:px-16 py-5">
-          <span className="font-heading font-extrabold tracking-widest text-xl text-text-primary uppercase">
-            LUXORA
-          </span>
+      <nav className="sticky top-4 mx-auto w-[92%] bg-white/40 backdrop-blur-lg border border-white/30 shadow-sm rounded-full z-50">
+        <div className="flex items-center justify-between w-full px-6 md:px-8 py-3">
+          <Link
+            href="/"
+            className="font-heading font-extrabold tracking-widest text-xl text-text-primary uppercase"
+          >
+            HORIZON
+          </Link>
 
           <div className="hidden md:flex gap-10 items-center">
             {navLinks.map((link) => (
               <a
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 className="font-body font-medium text-sm text-text-primary transition-colors duration-300 hover:text-text-muted"
               >
-                {link}
+                {link.label}
               </a>
             ))}
           </div>
 
-          <div className="hidden md:block">
-            <a
-              href="#"
+          <div className="hidden md:flex items-center gap-4">
+            <Link
+              href="/login"
+              className="font-body font-medium text-sm text-text-primary transition-colors duration-300 hover:text-text-muted"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
               className="font-body font-semibold text-xs uppercase tracking-wider px-6 py-3 bg-[#111111] text-white rounded-none transition-colors duration-300 hover:bg-[#222222]"
             >
-              Book A Stay
-            </a>
+              Get Started
+            </Link>
           </div>
 
           <button
@@ -59,9 +75,13 @@ export default function Navbar() {
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between px-6 py-5">
-          <span className="font-heading font-extrabold tracking-widest text-xl text-text-primary uppercase">
-            LUXORA
-          </span>
+          <Link
+            href="/"
+            className="font-heading font-extrabold tracking-widest text-xl text-text-primary uppercase"
+            onClick={() => setOpen(false)}
+          >
+            HORIZON
+          </Link>
           <button
             onClick={() => setOpen(false)}
             className="p-2"
@@ -75,21 +95,28 @@ export default function Navbar() {
         <div className="flex flex-col gap-8 px-6 mt-12">
           {navLinks.map((link) => (
             <a
-              key={link}
-              href="#"
+              key={link.label}
+              href={link.href}
               className="font-heading font-bold text-2xl text-text-primary transition-colors duration-300 hover:text-text-muted"
               onClick={() => setOpen(false)}
             >
-              {link}
+              {link.label}
             </a>
           ))}
-          <a
-            href="#"
-            className="font-body font-semibold text-sm uppercase tracking-wider px-6 py-4 bg-[#111111] text-white rounded-none transition-colors duration-300 hover:bg-[#222222] text-center mt-4"
+          <Link
+            href="/login"
+            className="font-body font-semibold text-sm uppercase tracking-wider px-6 py-4 border border-[#111111] text-[#111111] text-center mt-4"
             onClick={() => setOpen(false)}
           >
-            Book A Stay
-          </a>
+            Sign In/Sign up
+          </Link>
+          <Link
+            href="/signup"
+            className="font-body font-semibold text-sm uppercase tracking-wider px-6 py-4 bg-[#111111] text-white text-center mt-4"
+            onClick={() => setOpen(false)}
+          >
+            Get Started
+          </Link>
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 export default function CtaSection() {
   return (
-    <section className="py-16 md:py-32 bg-bg-primary">
+    <section id="contact" className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary">

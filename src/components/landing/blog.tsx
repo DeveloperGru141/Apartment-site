@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const articles = [
   {
     title: "THE ART OF MODERN LIVING ROOM DESIGN",
@@ -27,7 +29,7 @@ export default function Blog() {
   const others = articles.slice(1);
 
   return (
-    <section className="py-16 md:py-32 bg-bg-primary">
+    <section id="blog" className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-10 md:mb-16">
           EXPLORING THOUGHTFUL
@@ -36,7 +38,7 @@ export default function Blog() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-          <a href="#" className="group">
+          <Link href="/signup" className="group">
             <img
               src={featured.image}
               alt={featured.title}
@@ -50,11 +52,11 @@ export default function Blog() {
                 {featured.title}
               </h3>
             </div>
-          </a>
+          </Link>
 
           <div className="space-y-8">
             {others.map((article) => (
-              <a key={article.title} href="#" className="group flex gap-6">
+              <Link key={article.title} href="/signup" className="group flex gap-6">
                 <img
                   src={article.image}
                   alt={article.title}
@@ -72,7 +74,7 @@ export default function Blog() {
                     luxury real estate and interior design.
                   </p>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

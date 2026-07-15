@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LUXORA — Luxury Rentals",
+  title: "HORIZON — Luxury Rentals",
   description: "Where dreams meet reality. Premium apartment rentals curated for discerning residents.",
 };
 

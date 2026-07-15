@@ -1,6 +1,6 @@
 export default function AboutStats() {
   return (
-    <section className="py-16 md:py-32 bg-bg-primary">
+    <section id="about" className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div>
@@ -12,7 +12,7 @@ export default function AboutStats() {
               LIVING
             </h2>
             <p className="font-body font-normal text-base leading-relaxed text-text-body mb-10 md:mb-12">
-              At LUXORA, we curate exceptional living spaces that blend
+              At HORIZON, we curate exceptional living spaces that blend
               architectural brilliance with uncompromising comfort. Each
               property in our portfolio is selected for its unique character
               and premium craftsmanship.

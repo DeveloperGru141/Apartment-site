@@ -4,7 +4,7 @@ A modern, responsive landing page for a luxury apartment rental SaaS platform bu
 
 ## 🏗️ Project Overview
 
-**Apartment-site** is the marketing landing page for "LUXORA" - a premium apartment rental platform targeting the US market. The platform focuses exclusively on luxury rentals (no buying/selling), featuring digital lease signatures, multi-currency payment support, and a concierge-level user experience.
+**Apartment-site** is the marketing landing page for "HORIZON" - a premium apartment rental platform targeting the US market. The platform focuses exclusively on luxury rentals (no buying/selling), featuring digital lease signatures, multi-currency payment support, and a concierge-level user experience.
 
 ### Key Features
 - **Luxury Brand Identity** - "Where Dreams Meet Reality" tagline with premium visual design
@@ -327,4 +327,4 @@ MIT License - see LICENSE file for details.
 
 ---
 
-**Built with ❤️ for the LUXORA brand** — *Where Dreams Meet Reality*
+**Built with ❤️ for the HORIZON brand** — *Where Dreams Meet Reality*

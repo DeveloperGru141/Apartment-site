@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const services = [
   {
     title: "CONCIERGE SERVICES",
@@ -18,7 +20,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section className="py-16 md:py-32 bg-bg-alt">
+    <section id="services" className="py-16 md:py-32 bg-bg-alt">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-10 md:mb-16">
           PREMIUM SERVICES DESIGNED
@@ -28,9 +30,9 @@ export default function Services() {
 
         <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {services.map((service) => (
-            <a
+            <Link
               key={service.title}
-              href="#"
+              href="/signup"
               className="group relative h-72 md:h-96 overflow-hidden cursor-pointer"
             >
               <img
@@ -44,7 +46,7 @@ export default function Services() {
                   {service.title}
                 </h3>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

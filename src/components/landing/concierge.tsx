@@ -21,7 +21,7 @@ const steps = [
 
 export default function Concierge() {
   return (
-    <section className="py-16 md:py-32 bg-bg-alt">
+    <section id="concierge" className="py-16 md:py-32 bg-bg-alt">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight text-text-primary mb-12 md:mb-20">
           PERSONALIZED CONCIERGE
