@@ -1,4 +1,4 @@
--- ============================================
+﻿-- ============================================
 -- APARTMENT RENTAL PLATFORM - DATABASE SCHEMA
 -- ============================================
 
@@ -421,9 +421,7 @@ CREATE POLICY "Public can view landlord profiles" ON profiles
   FOR SELECT USING (role = 'landlord');
 
 CREATE POLICY "Admins can view all profiles" ON profiles
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR SELECT USING (public.is_admin());
 
 -- ============================================
 -- RLS POLICIES - PROPERTIES

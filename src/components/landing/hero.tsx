@@ -19,7 +19,7 @@ export default function Hero() {
           MEET REALITY
         </h1>
         <Link
-          href="/signup"
+          href="/listings"
           className="inline-block px-8 py-3.5 md:px-10 md:py-4 bg-white text-text-primary font-body font-semibold text-sm tracking-normal transition-all duration-300 hover:bg-gray-100 hover:scale-105"
         >
           EXPLORE COLLECTION

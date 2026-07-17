@@ -1,31 +1,25 @@
-import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { apiError, apiData, apiPaginated, getPagination, buildPagination } from '@/lib/api/response'
+import { requireAuth } from '@/lib/auth/server'
+
+const VALID_TYPES = ['apartment', 'condo', 'house', 'townhouse', 'loft', 'studio']
 
 export async function GET(request: Request) {
   try {
     const supabase = await createClient()
     const { searchParams } = new URL(request.url)
-
-    const page = Math.max(1, Number(searchParams.get('page') ?? '1'))
-    const limit = Math.min(
-      50,
-      Math.max(1, Number(searchParams.get('limit') ?? '12'))
-    )
-    const offset = (page - 1) * limit
+    const { page, limit, offset } = getPagination(searchParams)
 
     const city = searchParams.get('city')
     const state = searchParams.get('state')
     const propertyType = searchParams.get('property_type')
-    const minRent = searchParams.get('min_rent')
-    const maxRent = searchParams.get('max_rent')
     const bedrooms = searchParams.get('bedrooms')
     const bathrooms = searchParams.get('bathrooms')
-    const available = searchParams.get('available') !== 'false'
 
     let query = supabase
       .from('properties')
       .select(
-        'id, title, slug, description, city, state, address, property_type, cover_image, amenities, created_at',
+        'id, title, description, city, state, address_line1, property_type, images, amenities, status, created_at',
         { count: 'exact' }
       )
       .order('created_at', { ascending: false })
@@ -34,24 +28,23 @@ export async function GET(request: Request) {
     if (city) query = query.ilike('city', `%${city}%`)
     if (state) query = query.eq('state', state)
     if (propertyType) query = query.eq('property_type', propertyType)
-    if (available) query = query.eq('is_published', true)
 
-    // Bedroom / bathroom / rent filters require joining the cheapest available unit.
-    const { data, error, count } = await query
+    query = query.in('status', ['active'])
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+    let { data, error, count } = await query
 
-    // Enrich with unit-based pricing + room filters.
+    if (error) return apiError(error)
+
     let properties = data ?? []
 
-    if (bedrooms || bathrooms || minRent || maxRent) {
+    if (bedrooms || bathrooms) {
       const ids = properties.map((p) => p.id)
-      const { data: units } = await supabase
+      const { data: units, error: unitsErr } = await supabase
         .from('units')
-        .select('property_id, monthly_rent, bedrooms, bathrooms, is_available')
+        .select('property_id, rent_price, bedrooms, bathrooms, status')
         .in('property_id', ids)
+
+      if (unitsErr) return apiError(unitsErr)
 
       const byProperty = new Map<string, typeof units>()
       for (const u of units ?? []) {
@@ -62,92 +55,60 @@ export async function GET(request: Request) {
 
       properties = properties.filter((p) => {
         const us = byProperty.get(p.id) ?? []
-        if (bedrooms && !us.some((u) => u.bedrooms >= Number(bedrooms)))
+        const available = us.filter((u) => u.status === 'active')
+        if (bedrooms && !available.some((u) => u.bedrooms >= Number(bedrooms)))
           return false
-        if (bathrooms && !us.some((u) => u.bathrooms >= Number(bathrooms)))
+        if (bathrooms && !available.some((u) => u.bathrooms >= Number(bathrooms)))
           return false
-        if (minRent) {
-          const min = Math.min(
-            ...us.filter((u) => u.is_available).map((u) => u.monthly_rent)
-          )
-          if (Number.isNaN(min) || min < Number(minRent)) return false
-        }
-        if (maxRent) {
-          const min = Math.min(
-            ...us.filter((u) => u.is_available).map((u) => u.monthly_rent)
-          )
-          if (Number.isNaN(min) || min > Number(maxRent)) return false
-        }
         return true
       })
+
+      count = properties.length
     }
 
-    return NextResponse.json({
-      data: properties,
-      pagination: {
-        page,
-        limit,
-        total: count ?? properties.length,
-        totalPages: Math.ceil((count ?? properties.length) / limit),
-      },
-    })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiPaginated(properties, buildPagination(page, limit, count ?? 0))
+  } catch (err) {
+    return apiError(err)
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const user = await requireAuth()
     const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
 
-    if (profileError || !profile) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    if (!profile || (profile.role !== 'landlord' && profile.role !== 'admin'))
+      return apiError('Only landlords can create properties', 403)
+
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return apiError('Invalid JSON body', 400)
     }
 
-    const { role } = profile
-    if (role !== 'landlord' && role !== 'admin') {
-      return NextResponse.json(
-        { error: 'Only landlords can create properties' },
-        { status: 403 }
-      )
-    }
+    if (!body.title || !body.property_type || !body.address_line1 || !body.city || !body.state || !body.zip_code)
+      return apiError('title, property_type, address_line1, city, state, and zip_code are required', 400)
 
-    const body = await request.json()
+    if (body.property_type && !VALID_TYPES.includes(String(body.property_type)))
+      return apiError(`property_type must be one of: ${VALID_TYPES.join(', ')}`, 400)
 
     const { data, error } = await supabase
       .from('properties')
-      .insert({
-        ...body,
-        landlord_id: user.id,
-      })
+      .insert({ ...body, landlord_id: user.id })
       .select()
       .single()
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+    if (error) return apiError(error)
 
-    return NextResponse.json({ data }, { status: 201 })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiData(data, 201)
+  } catch (err) {
+    return apiError(err)
   }
 }

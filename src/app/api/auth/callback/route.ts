@@ -1,20 +1,42 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-// Handles the OAuth / magic-link callback (?code=...) and exchanges it for a session.
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
+  const next = searchParams.get('next') ?? '/dashboard'
 
-  if (code) {
+  if (!code)
+    return NextResponse.redirect(`${origin}/login?error=missing_code`)
+
+  try {
     const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+    if (error)
+      return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`)
+
+    const userId = data.user?.id
+    const email = data.user?.email
+
+    if (userId && email) {
+      const { count } = await supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('id', userId)
+
+      if (count === 0) {
+        await supabase.from('profiles').insert({
+          id: userId,
+          email,
+          full_name: data.user?.user_metadata?.full_name ?? null,
+          role: data.user?.user_metadata?.role ?? 'tenant',
+        })
+      }
     }
-  }
 
-  return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`)
+    return NextResponse.redirect(`${origin}${next}`)
+  } catch {
+    return NextResponse.redirect(`${origin}/login?error=callback_exception`)
+  }
 }

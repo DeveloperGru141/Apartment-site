@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { AuthProvider } from "@/lib/auth/AuthProvider";
+import AuthGate from "@/components/AuthGate";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -22,7 +24,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <AuthGate>{children}</AuthGate>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

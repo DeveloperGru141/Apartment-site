@@ -57,10 +57,3 @@ export async function requireRole(roles: string | string[]) {
   return { user, profile }
 }
 
-export async function requireLandlord() {
-  return requireRole('landlord')
-}
-
-export async function requireAdmin() {
-  return requireRole('admin')
-}

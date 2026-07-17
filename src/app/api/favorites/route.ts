@@ -1,112 +1,95 @@
-import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { apiError, apiData } from '@/lib/api/response'
+import { requireAuth } from '@/lib/auth/server'
 
 export async function GET() {
   try {
+    const user = await requireAuth()
     const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
 
     const { data, error } = await supabase
       .from('favorites')
       .select(
-        'id, created_at, property:properties(id, title, slug, city, state, cover_image, property_type)'
+        'id, created_at, unit:units(id, rent_price, bedrooms, bathrooms, images, property:properties(id, title, city, state, images, property_type))'
       )
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+    if (error) return apiError(error)
 
-    return NextResponse.json({ data })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiData(data ?? [])
+  } catch (err) {
+    return apiError(err, 401)
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const user = await requireAuth()
     const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return apiError('Invalid JSON body', 400)
     }
 
-    const { property_id } = await request.json()
-
-    if (!property_id) {
-      return NextResponse.json(
-        { error: 'property_id is required' },
-        { status: 400 }
-      )
-    }
+    if (!body.unit_id) return apiError('unit_id is required', 400)
 
     const { data, error } = await supabase
       .from('favorites')
-      .insert({ user_id: user.id, property_id })
+      .insert({ user_id: user.id, unit_id: body.unit_id })
       .select()
       .single()
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      if (error.message?.includes('duplicate') || error.code === '23505')
+        return apiError('Already in favorites', 409)
+      if (error.code === '23503')
+        return apiError('Unit not found', 404)
+      return apiError(error)
     }
 
-    return NextResponse.json({ data }, { status: 201 })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiData(data, 201)
+  } catch (err) {
+    return apiError(err, 401)
   }
 }
 
 export async function DELETE(request: Request) {
   try {
+    const user = await requireAuth()
     const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return apiError('Invalid JSON body', 400)
     }
 
-    const { property_id } = await request.json()
+    if (!body.unit_id) return apiError('unit_id is required', 400)
 
-    if (!property_id) {
-      return NextResponse.json(
-        { error: 'property_id is required' },
-        { status: 400 }
-      )
-    }
+    const { data: existing } = await supabase
+      .from('favorites')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('unit_id', body.unit_id)
+      .maybeSingle()
+
+    if (!existing) return apiError('Favorite not found', 404)
 
     const { error } = await supabase
       .from('favorites')
       .delete()
       .eq('user_id', user.id)
-      .eq('property_id', property_id)
+      .eq('unit_id', body.unit_id)
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+    if (error) return apiError(error)
 
-    return NextResponse.json({ message: 'Removed from favorites' })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiData({ message: 'Removed from favorites' })
+  } catch (err) {
+    return apiError(err, 401)
   }
 }

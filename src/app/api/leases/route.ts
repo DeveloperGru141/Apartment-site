@@ -1,25 +1,23 @@
-import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { apiError, apiData } from '@/lib/api/response'
+import { requireAuth } from '@/lib/auth/server'
 
 export async function GET(request: Request) {
   try {
+    const user = await requireAuth()
     const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { searchParams } = new URL(request.url)
+
     const role = searchParams.get('role') ?? 'tenant'
 
+    if (!['tenant', 'landlord'].includes(role))
+      return apiError('Invalid role query param; use tenant or landlord', 400)
+
     let query = supabase.from('leases').select(
-      `id, status, start_date, end_date, monthly_rent, security_deposit,
-       signed_at, created_at,
-       unit:units(id, monthly_rent, bedrooms, bathrooms,
-         property:properties(title, city, state, cover_image))`
+      `id, status, start_date, end_date, rent_amount, deposit_amount,
+       signed_by_tenant_at, signed_by_landlord_at, created_at,
+       unit:units(id, rent_price, bedrooms, bathrooms,
+         property:properties(title, city, state, images))`
     )
 
     if (role === 'landlord') {
@@ -28,61 +26,41 @@ export async function GET(request: Request) {
       query = query.eq('tenant_id', user.id)
     }
 
-    const { data, error } = await query.order('created_at', {
-      ascending: false,
-    })
+    const { data, error } = await query.order('created_at', { ascending: false })
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+    if (error) return apiError(error)
 
-    return NextResponse.json({ data })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiData(data ?? [])
+  } catch (err) {
+    return apiError(err, 401)
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const user = await requireAuth()
     const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    let body: Record<string, unknown>
+    try {
+      body = await request.json()
+    } catch {
+      return apiError('Invalid JSON body', 400)
     }
 
-    const body = await request.json()
-
-    if (!body.unit_id || !body.tenant_id) {
-      return NextResponse.json(
-        { error: 'unit_id and tenant_id are required' },
-        { status: 400 }
-      )
-    }
+    if (!body.unit_id || !body.tenant_id)
+      return apiError('unit_id and tenant_id are required', 400)
 
     const { data, error } = await supabase
       .from('leases')
-      .insert({
-        ...body,
-        landlord_id: user.id,
-      })
+      .insert({ ...body, landlord_id: user.id })
       .select()
       .single()
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+    if (error) return apiError(error)
 
-    return NextResponse.json({ data }, { status: 201 })
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return apiData(data, 201)
+  } catch (err) {
+    return apiError(err, 401)
   }
 }

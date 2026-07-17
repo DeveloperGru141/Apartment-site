@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { apiData, apiError } from '@/lib/api/response'
 
 export async function GET(
   request: Request,
@@ -14,36 +14,31 @@ export async function GET(
       .select(`
         *,
         units (
-          id,
-          unit_number,
-          floor,
-          bedrooms,
-          bathrooms,
-          square_feet,
-          rent_price,
-          deposit_amount,
-          available_from,
-          status,
-          amenities,
-          images
+          id, unit_number, floor, bedrooms, bathrooms,
+          square_feet, rent_price, deposit_amount,
+          available_from, status, amenities, images
         ),
         landlord:profiles!properties_landlord_id_fkey (
-          id,
-          full_name,
-          avatar_url,
-          phone,
-          email
+          id, full_name, avatar_url, phone, email
         )
       `)
       .eq('id', id)
       .single()
 
-    if (error) {
-      return NextResponse.json({ error: 'Property not found' }, { status: 404 })
+    if (error) return apiError('Property not found', 404)
+
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user && property.landlord) {
+      property.landlord = {
+        id: property.landlord.id,
+        full_name: property.landlord.full_name,
+        avatar_url: property.landlord.avatar_url,
+      }
     }
 
-    return NextResponse.json(property)
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return apiData(property)
+  } catch (err) {
+    return apiError(err)
   }
 }
