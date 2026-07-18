@@ -5,8 +5,6 @@ import { loginSchema } from '@/lib/validations/schemas'
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-
     let raw: unknown
     try {
       raw = await request.json()
@@ -20,6 +18,9 @@ export async function POST(request: Request) {
 
     const { email, password } = parsed.data
 
+    const response = NextResponse.json({ success: true })
+    const supabase = await createClient(response)
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
     if (!data.session || !data.user)
       return apiError('Sign in succeeded but no session was created', 500)
 
-    return NextResponse.json({ session: data.session, user: data.user })
+    return response
   } catch (err) {
     return apiError(err)
   }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth/AuthProvider"
 import Link from "next/link"
+import Navbar from "@/components/navbar"
 
 export default function ApplicationsPage() {
   const { fetchWithAuth } = useAuth()
@@ -29,14 +30,18 @@ export default function ApplicationsPage() {
 
   if (isLoadingData) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-pulse font-['Inter'] text-sm text-[#707070]">Loading applications...</div>
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <div className="flex items-center justify-center pt-24">
+          <div className="animate-pulse font-['Inter'] text-sm text-[#707070]">Loading applications...</div>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar />
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-16">
         <h1 className="font-['Plus_Jakarta_Sans'] font-bold text-3xl text-[#111111] mb-2">
           My Applications

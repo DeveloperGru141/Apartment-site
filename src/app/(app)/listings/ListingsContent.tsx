@@ -33,9 +33,25 @@ export default function ListingsContent() {
   const [listings, setListings] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [favoritedIds, setFavoritedIds] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     let cancelled = false
+
+    const fetchFavorites = async () => {
+      try {
+        const res = await fetch("/api/favorites")
+        if (res.ok) {
+          const data = await res.json()
+          const ids = new Set<string>(
+            (data.data ?? []).map((f: { unit?: { id: string } }) => f.unit?.id).filter(Boolean)
+          )
+          if (!cancelled) setFavoritedIds(ids)
+        }
+      } catch {
+        // favorites are optional — silently ignore
+      }
+    }
 
     const fetchListings = async () => {
       setLoading(true)
@@ -53,6 +69,7 @@ export default function ListingsContent() {
       }
     }
 
+    fetchFavorites()
     fetchListings()
     return () => { cancelled = true }
   }, [searchParams])
@@ -88,7 +105,7 @@ export default function ListingsContent() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {listings.map((listing) => (
-              <ListingCard key={listing.unit_id} listing={listing} />
+              <ListingCard key={listing.unit_id} listing={listing} initialFaved={favoritedIds.has(listing.unit_id)} />
             ))}
           </div>
         )}

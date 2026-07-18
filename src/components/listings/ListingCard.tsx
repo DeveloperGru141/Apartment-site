@@ -25,10 +25,10 @@ interface Listing {
   landlord_avatar: string | null
 }
 
-export default function ListingCard({ listing }: { listing: Listing }) {
+export default function ListingCard({ listing, initialFaved = false }: { listing: Listing; initialFaved?: boolean }) {
   const [imgIdx, setImgIdx] = useState(0)
   const [hovered, setHovered] = useState(false)
-  const [faved, setFaved] = useState(false)
+  const [faved, setFaved] = useState(initialFaved)
 
   const images = listing.images?.length
     ? listing.images
@@ -104,9 +104,21 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           {tag}
         </span>
         <button
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault()
+            const prev = faved
             setFaved(!faved)
+            try {
+              const method = prev ? "DELETE" : "POST"
+              const res = await fetch("/api/favorites", {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ unit_id: listing.unit_id }),
+              })
+              if (!res.ok) throw new Error("Failed to update favorite")
+            } catch {
+              setFaved(prev)
+            }
           }}
           className="p-1 -mr-1"
         >

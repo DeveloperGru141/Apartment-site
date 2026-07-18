@@ -10,7 +10,8 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${origin}/login?error=missing_code`)
 
   try {
-    const supabase = await createClient()
+    const response = NextResponse.redirect(`${origin}${next}`)
+    const supabase = await createClient(response)
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (error)
@@ -35,7 +36,7 @@ export async function GET(request: Request) {
       }
     }
 
-    return NextResponse.redirect(`${origin}${next}`)
+    return response
   } catch {
     return NextResponse.redirect(`${origin}/login?error=callback_exception`)
   }

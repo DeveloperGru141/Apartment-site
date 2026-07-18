@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import Navbar from "@/components/landing/navbar"
+import Navbar from "@/components/navbar"
 import ListingDetailContent from "./ListingDetailContent"
 
 function DetailSkeleton() {
