@@ -1,20 +1,20 @@
 import Link from "next/link";
+import { images } from "@/lib/images";
+
+const svc = images.services
 
 const services = [
   {
     title: "CONCIERGE SERVICES",
-    image:
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80",
+    image: svc[0],
   },
   {
     title: "ELEGANT INTERIORS",
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80",
+    image: svc[1],
   },
   {
     title: "PRIVATE AMENITIES",
-    image:
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80",
+    image: svc[2],
   },
 ];
 

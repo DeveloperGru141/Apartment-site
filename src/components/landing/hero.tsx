@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { images } from "@/lib/images";
 
 export default function Hero() {
   return (
     <section id="home" className="relative h-screen min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
+          src={images.hero}
           alt="Luxury apartment"
           className="w-full h-full object-cover"
         />

@@ -1,4 +1,7 @@
+import { images } from "@/lib/images";
+
 export default function AboutStats() {
+  const imgs = images.aboutStats
   return (
     <section id="about" className="py-16 md:py-32 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-6">
@@ -37,18 +40,18 @@ export default function AboutStats() {
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"
+                src={imgs[0]}
                 alt="Luxury living room"
                 className="w-full h-64 md:h-80 object-cover"
               />
             </div>
             <img
-              src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=400&q=80"
+              src={imgs[1]}
               alt="Modern kitchen"
               className="w-full h-48 object-cover"
             />
             <img
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80"
+              src={imgs[2]}
               alt="Luxury bathroom"
               className="w-full h-48 object-cover"
             />

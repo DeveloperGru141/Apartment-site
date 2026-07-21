@@ -1,3 +1,5 @@
+import { images } from '@/lib/images'
+
 interface MockListing {
   unit_id: string
   unit_number: string
@@ -55,38 +57,9 @@ const landlords = [
   },
 ]
 
-const imageSets: Record<string, string[]> = {
-  austin: [
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
-    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
-  ],
-  denver: [
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
-    "https://images.unsplash.com/photo-1600566753086-00f18f4f7c1a?w=800&q=80",
-    "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80",
-    "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80",
-  ],
-  portland: [
-    "https://images.unsplash.com/photo-1600585152915-d208bec867a1?w=800&q=80",
-    "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=800&q=80",
-    "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80",
-    "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&q=80",
-  ],
-  nashville: [
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800&q=80",
-    "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",
-    "https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=800&q=80",
-  ],
-  brooklyn: [
-    "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=800&q=80",
-    "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80",
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
-    "https://images.unsplash.com/photo-1600585152915-d208bec867a1?w=800&q=80",
-  ],
-}
+const imageSets: Record<string, string[]> = Object.fromEntries(
+  Object.entries(images.listings).map(([key, val]) => [key, [...val]])
+)
 
 const mockListings: MockListing[] = [
   {

@@ -1,25 +1,25 @@
 import Link from "next/link";
+import { images } from "@/lib/images";
+
+const blg = images.blog
 
 const articles = [
   {
     title: "THE ART OF MODERN LIVING ROOM DESIGN",
     category: "Interior Design",
-    image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80",
+    image: blg[0],
     featured: true,
   },
   {
     title: "TOP 10 PENTHOUSE TRENDS FOR 2026",
     category: "Architecture",
-    image:
-      "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=400&q=80",
+    image: blg[1],
     featured: false,
   },
   {
     title: "SUSTAINABLE LUXURY: THE NEW STANDARD",
     category: "Sustainability",
-    image:
-      "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=400&q=80",
+    image: blg[2],
     featured: false,
   },
 ];

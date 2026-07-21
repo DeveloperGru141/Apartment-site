@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { images } from "@/lib/images"
 
 interface Listing {
   unit_id: string
@@ -30,9 +31,9 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
   const [hovered, setHovered] = useState(false)
   const [faved, setFaved] = useState(initialFaved)
 
-  const images = listing.images?.length
+  const imgs = listing.images?.length
     ? listing.images
-    : ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"]
+    : [images.listingCardFallback]
 
   const tag = `${listing.property_type.toUpperCase()} · ${listing.city.toUpperCase()}`
 
@@ -47,19 +48,19 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={images[imgIdx]}
+            src={imgs[imgIdx]}
             alt={listing.property_title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             style={{ viewTransitionName: `listing-img-${listing.unit_id}`, contain: "layout" } as React.CSSProperties}
           />
 
           {/* Hover arrows */}
-          {hovered && images.length > 1 && (
+          {hovered && imgs.length > 1 && (
             <>
               <button
                 onClick={(e) => {
                   e.preventDefault()
-                  setImgIdx((p) => (p === 0 ? images.length - 1 : p - 1))
+                  setImgIdx((p) => (p === 0 ? imgs.length - 1 : p - 1))
                 }}
                 className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
               >
@@ -70,7 +71,7 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
               <button
                 onClick={(e) => {
                   e.preventDefault()
-                  setImgIdx((p) => (p === images.length - 1 ? 0 : p + 1))
+                  setImgIdx((p) => (p === imgs.length - 1 ? 0 : p + 1))
                 }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
               >
@@ -82,9 +83,9 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
           )}
 
           {/* Dots */}
-          {images.length > 1 && (
+          {imgs.length > 1 && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-              {images.map((_, i) => (
+              {imgs.map((_, i) => (
                 <span
                   key={i}
                   className={`block rounded-full transition-all ${

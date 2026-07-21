@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import ListingCard from "@/components/listings/ListingCard"
+import { images } from "@/lib/images"
 
 interface Listing {
   unit_id: string
@@ -92,7 +93,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
 
   const allImages = listing.images?.length
     ? listing.images
-    : ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80"]
+    : [images.listingDetailFallback]
 
   const avgRating =
     listing.reviews.length > 0

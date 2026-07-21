@@ -1,5 +1,6 @@
-const AUTH_IMAGE =
-  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80";
+import { images } from "@/lib/images";
+
+const AUTH_IMAGE = images.authLayout
 
 export default function AuthLayout({
   children,

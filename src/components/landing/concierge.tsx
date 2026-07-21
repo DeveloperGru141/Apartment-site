@@ -1,3 +1,5 @@
+import { images } from "@/lib/images";
+
 const steps = [
   {
     number: "01",
@@ -47,7 +49,7 @@ export default function Concierge() {
 
         <div className="w-full min-h-[300px] md:min-h-[450px] bg-gray-200 overflow-hidden rounded-lg relative">
           <img
-            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80"
+            src={images.concierge}
             alt="Minimalist living room interior"
             className="w-full h-full absolute inset-0 object-cover transition-transform duration-700 hover:scale-105"
           />

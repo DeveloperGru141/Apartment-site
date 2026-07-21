@@ -1,32 +1,31 @@
 import Link from "next/link";
+import { images } from "@/lib/images";
+
+const pf = images.portfolio
 
 const portfolio = [
   {
     title: "LUXURY COLLECTION",
     tag: "PENTHOUSE",
-    image:
-      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=900&q=80",
+    image: pf[0],
     date: "2026",
   },
   {
     title: "EXCLUSIVE HOMES",
     tag: "RESIDENCE",
-    image:
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=900&q=80",
+    image: pf[1],
     date: "2025",
   },
   {
     title: "URBAN SANCTUARY",
     tag: "APARTMENT",
-    image:
-      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=900&q=80",
+    image: pf[2],
     date: "2026",
   },
   {
     title: "OCEANFRONT LIVING",
     tag: "VILLA",
-    image:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80",
+    image: pf[3],
     date: "2025",
   },
 ];
