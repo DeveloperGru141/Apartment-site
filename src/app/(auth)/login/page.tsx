@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import ReviewRotator from "@/components/auth/ReviewRotator"
 import { loginSchema } from "@/lib/validations/schemas"
@@ -9,7 +9,6 @@ import { loginSchema } from "@/lib/validations/schemas"
 const DEFAULT_REDIRECT = "/dashboard"
 
 export default function LoginPage() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -50,8 +49,7 @@ export default function LoginPage() {
       }
 
       const redirectTo = searchParams.get("redirect") || DEFAULT_REDIRECT
-      router.push(redirectTo)
-      router.refresh()
+      window.location.assign(redirectTo)
     } catch {
       setError("Something went wrong. Please try again.")
     } finally {
