@@ -112,6 +112,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
             src={allImages[selectedImage]}
             alt={listing.property_title}
             className="w-full h-full object-cover"
+            style={{ viewTransitionName: `listing-img-${id}`, contain: "layout" } as React.CSSProperties}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         </div>

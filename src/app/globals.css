@@ -24,6 +24,34 @@
   }
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 300ms ease-out both view-fade-out;
+}
+::view-transition-new(root) {
+  animation: 375ms ease-out both view-fade-in;
+}
+
+@keyframes view-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes view-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+  }
+}
+
 @keyframes scroll {
   0% {
     transform: translateX(0);

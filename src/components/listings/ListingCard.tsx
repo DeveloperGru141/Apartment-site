@@ -50,6 +50,7 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
             src={images[imgIdx]}
             alt={listing.property_title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            style={{ viewTransitionName: `listing-img-${listing.unit_id}`, contain: "layout" } as React.CSSProperties}
           />
 
           {/* Hover arrows */}
