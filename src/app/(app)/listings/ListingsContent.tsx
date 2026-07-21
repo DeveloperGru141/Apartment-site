@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import ListingCard from "@/components/listings/ListingCard"
 import FilterStrip from "@/components/listings/FilterStrip"
-import MapPanel from "@/components/listings/MapPanel"
 
 interface Listing {
   unit_id: string
@@ -84,7 +83,7 @@ export default function ListingsContent() {
 
   return (
     <div className="flex-1 flex overflow-hidden">
-      <div className="w-full md:w-[58.33%] overflow-y-auto p-6 md:p-8">
+      <div className="w-full overflow-y-auto p-6 md:p-8">
         <FilterStrip total={listings.length} />
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -109,9 +108,6 @@ export default function ListingsContent() {
             ))}
           </div>
         )}
-      </div>
-      <div className="hidden md:block w-[41.67%] overflow-hidden sticky top-0">
-        <MapPanel />
       </div>
     </div>
   )

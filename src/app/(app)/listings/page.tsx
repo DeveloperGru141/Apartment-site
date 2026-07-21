@@ -5,7 +5,7 @@ import ListingsContent from "./ListingsContent"
 function ListingsSkeleton() {
   return (
     <div className="flex-1 flex overflow-hidden">
-      <div className="w-full md:w-[58.33%] p-6 md:p-8">
+      <div className="w-full p-6 md:p-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="animate-pulse">
@@ -18,7 +18,6 @@ function ListingsSkeleton() {
           ))}
         </div>
       </div>
-      <div className="hidden md:block w-[41.67%] bg-[#E8E6E1]" />
     </div>
   )
 }
