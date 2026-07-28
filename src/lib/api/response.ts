@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server'
 
-export function redirect(url: string) {
-  return NextResponse.redirect(url)
-}
-
 export function apiError(error: unknown, status?: number) {
   if (error instanceof Error) {
     return NextResponse.json({ error: error.message }, { status: status || 400 })

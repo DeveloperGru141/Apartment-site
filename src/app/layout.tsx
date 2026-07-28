@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
-import AuthGate from "@/components/AuthGate";
 import ViewTransition from "@/components/view-transition";
 import "./globals.css";
 
@@ -27,9 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
       <body>
         <AuthProvider>
-          <AuthGate>
-            <ViewTransition>{children}</ViewTransition>
-          </AuthGate>
+          <ViewTransition>{children}</ViewTransition>
         </AuthProvider>
       </body>
     </html>
