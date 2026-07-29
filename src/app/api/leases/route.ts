@@ -8,10 +8,22 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const { searchParams } = new URL(request.url)
 
-    const role = searchParams.get('role') ?? 'tenant'
+    const roleParam = searchParams.get('role') ?? 'tenant'
 
-    if (!['tenant', 'landlord'].includes(role))
+    if (!['tenant', 'landlord'].includes(roleParam))
       return apiError('Invalid role query param; use tenant or landlord', 400)
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile) return apiError('Profile not found', 404)
+
+    const effectiveRole = roleParam === 'landlord' && profile.role !== 'landlord' && profile.role !== 'admin'
+      ? 'tenant'
+      : roleParam
 
     let query = supabase.from('leases').select(
       `id, status, start_date, end_date, rent_amount, deposit_amount,
@@ -20,7 +32,7 @@ export async function GET(request: Request) {
          property:properties(title, city, state, images))`
     )
 
-    if (role === 'landlord') {
+    if (effectiveRole === 'landlord') {
       query = query.eq('landlord_id', user.id)
     } else {
       query = query.eq('tenant_id', user.id)

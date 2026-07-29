@@ -18,7 +18,7 @@ export async function GET(
           square_feet, rent_price, deposit_amount,
           available_from, status, amenities, images
         ),
-        landlord:profiles!properties_landlord_id_fkey (
+        landlord:profiles (
           id, full_name, avatar_url, phone, email
         )
       `)

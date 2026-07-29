@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const reviews = [
   {
@@ -38,17 +38,22 @@ function Star() {
 export default function ReviewRotator() {
   const [idx, setIdx] = useState(0)
   const [visible, setVisible] = useState(true)
+  const mounted = useRef(true)
 
   useEffect(() => {
+    mounted.current = true
     const iv = setInterval(() => {
       setVisible(false)
-      const t = setTimeout(() => {
+      setTimeout(() => {
+        if (!mounted.current) return
         setIdx((i) => (i + 1) % reviews.length)
         setVisible(true)
       }, 500)
-      return () => clearTimeout(t)
     }, 5000)
-    return () => clearInterval(iv)
+    return () => {
+      mounted.current = false
+      clearInterval(iv)
+    }
   }, [])
 
   const review = reviews[idx]

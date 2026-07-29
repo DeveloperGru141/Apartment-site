@@ -42,7 +42,7 @@ export default function Services() {
               />
               <div className="absolute inset-0 bg-black/50 transition-opacity duration-300 group-hover:bg-black/40" />
               <div className="absolute inset-0 flex items-end p-6 md:p-8">
-                <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] text-white">
+                <h3 className="font-heading font-bold text-lg md:text-xl text-white">
                   {service.title}
                 </h3>
               </div>

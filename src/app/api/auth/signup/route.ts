@@ -51,10 +51,7 @@ function buildWelcomeHtml(name: string): string {
 }
 
 async function sendWelcomeEmail(email: string, fullName: string | null): Promise<void> {
-  if (!RESEND_API_KEY) {
-    console.log(`Welcome email skipped (RESEND_API_KEY not set) for ${email}`)
-    return
-  }
+  if (!RESEND_API_KEY) return
 
   const name = fullName || email.split('@')[0]
 
@@ -74,14 +71,10 @@ async function sendWelcomeEmail(email: string, fullName: string | null): Promise
     })
 
     if (!res.ok) {
-      const err = await res.text()
-      console.error('Welcome email failed:', err)
-    } else {
-      const data = await res.json()
-      console.log('Welcome email sent:', data.id)
+      await res.text()
     }
-  } catch (err) {
-    console.error('Welcome email error:', err)
+  } catch {
+    // Welcome email is best-effort; do not block signup
   }
 }
 

@@ -6,8 +6,8 @@ export default function DashboardSkeleton() {
         <div className="h-4 w-96 bg-gray-100 rounded-md mt-3" />
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {[1, 2, 3].map((index) => (
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {[1, 2].map((index) => (
           <div key={index} className="rounded-2xl border border-gray-100 p-6 bg-white h-44 flex flex-col justify-between">
             <div>
               <div className="h-11 w-11 rounded-xl bg-gray-200" />

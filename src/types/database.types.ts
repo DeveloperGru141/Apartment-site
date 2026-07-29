@@ -206,14 +206,6 @@ export interface Database {
         Args: Record<string, never>
         Returns: boolean
       }
-      is_landlord: {
-        Args: Record<string, never>
-        Returns: boolean
-      }
-      get_user_role: {
-        Args: Record<string, never>
-        Returns: UserRole
-      }
     }
     Enums: {
       user_role: UserRole

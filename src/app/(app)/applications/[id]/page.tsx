@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
+import { useAuth } from "@/lib/auth/AuthProvider"
 import { images } from "@/lib/images"
 
 interface ApplicationDetail {
@@ -31,13 +32,14 @@ interface ApplicationDetail {
 export default function ApplicationDetailPage() {
   const params = useParams()
   const id = params.id as string
+  const { fetchWithAuth } = useAuth()
   const [app, setApp] = useState<ApplicationDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let mounted = true
-    fetch(`/api/applications/${id}`)
+    fetchWithAuth(`/api/applications/${id}`)
       .then((r) => {
         if (!r.ok) throw new Error("Application not found")
         return r.json()
@@ -52,7 +54,7 @@ export default function ApplicationDetailPage() {
         if (mounted) setLoading(false)
       })
     return () => { mounted = false }
-  }, [id])
+  }, [id, fetchWithAuth])
 
   if (loading) {
     return (
