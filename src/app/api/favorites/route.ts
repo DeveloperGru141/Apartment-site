@@ -9,11 +9,11 @@ export async function GET() {
     const supabase = await createClient()
 
     const { data, error } = await supabase
-      .from('favorites')
+      .from('saved_listings')
       .select(
-        'id, created_at, unit:units(id, rent_price, bedrooms, bathrooms, images, property:properties(id, title, city, state, images, property_type))'
+        'listing_id, created_at, listing:listings(id, title, price_monthly, bedrooms, bathrooms, image_urls, currency, location)'
       )
-      .eq('user_id', user.id)
+      .eq('tenant_id', user.id)
       .order('created_at', { ascending: false })
 
     if (error) return apiError(error)
@@ -39,21 +39,21 @@ export async function POST(request: Request) {
       return apiError('Invalid JSON body', 400)
     }
 
-    if (!body.unit_id) return apiError('unit_id is required', 400)
-    if (typeof body.unit_id !== 'string' || !UUID_RE.test(body.unit_id))
-      return apiError('Invalid unit_id format', 400)
+    if (!body.listing_id) return apiError('listing_id is required', 400)
+    if (typeof body.listing_id !== 'string' || !UUID_RE.test(body.listing_id))
+      return apiError('Invalid listing_id format', 400)
 
     const { data, error } = await supabase
-      .from('favorites')
-      .insert({ user_id: user.id, unit_id: body.unit_id })
+      .from('saved_listings')
+      .insert({ tenant_id: user.id, listing_id: body.listing_id })
       .select()
       .single()
 
     if (error) {
       if (error.message?.includes('duplicate') || error.code === '23505')
-        return apiError('Already in favorites', 409)
+        return apiError('Already saved', 409)
       if (error.code === '23503')
-        return apiError('Unit not found', 404)
+        return apiError('Listing not found', 404)
       return apiError(error)
     }
 
@@ -78,28 +78,28 @@ export async function DELETE(request: Request) {
       return apiError('Invalid JSON body', 400)
     }
 
-    if (!body.unit_id) return apiError('unit_id is required', 400)
-    if (typeof body.unit_id !== 'string' || !UUID_RE.test(body.unit_id))
-      return apiError('Invalid unit_id format', 400)
+    if (!body.listing_id) return apiError('listing_id is required', 400)
+    if (typeof body.listing_id !== 'string' || !UUID_RE.test(body.listing_id))
+      return apiError('Invalid listing_id format', 400)
 
     const { data: existing } = await supabase
-      .from('favorites')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('unit_id', body.unit_id)
+      .from('saved_listings')
+      .select('listing_id')
+      .eq('tenant_id', user.id)
+      .eq('listing_id', body.listing_id)
       .maybeSingle()
 
-    if (!existing) return apiError('Favorite not found', 404)
+    if (!existing) return apiError('Saved listing not found', 404)
 
     const { error } = await supabase
-      .from('favorites')
+      .from('saved_listings')
       .delete()
-      .eq('user_id', user.id)
-      .eq('unit_id', body.unit_id)
+      .eq('tenant_id', user.id)
+      .eq('listing_id', body.listing_id)
 
     if (error) return apiError(error)
 
-    return apiData({ message: 'Removed from favorites' })
+    return apiData({ message: 'Removed from saved listings' })
   } catch (err) {
     return apiError(err, 401)
   }

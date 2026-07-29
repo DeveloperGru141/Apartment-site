@@ -68,10 +68,10 @@ export default function FilterStrip({ total }: { total: number }) {
   })()
 
   return (
-    <div className="bg-white/50 backdrop-blur-md border-b border-[#111111]/5 pb-3 mb-4 sticky top-0 z-20">
+    <div className="bg-white/50 backdrop-blur-md border-b border-accent/5 pb-3 mb-4 sticky top-0 z-20">
       <div className="pt-4">
         {/* Context Row */}
-        <p className="font-['Inter'] text-[10px] tracking-wider uppercase font-semibold text-[#707070] mb-3 px-4">
+        <p className="font-body text-[10px] tracking-wider uppercase font-semibold text-text-muted mb-3 px-4">
           Explore Stays &larr; {total} Premium Residences Available
         </p>
 
@@ -85,7 +85,7 @@ export default function FilterStrip({ total }: { total: number }) {
                 setGuestOpen(false)
                 setPriceOpen(false)
               }}
-              className="flex-shrink-0 inline-flex items-center bg-[#F9F9F9] border border-[#111111]/5 px-4 py-2 rounded-full font-['Inter'] text-xs font-medium text-[#111111]"
+              className="flex-shrink-0 inline-flex items-center bg-bg-alt border border-accent/5 px-4 py-2 rounded-full font-body text-xs font-medium text-text-primary"
             >
               {current.city || "Destination"}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
@@ -93,7 +93,7 @@ export default function FilterStrip({ total }: { total: number }) {
               </svg>
             </button>
             {destOpen && (
-              <div className="absolute top-full left-0 mt-2 w-52 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-[#111111]/5 p-3 z-30">
+              <div className="absolute top-full left-0 mt-2 w-52 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-accent/5 p-3 z-30">
                 <input
                   type="text"
                   placeholder="Search city..."
@@ -104,14 +104,14 @@ export default function FilterStrip({ total }: { total: number }) {
                       setDestOpen(false)
                     }
                   }}
-                  className="w-full px-3 py-2 text-sm font-['Inter'] border border-[#111111]/10 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]/20 placeholder:text-[#999]"
+                  className="w-full px-3 py-2 text-sm font-body border border-accent/10 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]/20 placeholder:text-text-muted"
                 />
               </div>
             )}
           </div>
 
           {/* Dates (placeholder) */}
-          <button className="flex-shrink-0 inline-flex items-center bg-[#F9F9F9] border border-[#111111]/5 px-4 py-2 rounded-full font-['Inter'] text-xs font-medium text-[#111111]">
+          <button className="flex-shrink-0 inline-flex items-center bg-bg-alt border border-accent/5 px-4 py-2 rounded-full font-body text-xs font-medium text-text-primary">
             Check-in / Check-out
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
               <rect x="3" y="4" width="18" height="18" rx="2" />
@@ -127,7 +127,7 @@ export default function FilterStrip({ total }: { total: number }) {
                 setDestOpen(false)
                 setPriceOpen(false)
               }}
-              className="flex-shrink-0 inline-flex items-center bg-[#F9F9F9] border border-[#111111]/5 px-4 py-2 rounded-full font-['Inter'] text-xs font-medium text-[#111111]"
+              className="flex-shrink-0 inline-flex items-center bg-bg-alt border border-accent/5 px-4 py-2 rounded-full font-body text-xs font-medium text-text-primary"
             >
               {activeLabel}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
@@ -135,7 +135,7 @@ export default function FilterStrip({ total }: { total: number }) {
               </svg>
             </button>
             {guestOpen && (
-              <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-[#111111]/5 p-2 z-30">
+              <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-accent/5 p-2 z-30">
                 {guestOptions.map((opt) => (
                   <button
                     key={opt.bedrooms}
@@ -143,10 +143,10 @@ export default function FilterStrip({ total }: { total: number }) {
                       setFilter("bedrooms", opt.bedrooms)
                       setGuestOpen(false)
                     }}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-['Inter'] transition-colors ${
+                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-body transition-colors ${
                       current.bedrooms === opt.bedrooms
-                        ? "bg-[#111111] text-white"
-                        : "text-[#111111] hover:bg-[#F5F5F5]"
+                        ? "bg-accent text-white"
+                        : "text-text-primary hover:bg-bg-alt"
                     }`}
                   >
                     {opt.label}
@@ -164,7 +164,7 @@ export default function FilterStrip({ total }: { total: number }) {
                 setDestOpen(false)
                 setGuestOpen(false)
               }}
-              className="flex-shrink-0 inline-flex items-center bg-[#F9F9F9] border border-[#111111]/5 px-4 py-2 rounded-full font-['Inter'] text-xs font-medium text-[#111111]"
+              className="flex-shrink-0 inline-flex items-center bg-bg-alt border border-accent/5 px-4 py-2 rounded-full font-body text-xs font-medium text-text-primary"
             >
               {priceLabel}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
@@ -172,7 +172,7 @@ export default function FilterStrip({ total }: { total: number }) {
               </svg>
             </button>
             {priceOpen && (
-              <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-[#111111]/5 p-2 z-30">
+              <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-accent/5 p-2 z-30">
                 {priceRanges.map((r) => (
                   <button
                     key={r.label}
@@ -185,10 +185,10 @@ export default function FilterStrip({ total }: { total: number }) {
                       router.push(`/listings?${params.toString()}`)
                       setPriceOpen(false)
                     }}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-['Inter'] transition-colors ${
+                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-body transition-colors ${
                       current.minPrice === r.min && current.maxPrice === r.max
-                        ? "bg-[#111111] text-white"
-                        : "text-[#111111] hover:bg-[#F5F5F5]"
+                        ? "bg-accent text-white"
+                        : "text-text-primary hover:bg-bg-alt"
                     }`}
                   >
                     {r.label}

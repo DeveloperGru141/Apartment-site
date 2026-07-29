@@ -8,7 +8,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-pulse font-['Inter'] text-sm text-[#707070]">Loading...</div>
+        <div className="animate-pulse font-body text-sm text-[#707070]">Loading...</div>
       </div>
     )
   }

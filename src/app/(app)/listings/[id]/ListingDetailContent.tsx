@@ -143,7 +143,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
 
         <Link
           href="/listings"
-          className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm text-[#111111] text-sm font-body font-medium px-4 py-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 shadow-sm"
+          className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm text-text-primary text-sm font-body font-medium px-4 py-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 shadow-sm"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
             <path d="M19 12H5m7-7l-7 7 7 7" />
@@ -161,36 +161,36 @@ export default function ListingDetailContent({ id }: { id: string }) {
             <div>
               <div className="flex items-start justify-between">
                 <div>
-                  <h1 className="font-heading font-bold text-2xl md:text-3xl text-[#111111]">
+                  <h1 className="font-heading font-bold text-2xl md:text-3xl text-text-primary">
                     {listing.property_title}
                   </h1>
-                  <p className="font-body text-[#666666] mt-1">
+                  <p className="font-body text-text-muted mt-1">
                     {listing.address_line1}, {listing.city}, {listing.state}{" "}
                     {listing.zip_code}
                   </p>
                   {listing.neighborhood && (
-                    <p className="font-body text-xs text-[#888888] mt-0.5">
+                    <p className="font-body text-xs text-text-muted mt-0.5">
                       {listing.neighborhood}
                     </p>
                   )}
                 </div>
-                <span className="inline-block bg-[#111111] text-white text-[10px] font-body font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap">
+                <span className="inline-block bg-accent text-white text-[10px] font-body font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap">
                   {listing.property_type}
                 </span>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 mt-4 text-sm font-body text-[#555555]">
-                <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-[#111111]/5">
+              <div className="flex flex-wrap items-center gap-4 mt-4 text-sm font-body text-text-body">
+                <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
                   <BedIcon /> {listing.bedrooms} Bedrooms
                 </span>
-                <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-[#111111]/5">
+                <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
                   <BathIcon /> {listing.bathrooms} Bathrooms
                 </span>
-                <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-[#111111]/5">
+                <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
                   <SqftIcon /> {listing.square_feet?.toLocaleString()} sqft
                 </span>
                 {listing.walk_score != null && (
-                  <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-[#111111]/5">
+                  <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
                     <WalkIcon /> Walk Score {listing.walk_score}
                   </span>
                 )}
@@ -198,8 +198,8 @@ export default function ListingDetailContent({ id }: { id: string }) {
             </div>
 
             {/* Overview */}
-            <div className="bg-white rounded-2xl p-6 border border-[#111111]/5">
-              <h2 className="font-heading font-bold text-lg text-[#111111] mb-4">
+            <div className="bg-white rounded-2xl p-6 border border-accent/5">
+              <h2 className="font-heading font-bold text-lg text-text-primary mb-4">
                 Overview
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -212,8 +212,8 @@ export default function ListingDetailContent({ id }: { id: string }) {
 
             {/* Amenities */}
             {listing.amenities && listing.amenities.length > 0 && (
-              <div className="bg-white rounded-2xl p-6 border border-[#111111]/5">
-                <h2 className="font-heading font-bold text-lg text-[#111111] mb-4">
+              <div className="bg-white rounded-2xl p-6 border border-accent/5">
+                <h2 className="font-heading font-bold text-lg text-text-primary mb-4">
                   Amenities
                 </h2>
                 <div className="flex flex-wrap gap-2">
@@ -230,19 +230,19 @@ export default function ListingDetailContent({ id }: { id: string }) {
             )}
 
             {/* Reviews */}
-            <div className="bg-white rounded-2xl p-6 border border-[#111111]/5">
+            <div className="bg-white rounded-2xl p-6 border border-accent/5">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-heading font-bold text-lg text-[#111111]">
+                <h2 className="font-heading font-bold text-lg text-text-primary">
                   Reviews
                 </h2>
                 {avgRating && (
-                  <span className="flex items-center gap-1 text-sm font-body font-medium text-[#111111]">
+                  <span className="flex items-center gap-1 text-sm font-body font-medium text-text-primary">
                     <StarIcon /> {avgRating} ({listing.reviews.length})
                   </span>
                 )}
               </div>
               {listing.reviews.length === 0 ? (
-                <p className="font-body text-sm text-[#666666]">
+                <p className="font-body text-sm text-text-muted">
                   No reviews yet for this unit.
                 </p>
               ) : (
@@ -258,19 +258,19 @@ export default function ListingDetailContent({ id }: { id: string }) {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Price Card */}
-            <div className="bg-white rounded-2xl p-6 border border-[#111111]/5 sticky top-24">
-              <p className="font-heading font-bold text-3xl text-[#111111]">
+            <div className="bg-white rounded-2xl p-6 border border-accent/5 sticky top-24">
+              <p className="font-heading font-bold text-3xl text-text-primary">
                 ${listing.rent_price.toLocaleString()}
-                <span className="text-sm font-body font-normal text-[#666666]">
+                <span className="text-sm font-body font-normal text-text-muted">
                   /month
                 </span>
               </p>
-              <p className="font-body text-xs text-[#888888] mt-1">
+              <p className="font-body text-xs text-text-muted mt-1">
                 ${listing.deposit_amount.toLocaleString()} deposit required
               </p>
 
               <div className="mt-6 space-y-3">
-                <button className="w-full bg-[#111111] text-white font-body font-semibold text-sm py-3.5 rounded-xl hover:bg-[#2a2a2a] transition-colors">
+                <button className="w-full bg-accent text-white font-body font-semibold text-sm py-3.5 rounded-xl hover:bg-[#2a2a2a] transition-colors">
                   Apply Now
                 </button>
                 <button
@@ -278,7 +278,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
                   className={`w-full font-body font-medium text-sm py-3 rounded-xl border transition-colors flex items-center justify-center gap-2 ${
                     favorited
                       ? "bg-red-50 border-red-200 text-red-600"
-                      : "bg-white border-[#111111]/10 text-[#555555] hover:border-[#111111]/30"
+                      : "bg-white border-accent/10 text-text-body hover:border-accent/30"
                   }`}
                 >
                   <HeartIcon filled={favorited} />
@@ -288,8 +288,8 @@ export default function ListingDetailContent({ id }: { id: string }) {
             </div>
 
             {/* Landlord */}
-            <div className="bg-white rounded-2xl p-6 border border-[#111111]/5">
-              <h3 className="font-heading font-bold text-sm text-[#111111] mb-4">
+            <div className="bg-white rounded-2xl p-6 border border-accent/5">
+              <h3 className="font-heading font-bold text-sm text-text-primary mb-4">
                 Listed by
               </h3>
               <div className="flex items-center gap-3">
@@ -303,10 +303,10 @@ export default function ListingDetailContent({ id }: { id: string }) {
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <div>
-                  <p className="font-body font-semibold text-sm text-[#111111]">
+                  <p className="font-body font-semibold text-sm text-text-primary">
                     {listing.landlord_name}
                   </p>
-                  <p className="font-body text-xs text-[#666666]">
+                  <p className="font-body text-xs text-text-muted">
                     Property Manager
                   </p>
                 </div>
@@ -316,7 +316,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
             {/* Similar Units */}
             {listing.similar.length > 0 && (
               <div>
-                <h3 className="font-heading font-bold text-base text-[#111111] mb-3">
+                <h3 className="font-heading font-bold text-base text-text-primary mb-3">
                   Similar Units
                 </h3>
                 <div className="space-y-3">
@@ -336,8 +336,8 @@ export default function ListingDetailContent({ id }: { id: string }) {
 function OverviewItem({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="font-body text-xs text-[#888888]">{label}</p>
-      <p className="font-body font-semibold text-sm text-[#111111] mt-0.5">
+      <p className="font-body text-xs text-text-muted">{label}</p>
+      <p className="font-body font-semibold text-sm text-text-primary mt-0.5">
         {value}
       </p>
     </div>
@@ -346,7 +346,7 @@ function OverviewItem({ label, value }: { label: string; value: string }) {
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className="border-b border-[#111111]/5 pb-4 last:border-0 last:pb-0">
+    <div className="border-b border-accent/5 pb-4 last:border-0 last:pb-0">
       <div className="flex items-center gap-3 mb-2">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -357,7 +357,7 @@ function ReviewCard({ review }: { review: Review }) {
           className="w-8 h-8 rounded-full object-cover"
         />
         <div>
-          <p className="font-body font-semibold text-sm text-[#111111]">
+          <p className="font-body font-semibold text-sm text-text-primary">
             {review.reviewer_name}
           </p>
           <div className="flex items-center gap-2">
@@ -370,7 +370,7 @@ function ReviewCard({ review }: { review: Review }) {
                 />
               ))}
             </div>
-            <span className="font-body text-[10px] text-[#888888]">
+            <span className="font-body text-[10px] text-text-muted">
               {new Date(review.created_at).toLocaleDateString("en-US", {
                 month: "short",
                 year: "numeric",
@@ -380,12 +380,12 @@ function ReviewCard({ review }: { review: Review }) {
         </div>
       </div>
       {review.title && (
-        <p className="font-body font-semibold text-sm text-[#111111] mb-1">
+        <p className="font-body font-semibold text-sm text-text-primary mb-1">
           {review.title}
         </p>
       )}
       {review.comment && (
-        <p className="font-body text-sm text-[#555555] leading-relaxed">
+        <p className="font-body text-sm text-text-body leading-relaxed">
           {review.comment}
         </p>
       )}
@@ -396,10 +396,10 @@ function ReviewCard({ review }: { review: Review }) {
 function ErrorState({ message }: { message: string }) {
   return (
     <div className="pb-16 flex flex-col items-center justify-center">
-      <p className="font-body text-[#666666] text-lg mb-4">{message}</p>
+      <p className="font-body text-text-muted text-lg mb-4">{message}</p>
       <Link
         href="/listings"
-        className="text-sm font-body text-[#111111] underline underline-offset-2"
+        className="text-sm font-body text-text-primary underline underline-offset-2"
       >
         Browse all listings
       </Link>
@@ -410,12 +410,12 @@ function ErrorState({ message }: { message: string }) {
 function NotFound() {
   return (
     <div className="pb-16 flex flex-col items-center justify-center">
-      <p className="font-body text-[#666666] text-lg mb-4">
+      <p className="font-body text-text-muted text-lg mb-4">
         Listing not found
       </p>
       <Link
         href="/listings"
-        className="text-sm font-body text-[#111111] underline underline-offset-2"
+        className="text-sm font-body text-text-primary underline underline-offset-2"
       >
         Browse all listings
       </Link>

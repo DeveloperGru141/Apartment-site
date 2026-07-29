@@ -59,7 +59,7 @@ export default function ReviewRotator() {
   const review = reviews[idx]
 
   return (
-    <div className="border-t border-[#111111]/10 pt-6 mt-6">
+    <div className="border-t border-accent/10 pt-6 mt-6">
       <div
         className={
           "transition-opacity duration-500 " +
@@ -71,7 +71,7 @@ export default function ReviewRotator() {
             <Star key={i} />
           ))}
         </div>
-        <p className="font-body italic text-xs leading-relaxed text-[#222222] mb-3">
+        <p className="font-body italic text-xs leading-relaxed text-text-meta mb-3">
           {review.quote}
         </p>
         <div className="flex items-center">
@@ -82,10 +82,10 @@ export default function ReviewRotator() {
             className="w-6 h-6 rounded-full object-cover mr-2"
           />
           <div>
-            <p className="font-body font-bold text-[9px] tracking-wider text-[#111111] uppercase leading-tight">
+            <p className="font-body font-bold text-[9px] tracking-wider text-text-primary uppercase leading-tight">
               {review.name}
             </p>
-            <p className="font-body font-bold text-[9px] tracking-wider text-[#111111]/60 uppercase leading-tight">
+            <p className="font-body font-bold text-[9px] tracking-wider text-text-primary/60 uppercase leading-tight">
               {review.status}
             </p>
           </div>

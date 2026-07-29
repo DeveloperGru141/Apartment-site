@@ -45,7 +45,7 @@ export default function Blog() {
               className="w-full h-80 md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-[1.02]"
             />
             <div className="mt-6">
-              <span className="font-heading font-medium text-xs tracking-widest text-[#666666] uppercase">
+              <span className="font-heading font-medium text-xs tracking-widest text-text-muted uppercase">
                 {featured.category}
               </span>
               <h3 className="font-heading font-bold text-lg md:text-xl text-text-primary mt-2">
@@ -66,7 +66,7 @@ export default function Blog() {
 <span className="font-heading font-medium text-xs tracking-widest text-text-muted uppercase">
                     {article.category}
                   </span>
-                  <h3 className="font-heading font-bold text-lg md:text-xl text-[#111111] mt-1">
+                  <h3 className="font-heading font-bold text-lg md:text-xl text-text-primary mt-1">
                     {article.title}
                   </h3>
                   <p className="font-body font-normal text-base leading-relaxed text-text-body mt-2">

@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useContext, useCallback, useEffect, useState, type ReactNode } from "react"
 import { createClient } from "@/lib/supabase/browser"
 import type { User } from "@supabase/supabase-js"
 
@@ -17,7 +17,7 @@ const AuthContext = createContext<AuthContextValue>({
   isLoading: true,
   signOut: async () => {},
   handleLogout: async () => {},
-  fetchWithAuth: async () => { throw new Error("Auth not ready") },
+  fetchWithAuth: async () => new Response(null, { status: 401 }),
 })
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -32,20 +32,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     await signOut()
     window.location.replace("/login?error=session_expired")
-  }
+  }, [])
 
-  const fetchWithAuth = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+  const fetchWithAuth = useCallback(async (input: RequestInfo | URL, init?: RequestInit) => {
     const res = await fetch(input, init)
     if (res.status === 401) {
       await signOut()
-      window.location.replace("/login?error=expired_token")
+      window.location.replace("/login?error=session_expired")
       throw new Error("Session expired")
     }
     return res
-  }
+  }, [])
 
   useEffect(() => {
     const supabase = createClient()

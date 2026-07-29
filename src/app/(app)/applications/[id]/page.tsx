@@ -61,7 +61,7 @@ export default function ApplicationDetailPage() {
       <div className="min-h-screen bg-white">
         <Navbar />
         <div className="flex items-center justify-center pt-24">
-          <div className="animate-pulse font-['Inter'] text-sm text-[#707070]">Loading...</div>
+          <div className="animate-pulse font-body text-sm text-text-muted">Loading...</div>
         </div>
       </div>
     )
@@ -72,8 +72,8 @@ export default function ApplicationDetailPage() {
       <div className="min-h-screen bg-white">
         <Navbar />
         <main className="max-w-4xl mx-auto px-4 pt-24 pb-16 text-center">
-          <p className="font-['Inter'] text-sm text-[#707070] mb-4">{error ?? "Application not found"}</p>
-          <Link href="/applications" className="text-sm text-[#111111] underline underline-offset-2">
+          <p className="font-body text-sm text-text-muted mb-4">{error ?? "Application not found"}</p>
+          <Link href="/applications" className="text-sm text-text-primary underline underline-offset-2">
             &larr; Back to applications
           </Link>
         </main>
@@ -99,7 +99,7 @@ export default function ApplicationDetailPage() {
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-16">
         <Link
           href="/applications"
-          className="inline-flex items-center gap-1.5 text-xs text-[#707070] hover:text-[#111111] transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors mb-6"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
             <path d="M19 12H5m7-7l-7 7 7 7" />
@@ -111,7 +111,7 @@ export default function ApplicationDetailPage() {
           <div className="md:col-span-2 space-y-6">
             <div>
               <div className="flex items-start justify-between mb-2">
-                <h1 className="font-['Plus_Jakarta_Sans'] font-bold text-2xl text-[#111111]">
+                <h1 className="font-heading font-bold text-2xl text-text-primary">
                   {property?.title ?? "Application"}
                 </h1>
                 <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${statusStyles[app.status] ?? "bg-gray-100 text-gray-800"}`}>
@@ -119,7 +119,7 @@ export default function ApplicationDetailPage() {
                 </span>
               </div>
               {property && (
-                <p className="font-['Inter'] text-sm text-[#707070]">
+                <p className="font-body text-sm text-text-muted">
                   {property.address_line1}, {property.city}, {property.state}
                 </p>
               )}
@@ -127,50 +127,50 @@ export default function ApplicationDetailPage() {
 
             {unit && (
               <div className="bg-white rounded-2xl border border-[#111111]/10 p-6">
-                <h2 className="font-['Plus_Jakarta_Sans'] font-semibold text-base text-[#111111] mb-4">
+                <h2 className="font-heading font-semibold text-base text-text-primary mb-4">
                   Unit Details
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bedrooms</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">{unit.bedrooms}</p>
+                    <p className="font-body text-xs text-text-muted mb-1">Bedrooms</p>
+                    <p className="font-body text-sm font-semibold text-text-primary">{unit.bedrooms}</p>
                   </div>
                   <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bathrooms</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">{unit.bathrooms}</p>
+                    <p className="font-body text-xs text-text-muted mb-1">Bathrooms</p>
+                    <p className="font-body text-sm font-semibold text-text-primary">{unit.bathrooms}</p>
                   </div>
                   <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Square Feet</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">{unit.square_feet?.toLocaleString()}</p>
+                    <p className="font-body text-xs text-text-muted mb-1">Square Feet</p>
+                    <p className="font-body text-sm font-semibold text-text-primary">{unit.square_feet?.toLocaleString()}</p>
                   </div>
                   <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Monthly Rent</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">${unit.rent_price.toLocaleString()}</p>
+                    <p className="font-body text-xs text-text-muted mb-1">Monthly Rent</p>
+                    <p className="font-body text-sm font-semibold text-text-primary">${unit.rent_price.toLocaleString()}</p>
                   </div>
                 </div>
               </div>
             )}
 
             <div className="bg-white rounded-2xl border border-[#111111]/10 p-6">
-              <h2 className="font-['Plus_Jakarta_Sans'] font-semibold text-base text-[#111111] mb-4">
+              <h2 className="font-heading font-semibold text-base text-text-primary mb-4">
                 Application Details
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div>
-                  <p className="font-['Inter'] text-xs text-[#707070] mb-1">Submitted</p>
-                  <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                  <p className="font-body text-xs text-text-muted mb-1">Submitted</p>
+                  <p className="font-body text-sm font-semibold text-text-primary">
                     {new Date(app.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </p>
                 </div>
                 <div>
-                  <p className="font-['Inter'] text-xs text-[#707070] mb-1">Move-in Date</p>
-                  <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                  <p className="font-body text-xs text-text-muted mb-1">Move-in Date</p>
+                  <p className="font-body text-sm font-semibold text-text-primary">
                     {app.move_in_date ? new Date(app.move_in_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—"}
                   </p>
                 </div>
                 <div>
-                  <p className="font-['Inter'] text-xs text-[#707070] mb-1">Lease Term</p>
-                  <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                  <p className="font-body text-xs text-text-muted mb-1">Lease Term</p>
+                  <p className="font-body text-sm font-semibold text-text-primary">
                     {app.lease_term_months ? `${app.lease_term_months} months` : "—"}
                   </p>
                 </div>
@@ -188,7 +188,7 @@ export default function ApplicationDetailPage() {
 
             <Link
               href={`/listings/${unit?.id}`}
-              className="block w-full bg-[#111111] text-white font-['Inter'] font-semibold text-xs tracking-wider uppercase py-3.5 rounded-xl text-center hover:bg-neutral-800 transition-all"
+              className="block w-full bg-[#111111] text-white font-body font-semibold text-xs tracking-wider uppercase py-3.5 rounded-xl text-center hover:bg-neutral-800 transition-all"
             >
               View Listing
             </Link>

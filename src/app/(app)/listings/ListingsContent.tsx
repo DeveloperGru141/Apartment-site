@@ -76,7 +76,7 @@ export default function ListingsContent() {
   if (error) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <p className="font-['Inter'] text-sm text-[#707070]">{error}</p>
+        <p className="font-body text-sm text-text-muted">{error}</p>
       </div>
     )
   }
@@ -99,7 +99,7 @@ export default function ListingsContent() {
           </div>
         ) : listings.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <p className="font-['Inter'] text-sm text-[#707070]">No listings match your filters</p>
+            <p className="font-body text-sm text-text-muted">No listings match your filters</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -39,9 +39,7 @@ export async function PATCH(request: Request) {
     }
 
     const allowedFields = [
-      'full_name', 'phone', 'avatar_url', 'date_of_birth',
-      'emergency_contact_name', 'emergency_contact_phone',
-      'employer', 'annual_income',
+      'full_name', 'phone', 'avatar_url',
     ] as const
 
     const updates: Record<string, unknown> = {}
@@ -53,8 +51,6 @@ export async function PATCH(request: Request) {
 
     if (Object.keys(updates).length === 0)
       return apiError('No valid fields to update', 400)
-
-    updates.updated_at = new Date().toISOString()
 
     const { data: profile, error } = await supabase
       .from('profiles')

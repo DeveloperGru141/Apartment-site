@@ -65,22 +65,22 @@ function LoginForm() {
             <div className="flex items-center justify-between mb-8">
               <Link
                 href="/"
-                className="font-heading font-extrabold text-[#111111] uppercase tracking-widest text-base"
+                className="font-heading font-extrabold text-text-primary uppercase tracking-widest text-base"
               >
                 HORIZON
               </Link>
               <Link
                 href="/"
-                className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
+                className="text-xs text-text-muted hover:text-text-primary transition-colors"
               >
                 &larr; Home
               </Link>
             </div>
 
-            <h1 className="font-heading font-bold text-3xl text-[#111111] tracking-tight mb-2">
+            <h1 className="font-heading font-bold text-3xl text-text-primary tracking-tight mb-2">
               Sign in to your space
             </h1>
-            <p className="font-body text-xs text-[#555555] mb-8 leading-relaxed">
+            <p className="font-body text-xs text-text-body mb-8 leading-relaxed">
               Welcome back to your HORIZON concierge dashboard.
             </p>
 
@@ -94,7 +94,7 @@ function LoginForm() {
               <div>
                 <label
                   htmlFor="email"
-                  className="font-body font-bold text-[10px] tracking-widest text-[#111111] uppercase mb-1.5 block"
+                  className="font-body font-bold text-[10px] tracking-widest text-text-primary uppercase mb-1.5 block"
                 >
                   Email Address
                 </label>
@@ -104,7 +104,7 @@ function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: '' })) }}
-                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-[#666666] text-[#111111] font-body text-sm ${fieldErrors.email ? 'border-red-400' : 'border-[#111111]/20 focus:border-[#111111]'}`}
+                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm ${fieldErrors.email ? 'border-red-400' : 'border-accent/20 focus:border-accent'}`}
                   placeholder="you@example.com"
                 />
                 {fieldErrors.email && <p className="text-[10px] text-red-500 mt-1">{fieldErrors.email}</p>}
@@ -113,7 +113,7 @@ function LoginForm() {
               <div>
                 <label
                   htmlFor="password"
-                  className="font-body font-bold text-[10px] tracking-widest text-[#111111] uppercase mb-1.5 block"
+                  className="font-body font-bold text-[10px] tracking-widest text-text-primary uppercase mb-1.5 block"
                 >
                   Password
                 </label>
@@ -123,7 +123,7 @@ function LoginForm() {
                   required
                   value={password}
                   onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: '' })) }}
-                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-[#666666] text-[#111111] font-body text-sm ${fieldErrors.password ? 'border-red-400' : 'border-[#111111]/20 focus:border-[#111111]'}`}
+                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm ${fieldErrors.password ? 'border-red-400' : 'border-accent/20 focus:border-accent'}`}
                   placeholder="••••••••"
                 />
                 {fieldErrors.password && <p className="text-[10px] text-red-500 mt-1">{fieldErrors.password}</p>}
@@ -132,7 +132,7 @@ function LoginForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#111111] text-white font-body font-semibold text-xs tracking-widest uppercase py-4 rounded-xl hover:bg-neutral-800 active:scale-[0.99] transition-all duration-300 mt-6 shadow-sm disabled:opacity-60"
+                className="w-full bg-accent text-white font-body font-semibold text-xs tracking-widest uppercase py-4 rounded-xl hover:bg-neutral-800 active:scale-[0.99] transition-all duration-300 mt-6 shadow-sm disabled:opacity-60"
               >
                 {loading ? "Signing in…" : "SIGN IN"}
               </button>
@@ -140,11 +140,11 @@ function LoginForm() {
           </div>
 
           <ReviewRotator />
-          <p className="text-xs font-body text-[#555555] text-center mt-6">
+          <p className="text-xs font-body text-text-body text-center mt-6">
             Don&apos;t have an account?{" "}
             <Link
               href="/signup"
-              className="underline text-[#111111] font-medium"
+              className="underline text-text-primary font-medium"
             >
               Sign up
             </Link>

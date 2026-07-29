@@ -18,9 +18,8 @@ export async function GET(request: Request) {
       return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`)
 
     const userId = data.user?.id
-    const email = data.user?.email
 
-    if (userId && email) {
+    if (userId) {
       const { count } = await supabase
         .from('profiles')
         .select('*', { count: 'exact', head: true })
@@ -29,7 +28,6 @@ export async function GET(request: Request) {
       if (count === 0) {
         await supabase.from('profiles').insert({
           id: userId,
-          email,
           full_name: data.user?.user_metadata?.full_name ?? null,
           role: data.user?.user_metadata?.role ?? 'tenant',
         })

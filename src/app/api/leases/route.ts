@@ -26,10 +26,10 @@ export async function GET(request: Request) {
       : roleParam
 
     let query = supabase.from('leases').select(
-      `id, status, start_date, end_date, rent_amount, deposit_amount,
-       signed_by_tenant_at, signed_by_landlord_at, created_at,
-       unit:units(id, rent_price, bedrooms, bathrooms,
-         property:properties(title, city, state, images))`
+      `id, lease_status, start_date, end_date, monthly_rent,
+       signed_at, created_at,
+       listing:listings(id, price_monthly, bedrooms, bathrooms,
+         title, location, image_urls)`
     )
 
     if (effectiveRole === 'landlord') {
@@ -63,19 +63,30 @@ export async function POST(request: Request) {
       return apiError('Invalid JSON body', 400)
     }
 
-    if (!body.unit_id || !body.tenant_id)
-      return apiError('unit_id and tenant_id are required', 400)
+    if (!body.listing_id)
+      return apiError('listing_id is required', 400)
+
+    const { data: listing } = await supabase
+      .from('listings')
+      .select('id, landlord_id')
+      .eq('id', body.listing_id)
+      .single()
+
+    if (!listing) return apiError('Listing not found', 404)
+    if (listing.landlord_id !== user.id)
+      return apiError('You do not own this listing', 403)
+
+    const targetTenantId = body.tenant_id as string | undefined
+    if (!targetTenantId)
+      return apiError('tenant_id is required', 400)
 
     const allowed = {
-      unit_id: body.unit_id,
-      tenant_id: body.tenant_id,
+      listing_id: listing.id,
+      tenant_id: targetTenantId,
+      landlord_id: user.id,
       start_date: body.start_date ?? null,
       end_date: body.end_date ?? null,
-      rent_amount: body.rent_amount ?? null,
-      deposit_amount: body.deposit_amount ?? null,
-      rent_due_day: body.rent_due_day ?? null,
-      terms: body.terms ?? null,
-      landlord_id: user.id,
+      monthly_rent: body.monthly_rent ?? null,
     }
 
     const { data, error } = await supabase

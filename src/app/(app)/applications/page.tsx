@@ -64,7 +64,7 @@ export default function ApplicationsPage() {
       <div className="min-h-screen bg-white">
         <Navbar />
         <div className="flex items-center justify-center pt-24">
-          <div className="animate-pulse font-['Inter'] text-sm text-[#707070]">Loading applications...</div>
+          <div className="animate-pulse font-body text-sm text-text-muted">Loading applications...</div>
         </div>
       </div>
     )
@@ -74,10 +74,10 @@ export default function ApplicationsPage() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-16">
-        <h1 className="font-['Plus_Jakarta_Sans'] font-bold text-3xl text-[#111111] mb-2">
+        <h1 className="font-heading font-bold text-3xl text-text-primary mb-2">
           My Applications
         </h1>
-        <p className="font-['Inter'] text-sm text-[#707070] mb-8">
+        <p className="font-body text-sm text-text-muted mb-8">
           {applications.length} application(s)
         </p>
 
@@ -90,15 +90,15 @@ export default function ApplicationsPage() {
         {applications.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-[#F9F9F9] rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-[#707070]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="font-['Plus_Jakarta_Sans'] font-semibold text-lg text-[#111111] mb-2">No applications yet</h3>
-            <p className="font-['Inter'] text-sm text-[#707070] mb-6">Start your first rental application today</p>
+            <h3 className="font-heading font-semibold text-lg text-text-primary mb-2">No applications yet</h3>
+            <p className="font-body text-sm text-text-muted mb-6">Start your first rental application today</p>
             <Link
               href="/listings"
-              className="inline-block px-6 py-3 bg-[#111111] text-white font-['Inter'] font-medium text-xs tracking-wider uppercase rounded-xl hover:bg-neutral-800 transition-all"
+              className="inline-block px-6 py-3 bg-[#111111] text-white font-body font-medium text-xs tracking-wider uppercase rounded-xl hover:bg-neutral-800 transition-all"
             >
               Browse Listings
             </Link>
@@ -119,13 +119,13 @@ export default function ApplicationsPage() {
                 <div key={app.id} className="bg-white rounded-2xl border border-[#111111]/10 p-6 hover:border-[#111111]/20 transition-all">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h3 className="font-['Plus_Jakarta_Sans'] font-semibold text-lg text-[#111111] mb-1">
+                      <h3 className="font-heading font-semibold text-lg text-text-primary mb-1">
                         {title}
                       </h3>
                       {location && (
-                        <p className="font-['Inter'] text-xs text-[#707070] mb-0.5">{location}</p>
+                        <p className="font-body text-xs text-text-muted mb-0.5">{location}</p>
                       )}
-                      <p className="font-['Inter'] text-xs text-[#707070]">
+                      <p className="font-body text-xs text-text-muted">
                         Applied on {new Date(app.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </p>
                     </div>
@@ -136,26 +136,26 @@ export default function ApplicationsPage() {
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                     <div>
-                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bedrooms</p>
-                      <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                      <p className="font-body text-xs text-text-muted mb-1">Bedrooms</p>
+                      <p className="font-body text-sm font-semibold text-text-primary">
                         {bedrooms != null ? bedrooms : "—"}
                       </p>
                     </div>
                     <div>
-                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bathrooms</p>
-                      <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                      <p className="font-body text-xs text-text-muted mb-1">Bathrooms</p>
+                      <p className="font-body text-sm font-semibold text-text-primary">
                         {bathrooms != null ? bathrooms : "—"}
                       </p>
                     </div>
                     <div>
-                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Monthly Rent</p>
-                      <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                      <p className="font-body text-xs text-text-muted mb-1">Monthly Rent</p>
+                      <p className="font-body text-sm font-semibold text-text-primary">
                         {rent != null ? `$${rent.toLocaleString()}` : "—"}
                       </p>
                     </div>
                     <div>
-                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Status</p>
-                      <p className="font-['Inter'] text-sm font-semibold text-[#111111] capitalize">
+                      <p className="font-body text-xs text-text-muted mb-1">Status</p>
+                      <p className="font-body text-sm font-semibold text-text-primary capitalize">
                         {app.status.replace(/_/g, " ")}
                       </p>
                     </div>
@@ -164,7 +164,7 @@ export default function ApplicationsPage() {
                   <div className="pt-4 border-t border-[#111111]/10">
                     <Link
                       href={`/applications/${app.id}`}
-                      className="text-sm text-[#111111] hover:text-[#666666] font-medium inline-flex items-center gap-1"
+                      className="text-sm text-text-primary hover:text-text-muted font-medium inline-flex items-center gap-1"
                     >
                       View details
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

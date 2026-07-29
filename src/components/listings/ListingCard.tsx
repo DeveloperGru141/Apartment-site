@@ -42,7 +42,7 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
       <Link href={`/listings/${listing.unit_id}`} className="block">
         {/* Image Carousel */}
         <div
-          className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#F0EEED]"
+          className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-bg-alt"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
@@ -102,7 +102,7 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
 
       {/* Asset Tag Row */}
       <div className="flex items-center justify-between mt-3 mb-1">
-        <span className="font-['Inter'] font-bold text-[10px] tracking-widest text-[#707070] uppercase">
+        <span className="font-body font-bold text-[10px] tracking-widest text-text-muted uppercase">
           {tag}
         </span>
         <button
@@ -138,22 +138,22 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
 
       {/* Title */}
       <Link href={`/listings/${listing.unit_id}`}>
-        <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-xl text-[#111111] tracking-tight mb-0.5 leading-tight">
+        <h3 className="font-heading font-bold text-xl text-text-primary tracking-tight mb-0.5 leading-tight">
           {listing.property_title}
         </h3>
       </Link>
 
       {/* Metrics */}
-      <p className="font-['Inter'] text-xs text-[#707070] font-medium">
+      <p className="font-body text-xs text-text-muted font-medium">
         {listing.bedrooms} Bed{listing.bedrooms !== 1 ? "s" : ""} &bull;{" "}
         {listing.bathrooms} Bath{listing.bathrooms !== 1 ? "s" : ""} &bull;{" "}
         {listing.square_feet?.toLocaleString()} SQFT
       </p>
 
       {/* Pricing */}
-      <p className="font-['Inter'] font-bold text-sm text-[#111111] mt-2">
+      <p className="font-body font-bold text-sm text-text-primary mt-2">
         ${listing.rent_price.toLocaleString()}{" "}
-        <span className="font-normal text-xs text-[#707070]">/month</span>
+        <span className="font-normal text-xs text-text-muted">/month</span>
       </p>
     </div>
   )

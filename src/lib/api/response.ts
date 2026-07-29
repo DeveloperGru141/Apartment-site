@@ -20,11 +20,16 @@ export function requireCSRF(request: Request): Response | null {
   return null
 }
 
+const GENERIC_ERROR = 'An unexpected error occurred'
+
 export function apiError(error: unknown, status?: number) {
   if (error instanceof Error) {
-    return NextResponse.json({ error: error.message }, { status: status || 400 })
+    if (error.message === 'Authentication required') {
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+    }
+    return NextResponse.json({ error: GENERIC_ERROR }, { status: status || 400 })
   }
-  return NextResponse.json({ error: String(error) }, { status: status || 400 })
+  return NextResponse.json({ error: GENERIC_ERROR }, { status: status || 400 })
 }
 
 export function apiData(data: unknown, status = 200) {
