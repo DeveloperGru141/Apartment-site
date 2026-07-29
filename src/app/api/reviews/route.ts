@@ -48,9 +48,9 @@ export async function POST(request: Request) {
     if (typeof body.property_id !== 'string' || !UUID_RE.test(body.property_id))
       return apiError('Invalid property_id format', 400)
 
-    if (body.body != null) {
-      if (typeof body.body !== 'string' || body.body.length < 1)
-        return apiError('body must be a non-empty string', 400)
+    if (body.comment != null) {
+      if (typeof body.comment !== 'string' || body.comment.length < 1)
+        return apiError('comment must be a non-empty string', 400)
     }
     if (body.title != null && (typeof body.title !== 'string' || body.title.length < 1))
       return apiError('title must be a non-empty string', 400)

@@ -1,20 +1,11 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { apiError } from '@/lib/api/response'
+import { apiError, requireCSRF } from '@/lib/api/response'
 import { loginSchema } from '@/lib/validations/schemas'
-
-function csrfCheck(request: Request): NextResponse | null {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const origin = request.headers.get('origin')
-  const referer = request.headers.get('referer')
-  if (origin && !origin.startsWith(siteUrl)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  if (referer && !referer.startsWith(siteUrl)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  return null
-}
 
 export async function POST(request: Request) {
   try {
-    const csrf = csrfCheck(request)
+    const csrf = requireCSRF(request)
     if (csrf) return csrf
 
     let raw: unknown
