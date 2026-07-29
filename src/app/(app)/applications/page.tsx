@@ -5,28 +5,59 @@ import { useAuth } from "@/lib/auth/AuthProvider"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
 
+interface ApplicationUnit {
+  id: string
+  rent_price: number
+  bedrooms: number
+  bathrooms: number
+  property: {
+    title: string
+    city: string
+    state: string
+  }
+}
+
+interface Application {
+  id: string
+  unit_id: string
+  applicant_id: string
+  status: string
+  created_at: string
+  unit: ApplicationUnit | null
+}
+
 export default function ApplicationsPage() {
   const { fetchWithAuth } = useAuth()
-  const [applications, setApplications] = useState<Record<string, unknown>[]>([])
+  const [applications, setApplications] = useState<Application[]>([])
   const [isLoadingData, setIsLoadingData] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    let mounted = true
     const fetchApplications = async () => {
       try {
         const response = await fetchWithAuth("/api/applications")
         if (!response.ok) throw new Error("Failed to fetch applications")
         const json = await response.json()
-        setApplications((json.data as Array<Record<string, unknown>>) || [])
+        if (mounted) setApplications((json.data as Application[]) || [])
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Error loading applications")
+        if (mounted) setError(err instanceof Error ? err.message : "Error loading applications")
       } finally {
-        setIsLoadingData(false)
+        if (mounted) setIsLoadingData(false)
       }
     }
 
     fetchApplications()
+    return () => { mounted = false }
   }, [fetchWithAuth])
+
+  const statusStyles: Record<string, string> = {
+    approved: "bg-green-100 text-green-800",
+    pending: "bg-yellow-100 text-yellow-800",
+    rejected: "bg-red-100 text-red-800",
+    withdrawn: "bg-gray-100 text-gray-800",
+    under_review: "bg-blue-100 text-blue-800",
+  }
 
   if (isLoadingData) {
     return (
@@ -74,54 +105,76 @@ export default function ApplicationsPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {applications.map((app) => (
-              <div key={String(app.id)} className="bg-white rounded-2xl border border-[#111111]/10 p-6 hover:border-[#111111]/20 transition-all">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-['Plus_Jakarta_Sans'] font-semibold text-lg text-[#111111] mb-1">
-                      {String(app.listing_title)}
-                    </h3>
-                    <p className="font-['Inter'] text-xs text-[#707070]">
-                      Applied on {new Date(String(app.created_at)).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                    </p>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${app.status === "approved" ? "bg-green-100 text-green-800" : app.status === "pending" ? "bg-yellow-100 text-yellow-800" : app.status === "rejected" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800"}`}>
-                    {String(app.status).charAt(0).toUpperCase() + String(app.status).slice(1)}
-                  </span>
-                </div>
+            {applications.map((app) => {
+              const unit = app.unit
+              const title = unit?.property?.title ?? "Unknown Property"
+              const city = unit?.property?.city ?? ""
+              const state = unit?.property?.state ?? ""
+              const location = city && state ? `${city}, ${state}` : ""
+              const rent = unit?.rent_price
+              const bedrooms = unit?.bedrooms
+              const bathrooms = unit?.bathrooms
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                  <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bedrooms</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">{String(app.bedrooms)}</p>
+              return (
+                <div key={app.id} className="bg-white rounded-2xl border border-[#111111]/10 p-6 hover:border-[#111111]/20 transition-all">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="font-['Plus_Jakarta_Sans'] font-semibold text-lg text-[#111111] mb-1">
+                        {title}
+                      </h3>
+                      {location && (
+                        <p className="font-['Inter'] text-xs text-[#707070] mb-0.5">{location}</p>
+                      )}
+                      <p className="font-['Inter'] text-xs text-[#707070]">
+                        Applied on {new Date(app.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </p>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${statusStyles[app.status] ?? "bg-gray-100 text-gray-800"}`}>
+                      {app.status.replace(/_/g, " ")}
+                    </span>
                   </div>
-                  <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bathrooms</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">{String(app.bathrooms)}</p>
-                  </div>
-                  <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Monthly Rent</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">${String(app.price)}</p>
-                  </div>
-                  <div>
-                    <p className="font-['Inter'] text-xs text-[#707070] mb-1">Status</p>
-                    <p className="font-['Inter'] text-sm font-semibold text-[#111111]">{String(app.application_status)}</p>
-                  </div>
-                </div>
 
-                <div className="pt-4 border-t border-[#111111]/10">
-                  <Link
-                    href={`/applications/${String(app.id)}`}
-                    className="text-sm text-[#111111] hover:text-[#666666] font-medium inline-flex items-center gap-1"
-                  >
-                    View details
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                    <div>
+                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bedrooms</p>
+                      <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                        {bedrooms != null ? bedrooms : "—"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Bathrooms</p>
+                      <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                        {bathrooms != null ? bathrooms : "—"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Monthly Rent</p>
+                      <p className="font-['Inter'] text-sm font-semibold text-[#111111]">
+                        {rent != null ? `$${rent.toLocaleString()}` : "—"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-['Inter'] text-xs text-[#707070] mb-1">Status</p>
+                      <p className="font-['Inter'] text-sm font-semibold text-[#111111] capitalize">
+                        {app.status.replace(/_/g, " ")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-[#111111]/10">
+                    <Link
+                      href={`/applications/${app.id}`}
+                      className="text-sm text-[#111111] hover:text-[#666666] font-medium inline-flex items-center gap-1"
+                    >
+                      View details
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </main>

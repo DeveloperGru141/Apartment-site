@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from('applications')
       .select(
-        '*, unit:units(id, rent_price, property:properties(title, city, state))'
+        '*, unit:units(id, rent_price, bedrooms, bathrooms, property:properties(title, city, state))'
       )
       .order('created_at', { ascending: false })
 
