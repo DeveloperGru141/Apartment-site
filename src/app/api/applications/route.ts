@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { apiError, apiData } from '@/lib/api/response'
+import { apiError, apiData, requireCSRF } from '@/lib/api/response'
 import { requireAuth } from '@/lib/auth/server'
 import { applicationSchema } from '@/lib/validations/schemas'
 
@@ -42,6 +42,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const user = await requireAuth()
     const supabase = await createClient()
 

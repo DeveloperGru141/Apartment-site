@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { apiError, apiData } from '@/lib/api/response'
+import { apiError, apiData, requireCSRF } from '@/lib/api/response'
 import { requireAuth } from '@/lib/auth/server'
 
 export async function GET(request: Request) {
@@ -38,6 +38,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const user = await requireAuth()
     const supabase = await createClient()
 
@@ -51,9 +54,21 @@ export async function POST(request: Request) {
     if (!body.unit_id || !body.tenant_id)
       return apiError('unit_id and tenant_id are required', 400)
 
+    const allowed = {
+      unit_id: body.unit_id,
+      tenant_id: body.tenant_id,
+      start_date: body.start_date ?? null,
+      end_date: body.end_date ?? null,
+      rent_amount: body.rent_amount ?? null,
+      deposit_amount: body.deposit_amount ?? null,
+      rent_due_day: body.rent_due_day ?? null,
+      terms: body.terms ?? null,
+      landlord_id: user.id,
+    }
+
     const { data, error } = await supabase
       .from('leases')
-      .insert({ ...body, landlord_id: user.id })
+      .insert(allowed)
       .select()
       .single()
 

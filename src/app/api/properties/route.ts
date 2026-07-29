@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { apiError, apiData, apiPaginated, getPagination, buildPagination } from '@/lib/api/response'
+import { apiError, apiData, apiPaginated, getPagination, buildPagination, requireCSRF } from '@/lib/api/response'
 import { requireAuth } from '@/lib/auth/server'
 
 const VALID_TYPES = ['apartment', 'condo', 'house', 'townhouse', 'loft', 'studio']
@@ -74,6 +74,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const user = await requireAuth()
     const supabase = await createClient()
 
@@ -99,9 +102,26 @@ export async function POST(request: Request) {
     if (body.property_type && !VALID_TYPES.includes(String(body.property_type)))
       return apiError(`property_type must be one of: ${VALID_TYPES.join(', ')}`, 400)
 
+    const allowed = {
+      title: body.title,
+      property_type: body.property_type,
+      address_line1: body.address_line1,
+      address_line2: body.address_line2 ?? null,
+      city: body.city,
+      state: body.state,
+      zip_code: body.zip_code,
+      country: body.country ?? 'USA',
+      description: body.description ?? null,
+      neighborhood: body.neighborhood ?? null,
+      amenities: body.amenities ?? [],
+      images: body.images ?? [],
+      status: 'draft',
+      landlord_id: user.id,
+    }
+
     const { data, error } = await supabase
       .from('properties')
-      .insert({ ...body, landlord_id: user.id })
+      .insert(allowed)
       .select()
       .single()
 

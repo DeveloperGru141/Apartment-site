@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
-import { apiError, apiData } from '@/lib/api/response'
+import { apiError, apiData, requireCSRF } from '@/lib/api/response'
 import { requireAuth } from '@/lib/auth/server'
+import { UUID_RE } from '@/lib/constants'
 
 export async function GET() {
   try {
@@ -25,6 +26,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const user = await requireAuth()
     const supabase = await createClient()
 
@@ -36,6 +40,8 @@ export async function POST(request: Request) {
     }
 
     if (!body.unit_id) return apiError('unit_id is required', 400)
+    if (typeof body.unit_id !== 'string' || !UUID_RE.test(body.unit_id))
+      return apiError('Invalid unit_id format', 400)
 
     const { data, error } = await supabase
       .from('favorites')
@@ -59,6 +65,9 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const user = await requireAuth()
     const supabase = await createClient()
 
@@ -70,6 +79,8 @@ export async function DELETE(request: Request) {
     }
 
     if (!body.unit_id) return apiError('unit_id is required', 400)
+    if (typeof body.unit_id !== 'string' || !UUID_RE.test(body.unit_id))
+      return apiError('Invalid unit_id format', 400)
 
     const { data: existing } = await supabase
       .from('favorites')

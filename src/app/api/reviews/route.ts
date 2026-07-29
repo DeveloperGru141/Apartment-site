@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { apiError, apiData } from '@/lib/api/response'
+import { apiError, apiData, requireCSRF } from '@/lib/api/response'
 import { requireAuth } from '@/lib/auth/server'
 import { UUID_RE } from '@/lib/constants'
 
@@ -30,6 +30,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const user = await requireAuth()
     const supabase = await createClient()
 
@@ -64,9 +67,18 @@ export async function POST(request: Request) {
     if (typeof body.lease_id !== 'string' || !UUID_RE.test(body.lease_id))
       return apiError('Invalid lease_id format', 400)
 
+    const allowed = {
+      property_id: body.property_id,
+      lease_id: body.lease_id,
+      overall_rating: rating,
+      title: body.title ?? null,
+      comment: body.comment ?? null,
+      reviewer_id: user.id,
+    }
+
     const { data, error } = await supabase
       .from('reviews')
-      .insert({ ...body, overall_rating: rating, reviewer_id: user.id })
+      .insert(allowed)
       .select()
       .single()
 

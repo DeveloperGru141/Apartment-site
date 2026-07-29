@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { apiError } from '@/lib/api/response'
+import { apiError, requireCSRF } from '@/lib/api/response'
 import { signupSchema } from '@/lib/validations/schemas'
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
@@ -87,6 +87,9 @@ async function sendWelcomeEmail(email: string, fullName: string | null): Promise
 
 export async function POST(request: Request) {
   try {
+    const csrf = requireCSRF(request)
+    if (csrf) return csrf
+
     const supabase = await createClient()
 
     let raw: unknown

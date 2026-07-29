@@ -1,5 +1,25 @@
 import { NextResponse } from 'next/server'
 
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  process.env.NEXT_PUBLIC_SITE_URL,
+].filter(Boolean) as string[]
+
+export function requireCSRF(request: Request): Response | null {
+  const origin = request.headers.get('origin')
+  const referer = request.headers.get('referer')
+
+  if (origin && !ALLOWED_ORIGINS.some(o => origin.startsWith(o))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  if (referer && !ALLOWED_ORIGINS.some(o => referer.startsWith(o))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  return null
+}
+
 export function apiError(error: unknown, status?: number) {
   if (error instanceof Error) {
     return NextResponse.json({ error: error.message }, { status: status || 400 })
