@@ -10,9 +10,7 @@ export async function GET() {
 
     const { data, error } = await supabase
       .from('saved_listings')
-      .select(
-        'listing_id, created_at, listing:listings(id, title, price_monthly, bedrooms, bathrooms, image_urls, currency, location)'
-      )
+      .select('listing_id, created_at')
       .eq('tenant_id', user.id)
       .order('created_at', { ascending: false })
 
@@ -39,14 +37,15 @@ export async function POST(request: Request) {
       return apiError('Invalid JSON body', 400)
     }
 
-    if (!body.listing_id) return apiError('listing_id is required', 400)
-    if (typeof body.listing_id !== 'string' || !UUID_RE.test(body.listing_id))
+    const listingId = body.listing_id as string | undefined
+    if (!listingId) return apiError('listing_id is required', 400)
+    if (typeof listingId !== 'string' || !UUID_RE.test(listingId))
       return apiError('Invalid listing_id format', 400)
 
     const { data, error } = await supabase
       .from('saved_listings')
-      .insert({ tenant_id: user.id, listing_id: body.listing_id })
-      .select()
+      .insert({ tenant_id: user.id, listing_id: listingId })
+      .select('listing_id, created_at')
       .single()
 
     if (error) {
@@ -57,7 +56,7 @@ export async function POST(request: Request) {
       return apiError(error)
     }
 
-    return apiData(data, 201)
+    return apiData({ listing_id: data.listing_id, created_at: data.created_at }, 201)
   } catch (err) {
     return apiError(err, 401)
   }
@@ -78,15 +77,16 @@ export async function DELETE(request: Request) {
       return apiError('Invalid JSON body', 400)
     }
 
-    if (!body.listing_id) return apiError('listing_id is required', 400)
-    if (typeof body.listing_id !== 'string' || !UUID_RE.test(body.listing_id))
+    const listingId = body.listing_id as string | undefined
+    if (!listingId) return apiError('listing_id is required', 400)
+    if (typeof listingId !== 'string' || !UUID_RE.test(listingId))
       return apiError('Invalid listing_id format', 400)
 
     const { data: existing } = await supabase
       .from('saved_listings')
-      .select('listing_id')
+      .select('tenant_id')
       .eq('tenant_id', user.id)
-      .eq('listing_id', body.listing_id)
+      .eq('listing_id', listingId)
       .maybeSingle()
 
     if (!existing) return apiError('Saved listing not found', 404)
@@ -95,7 +95,7 @@ export async function DELETE(request: Request) {
       .from('saved_listings')
       .delete()
       .eq('tenant_id', user.id)
-      .eq('listing_id', body.listing_id)
+      .eq('listing_id', listingId)
 
     if (error) return apiError(error)
 

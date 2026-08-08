@@ -5,23 +5,18 @@ import Link from "next/link"
 import { images } from "@/lib/images"
 
 interface Listing {
-  unit_id: string
-  unit_number: string
+  id: string
+  title: string
+  description: string | null
+  price_monthly: number
+  currency: string
+  location: string | null
   bedrooms: number
   bathrooms: number
-  square_feet: number
-  rent_price: number
-  deposit_amount: number
-  available_from: string
-  images: string[]
-  property_title: string
-  property_type: string
-  address_line1: string
-  city: string
-  state: string
-  zip_code: string
-  neighborhood: string | null
-  walk_score: number | null
+  sqft: number | null
+  amenities: string[] | null
+  image_urls: string[] | null
+  created_at: string
   landlord_name: string
   landlord_avatar: string | null
 }
@@ -31,15 +26,13 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
   const [hovered, setHovered] = useState(false)
   const [faved, setFaved] = useState(initialFaved)
 
-  const imgs = listing.images?.length
-    ? listing.images
+  const imgs = listing.image_urls?.length
+    ? listing.image_urls
     : [images.listingCardFallback]
-
-  const tag = `${listing.property_type.toUpperCase()} · ${listing.city.toUpperCase()}`
 
   return (
     <div className="group">
-      <Link href={`/listings/${listing.unit_id}`} className="block">
+      <Link href={`/listings/${listing.id}`} className="block">
         {/* Image Carousel */}
         <div
           className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-bg-alt"
@@ -49,10 +42,43 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imgs[imgIdx]}
-            alt={listing.property_title}
+            alt={listing.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            style={{ viewTransitionName: `listing-img-${listing.unit_id}`, contain: "layout" } as React.CSSProperties}
+            style={{ viewTransitionName: `listing-img-${listing.id}`, contain: "layout" } as React.CSSProperties}
           />
+
+          {/* Heart button */}
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              const prev = faved
+              setFaved(!faved)
+              ;(async () => {
+                try {
+                  const method = prev ? "DELETE" : "POST"
+                  const res = await fetch("/api/favorites", {
+                    method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ listing_id: listing.id }),
+                  })
+                  if (!res.ok) throw new Error()
+                } catch {
+                  setFaved(prev)
+                }
+              })()
+            }}
+            className="absolute top-3 right-3 p-1.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors shadow-sm z-10"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill={faved ? "#111" : "none"}
+              stroke={faved ? "#111" : "#707070"}
+              strokeWidth="2"
+              className="w-4 h-4"
+            >
+              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+            </svg>
+          </button>
 
           {/* Hover arrows */}
           {hovered && imgs.length > 1 && (
@@ -100,46 +126,10 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
         </div>
       </Link>
 
-      {/* Asset Tag Row */}
-      <div className="flex items-center justify-between mt-3 mb-1">
-        <span className="font-body font-bold text-[10px] tracking-widest text-text-muted uppercase">
-          {tag}
-        </span>
-        <button
-          onClick={async (e) => {
-            e.preventDefault()
-            const prev = faved
-            setFaved(!faved)
-            try {
-              const method = prev ? "DELETE" : "POST"
-              const res = await fetch("/api/favorites", {
-                method,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ unit_id: listing.unit_id }),
-              })
-              if (!res.ok) throw new Error("Failed to update favorite")
-            } catch {
-              setFaved(prev)
-            }
-          }}
-          className="p-1 -mr-1"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill={faved ? "#111" : "none"}
-            stroke={faved ? "#111" : "#707070"}
-            strokeWidth="2"
-            className="w-4 h-4 transition-colors"
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-          </svg>
-        </button>
-      </div>
-
       {/* Title */}
-      <Link href={`/listings/${listing.unit_id}`}>
-        <h3 className="font-heading font-bold text-xl text-text-primary tracking-tight mb-0.5 leading-tight">
-          {listing.property_title}
+      <Link href={`/listings/${listing.id}`}>
+        <h3 className="font-heading font-bold text-xl text-text-primary tracking-tight mb-0.5 leading-tight mt-3">
+          {listing.title}
         </h3>
       </Link>
 
@@ -147,12 +137,12 @@ export default function ListingCard({ listing, initialFaved = false }: { listing
       <p className="font-body text-xs text-text-muted font-medium">
         {listing.bedrooms} Bed{listing.bedrooms !== 1 ? "s" : ""} &bull;{" "}
         {listing.bathrooms} Bath{listing.bathrooms !== 1 ? "s" : ""} &bull;{" "}
-        {listing.square_feet?.toLocaleString()} SQFT
+        {listing.sqft?.toLocaleString()} SQFT
       </p>
 
       {/* Pricing */}
       <p className="font-body font-bold text-sm text-text-primary mt-2">
-        ${listing.rent_price.toLocaleString()}{" "}
+        ${listing.price_monthly.toLocaleString()}{" "}
         <span className="font-normal text-xs text-text-muted">/month</span>
       </p>
     </div>

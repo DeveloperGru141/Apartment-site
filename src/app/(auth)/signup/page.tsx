@@ -1,64 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useActionState } from "react"
 import Link from "next/link"
 import ReviewRotator from "@/components/auth/ReviewRotator"
-import { signupSchema } from "@/lib/validations/schemas"
+import { signupAction } from "@/lib/actions/auth"
 
-export default function SignupPage() {
-  const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
-  const [message, setMessage] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+function SignupForm() {
+  const [state, formAction, pending] = useActionState(signupAction, null)
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError(null)
-    setMessage(null)
-    setFieldErrors({})
-    setLoading(true)
-
-    const parsed = signupSchema.safeParse({ full_name: fullName, email, password })
-    if (!parsed.success) {
-      const errs: Record<string, string> = {}
-      for (const issue of parsed.error.issues) {
-        const key = issue.path[0] as string
-        if (!errs[key]) errs[key] = issue.message
-      }
-      setFieldErrors(errs)
-      setLoading(false)
-      return
-    }
-
-    try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error ?? "Unable to create account")
-        return
-      }
-
-      setMessage(
-        data.message ??
-          "Account created. Please check your email (and spam folder) to confirm your account."
-      )
-    } catch {
-      setError("Something went wrong. Please try again.")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (message) {
+  if (state?.message) {
     return (
       <div className="relative z-10 min-h-screen w-full md:flex md:items-center md:justify-center">
         <div className="w-full px-6 md:px-0 md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
@@ -81,7 +31,7 @@ export default function SignupPage() {
               Check your inbox
             </h1>
             <p className="font-body text-xs text-text-body mb-8 leading-relaxed">
-              {message}
+              {state.message}
             </p>
             <Link
               href="/login"
@@ -122,10 +72,10 @@ export default function SignupPage() {
               Join HORIZON and unlock premium rentals and concierge services.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {error && (
+            <form action={formAction} className="space-y-5">
+              {state?.error && (
                 <div className="rounded-xl bg-red-500/90 text-white text-xs px-4 py-3">
-                  {error}
+                  {state.error}
                 </div>
               )}
 
@@ -138,14 +88,12 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="full_name"
+                  name="full_name"
                   type="text"
                   required
-                  value={fullName}
-                  onChange={(e) => { setFullName(e.target.value); setFieldErrors((p) => ({ ...p, full_name: '' })) }}
-                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm ${fieldErrors.full_name ? 'border-red-400' : 'border-accent/20 focus:border-accent'}`}
+                  className="border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm border-accent/20 focus:border-accent"
                   placeholder="Jane Doe"
                 />
-                {fieldErrors.full_name && <p className="text-[10px] text-red-500 mt-1">{fieldErrors.full_name}</p>}
               </div>
 
               <div>
@@ -157,14 +105,12 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   required
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: '' })) }}
-                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm ${fieldErrors.email ? 'border-red-400' : 'border-accent/20 focus:border-accent'}`}
+                  className="border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm border-accent/20 focus:border-accent"
                   placeholder="you@example.com"
                 />
-                {fieldErrors.email && <p className="text-[10px] text-red-500 mt-1">{fieldErrors.email}</p>}
               </div>
 
               <div>
@@ -176,22 +122,21 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="password"
+                  name="password"
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: '' })) }}
-                  className={`border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm ${fieldErrors.password ? 'border-red-400' : 'border-accent/20 focus:border-accent'}`}
-                  placeholder="At least 6 characters"
+                  minLength={8}
+                  className="border-b pb-2 w-full bg-transparent outline-none transition-all placeholder-text-muted text-text-primary font-body text-sm border-accent/20 focus:border-accent"
+                  placeholder="At least 8 characters"
                 />
-                {fieldErrors.password && <p className="text-[10px] text-red-500 mt-1">{fieldErrors.password}</p>}
               </div>
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={pending}
                 className="w-full bg-accent text-white font-body font-semibold text-xs tracking-widest uppercase py-4 rounded-xl hover:bg-neutral-800 active:scale-[0.99] transition-all duration-300 mt-6 shadow-sm disabled:opacity-60"
               >
-                {loading ? "Creating account…" : "CREATE ACCOUNT"}
+                {pending ? "Creating account\u2026" : "CREATE ACCOUNT"}
               </button>
             </form>
           </div>
@@ -210,4 +155,8 @@ export default function SignupPage() {
       </div>
     </div>
   )
+}
+
+export default function SignupPage() {
+  return <SignupForm />
 }

@@ -6,23 +6,18 @@ import ListingCard from "@/components/listings/ListingCard"
 import FilterStrip from "@/components/listings/FilterStrip"
 
 interface Listing {
-  unit_id: string
-  unit_number: string
+  id: string
+  title: string
+  description: string | null
+  price_monthly: number
+  currency: string
+  location: string | null
   bedrooms: number
   bathrooms: number
-  square_feet: number
-  rent_price: number
-  deposit_amount: number
-  available_from: string
-  images: string[]
-  property_title: string
-  property_type: string
-  address_line1: string
-  city: string
-  state: string
-  zip_code: string
-  neighborhood: string | null
-  walk_score: number | null
+  sqft: number | null
+  amenities: string[] | null
+  image_urls: string[] | null
+  created_at: string
   landlord_name: string
   landlord_avatar: string | null
 }
@@ -43,7 +38,7 @@ export default function ListingsContent() {
         if (res.ok) {
           const data = await res.json()
           const ids = new Set<string>(
-            (data.data ?? []).map((f: { unit?: { id: string } }) => f.unit?.id).filter(Boolean)
+            (data.data ?? []).map((f: { listing_id: string }) => f.listing_id).filter(Boolean)
           )
           if (!cancelled) setFavoritedIds(ids)
         }
@@ -104,7 +99,7 @@ export default function ListingsContent() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {listings.map((listing) => (
-              <ListingCard key={listing.unit_id} listing={listing} initialFaved={favoritedIds.has(listing.unit_id)} />
+              <ListingCard key={listing.id} listing={listing} initialFaved={favoritedIds.has(listing.id)} />
             ))}
           </div>
         )}

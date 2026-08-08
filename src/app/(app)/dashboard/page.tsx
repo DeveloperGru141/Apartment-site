@@ -65,7 +65,7 @@ export default function DashboardPage() {
             </Link>
 
             <Link
-              href="/applications"
+              href="/leases"
               className="group relative flex flex-col justify-between rounded-2xl border border-gray-200/80 p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-gray-900 hover:shadow-md bg-white"
             >
               <div>

@@ -2,10 +2,12 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { isPublicRoute, isAuthRoute } from '@/lib/constants'
 
+const PROTECTED_ROUTES = ['/dashboard', '/saved', '/leases']
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (isPublicRoute(pathname)) return NextResponse.next()
+  if (isPublicRoute(pathname) && !isAuthRoute(pathname)) return NextResponse.next()
 
   let supabaseResponse = NextResponse.next({ request })
 
@@ -32,16 +34,20 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    url.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(url)
-  }
-
   if (isAuthRoute(pathname) && user) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
+    return NextResponse.redirect(url)
+  }
+
+  const isProtected = PROTECTED_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`)
+  )
+
+  if (!user && isProtected) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('next', pathname)
     return NextResponse.redirect(url)
   }
 

@@ -39,3 +39,4 @@ dev-*.log
 supabase/.temp/
 
 .AGENTS.md
+dev.log

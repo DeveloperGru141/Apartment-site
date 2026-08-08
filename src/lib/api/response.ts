@@ -5,15 +5,19 @@ const ALLOWED_ORIGINS = [
   process.env.NEXT_PUBLIC_SITE_URL,
 ].filter(Boolean) as string[]
 
+function normalizeOrigin(value: string): string {
+  return value.replace(/\/+$/, "")
+}
+
 export function requireCSRF(request: Request): Response | null {
   const origin = request.headers.get('origin')
   const referer = request.headers.get('referer')
 
-  if (origin && !ALLOWED_ORIGINS.some(o => origin.startsWith(o))) {
+  if (origin && !ALLOWED_ORIGINS.some(o => normalizeOrigin(origin) === normalizeOrigin(o))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  if (referer && !ALLOWED_ORIGINS.some(o => referer.startsWith(o))) {
+  if (referer && !ALLOWED_ORIGINS.some(o => normalizeOrigin(referer) === normalizeOrigin(o))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -28,6 +32,9 @@ export function apiError(error: unknown, status?: number) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
     return NextResponse.json({ error: GENERIC_ERROR }, { status: status || 400 })
+  }
+  if (typeof error === 'string') {
+    return NextResponse.json({ error }, { status: status || 400 })
   }
   return NextResponse.json({ error: GENERIC_ERROR }, { status: status || 400 })
 }

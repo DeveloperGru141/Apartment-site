@@ -51,9 +51,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const supabase = createClient()
     let mounted = true
 
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(({ data, error }) => {
       if (!mounted) return
-      setUser(data?.user ?? null)
+      if (error) {
+        setUser(null)
+      } else {
+        setUser(data?.user ?? null)
+      }
+      setIsLoading(false)
+    }).catch(() => {
+      if (!mounted) return
+      setUser(null)
       setIsLoading(false)
     })
 

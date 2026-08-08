@@ -2,42 +2,26 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import ListingCard from "@/components/listings/ListingCard"
 import { images } from "@/lib/images"
 
 interface Listing {
-  unit_id: string
-  unit_number: string
+  id: string
+  title: string
+  description: string | null
+  price_monthly: number
+  currency: string
+  location: string | null
   bedrooms: number
   bathrooms: number
-  square_feet: number
-  rent_price: number
-  deposit_amount: number
-  available_from: string
-  images: string[]
+  sqft: number | null
   amenities: string[] | null
-  property_title: string
-  property_type: string
-  address_line1: string
-  city: string
-  state: string
-  zip_code: string
-  neighborhood: string | null
-  walk_score: number | null
+  image_urls: string[] | null
+  status: string
+  is_verified: boolean
+  created_at: string
+  updated_at: string
   landlord_name: string
   landlord_avatar: string | null
-  reviews: Review[]
-  similar: Listing[]
-}
-
-interface Review {
-  id: string
-  overall_rating: number
-  title: string | null
-  comment: string | null
-  reviewer_name: string
-  reviewer_avatar: string | null
-  created_at: string
 }
 
 export default function ListingDetailContent({ id }: { id: string }) {
@@ -79,7 +63,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
       const res = await fetch("/api/favorites", {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ unit_id: id }),
+        body: JSON.stringify({ listing_id: id }),
       })
       if (!res.ok) throw new Error("Failed to update favorite")
     } catch {
@@ -91,17 +75,9 @@ export default function ListingDetailContent({ id }: { id: string }) {
   if (error) return <ErrorState message={error} />
   if (!listing) return <NotFound />
 
-  const allImages = listing.images?.length
-    ? listing.images
+  const allImages = listing.image_urls?.length
+    ? listing.image_urls
     : [images.listingDetailFallback]
-
-  const avgRating =
-    listing.reviews.length > 0
-      ? (
-          listing.reviews.reduce((s, r) => s + r.overall_rating, 0) /
-          listing.reviews.length
-        ).toFixed(1)
-      : null
 
   return (
     <>
@@ -111,7 +87,7 @@ export default function ListingDetailContent({ id }: { id: string }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={allImages[selectedImage]}
-            alt={listing.property_title}
+            alt={listing.title}
             className="w-full h-full object-cover"
             style={{ viewTransitionName: `listing-img-${id}`, contain: "layout" } as React.CSSProperties}
           />
@@ -159,25 +135,12 @@ export default function ListingDetailContent({ id }: { id: string }) {
           <div className="lg:col-span-2 space-y-8">
             {/* Title + location */}
             <div>
-              <div className="flex items-start justify-between">
-                <div>
-                  <h1 className="font-heading font-bold text-2xl md:text-3xl text-text-primary">
-                    {listing.property_title}
-                  </h1>
-                  <p className="font-body text-text-muted mt-1">
-                    {listing.address_line1}, {listing.city}, {listing.state}{" "}
-                    {listing.zip_code}
-                  </p>
-                  {listing.neighborhood && (
-                    <p className="font-body text-xs text-text-muted mt-0.5">
-                      {listing.neighborhood}
-                    </p>
-                  )}
-                </div>
-                <span className="inline-block bg-accent text-white text-[10px] font-body font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap">
-                  {listing.property_type}
-                </span>
-              </div>
+              <h1 className="font-heading font-bold text-2xl md:text-3xl text-text-primary">
+                {listing.title}
+              </h1>
+              <p className="font-body text-text-muted mt-1">
+                {listing.location}
+              </p>
 
               <div className="flex flex-wrap items-center gap-4 mt-4 text-sm font-body text-text-body">
                 <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
@@ -187,13 +150,8 @@ export default function ListingDetailContent({ id }: { id: string }) {
                   <BathIcon /> {listing.bathrooms} Bathrooms
                 </span>
                 <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
-                  <SqftIcon /> {listing.square_feet?.toLocaleString()} sqft
+                  <SqftIcon /> {listing.sqft?.toLocaleString()} sqft
                 </span>
-                {listing.walk_score != null && (
-                  <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-accent/5">
-                    <WalkIcon /> Walk Score {listing.walk_score}
-                  </span>
-                )}
               </div>
             </div>
 
@@ -203,12 +161,24 @@ export default function ListingDetailContent({ id }: { id: string }) {
                 Overview
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                <OverviewItem label="Monthly Rent" value={`$${listing.rent_price.toLocaleString()}`} />
-                <OverviewItem label="Deposit" value={`$${listing.deposit_amount.toLocaleString()}`} />
-                <OverviewItem label="Available" value={listing.available_from ? new Date(listing.available_from).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Now"} />
-                <OverviewItem label="Unit" value={listing.unit_number} />
+                <OverviewItem label="Monthly Rent" value={`${listing.currency} ${listing.price_monthly.toLocaleString()}`} />
+                <OverviewItem label="Status" value={listing.status.charAt(0).toUpperCase() + listing.status.slice(1)} />
+                <OverviewItem label="Bedrooms" value={String(listing.bedrooms)} />
+                <OverviewItem label="Bathrooms" value={String(listing.bathrooms)} />
               </div>
             </div>
+
+            {/* Description */}
+            {listing.description && (
+              <div className="bg-white rounded-2xl p-6 border border-accent/5">
+                <h2 className="font-heading font-bold text-lg text-text-primary mb-4">
+                  Description
+                </h2>
+                <p className="font-body text-sm text-text-body leading-relaxed whitespace-pre-line">
+                  {listing.description}
+                </p>
+              </div>
+            )}
 
             {/* Amenities */}
             {listing.amenities && listing.amenities.length > 0 && (
@@ -228,31 +198,6 @@ export default function ListingDetailContent({ id }: { id: string }) {
                 </div>
               </div>
             )}
-
-            {/* Reviews */}
-            <div className="bg-white rounded-2xl p-6 border border-accent/5">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-heading font-bold text-lg text-text-primary">
-                  Reviews
-                </h2>
-                {avgRating && (
-                  <span className="flex items-center gap-1 text-sm font-body font-medium text-text-primary">
-                    <StarIcon /> {avgRating} ({listing.reviews.length})
-                  </span>
-                )}
-              </div>
-              {listing.reviews.length === 0 ? (
-                <p className="font-body text-sm text-text-muted">
-                  No reviews yet for this unit.
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {listing.reviews.map((r) => (
-                    <ReviewCard key={r.id} review={r} />
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Sidebar */}
@@ -260,13 +205,10 @@ export default function ListingDetailContent({ id }: { id: string }) {
             {/* Price Card */}
             <div className="bg-white rounded-2xl p-6 border border-accent/5 sticky top-24">
               <p className="font-heading font-bold text-3xl text-text-primary">
-                ${listing.rent_price.toLocaleString()}
+                {listing.currency} {listing.price_monthly.toLocaleString()}
                 <span className="text-sm font-body font-normal text-text-muted">
                   /month
                 </span>
-              </p>
-              <p className="font-body text-xs text-text-muted mt-1">
-                ${listing.deposit_amount.toLocaleString()} deposit required
               </p>
 
               <div className="mt-6 space-y-3">
@@ -312,20 +254,6 @@ export default function ListingDetailContent({ id }: { id: string }) {
                 </div>
               </div>
             </div>
-
-            {/* Similar Units */}
-            {listing.similar.length > 0 && (
-              <div>
-                <h3 className="font-heading font-bold text-base text-text-primary mb-3">
-                  Similar Units
-                </h3>
-                <div className="space-y-3">
-                  {listing.similar.map((u) => (
-                    <ListingCard key={u.unit_id} listing={u} />
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -340,55 +268,6 @@ function OverviewItem({ label, value }: { label: string; value: string }) {
       <p className="font-body font-semibold text-sm text-text-primary mt-0.5">
         {value}
       </p>
-    </div>
-  )
-}
-
-function ReviewCard({ review }: { review: Review }) {
-  return (
-    <div className="border-b border-accent/5 pb-4 last:border-0 last:pb-0">
-      <div className="flex items-center gap-3 mb-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={
-            review.reviewer_avatar ?? "https://i.pravatar.cc/64?img=3"
-          }
-          alt={review.reviewer_name}
-          className="w-8 h-8 rounded-full object-cover"
-        />
-        <div>
-          <p className="font-body font-semibold text-sm text-text-primary">
-            {review.reviewer_name}
-          </p>
-          <div className="flex items-center gap-2">
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <StarIcon
-                  key={i}
-                  filled={i < review.overall_rating}
-                  small
-                />
-              ))}
-            </div>
-            <span className="font-body text-[10px] text-text-muted">
-              {new Date(review.created_at).toLocaleDateString("en-US", {
-                month: "short",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-        </div>
-      </div>
-      {review.title && (
-        <p className="font-body font-semibold text-sm text-text-primary mb-1">
-          {review.title}
-        </p>
-      )}
-      {review.comment && (
-        <p className="font-body text-sm text-text-body leading-relaxed">
-          {review.comment}
-        </p>
-      )}
     </div>
   )
 }
@@ -446,30 +325,6 @@ function SqftIcon() {
       <rect x="14" y="3" width="7" height="7" rx="1" />
       <rect x="3" y="14" width="7" height="7" rx="1" />
       <rect x="14" y="14" width="7" height="7" rx="1" />
-    </svg>
-  )
-}
-
-function WalkIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
-      <path d="M13 5a2 2 0 100-4 2 2 0 000 4z" />
-      <path d="M11 22l2-8-3-3-1 4-4-2" />
-      <path d="M14 16l1-4 3 3 3-1" />
-    </svg>
-  )
-}
-
-function StarIcon({ filled, small }: { filled?: boolean; small?: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth="2"
-      className={small ? "w-3 h-3" : "w-4 h-4"}
-    >
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
     </svg>
   )
 }

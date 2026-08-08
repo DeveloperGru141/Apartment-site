@@ -14,7 +14,7 @@ export function useAuthProtection() {
     if (isLoading) return
 
     if (!user && !isPublicRoute(pathname)) {
-      router.replace("/login?redirect=" + encodeURIComponent(pathname))
+      router.replace("/login?next=" + encodeURIComponent(pathname))
     }
 
     if (user && isAuthRoute(pathname)) {
