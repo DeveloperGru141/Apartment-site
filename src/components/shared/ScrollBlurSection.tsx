@@ -1,89 +1,49 @@
 "use client"
 
-import { motion, useScroll, useTransform, type Variants } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
 
 type SectionVariant = "default" | "parallax" | "fade" | "zoom"
 
 interface ScrollBlurProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   variant?: SectionVariant
 }
 
-const offsets: Record<SectionVariant, { opacity: number[]; blur: string[]; scale: number[]; y: number[] }> = {
-  default: {
-    opacity: [0.2, 1, 1, 0.2],
-    blur: ["blur(16px)", "blur(0px)", "blur(0px)", "blur(16px)"],
-    scale: [0.96, 1, 1, 0.92],
-    y: [40, 0, 0, -30],
-  },
-  parallax: {
-    opacity: [0.3, 1, 1, 0.3],
-    blur: ["blur(8px)", "blur(0px)", "blur(0px)", "blur(8px)"],
-    scale: [1.05, 1, 1, 0.98],
-    y: [80, 0, 0, -60],
-  },
-  fade: {
-    opacity: [0, 1, 1, 0],
-    blur: ["blur(0px)", "blur(0px)", "blur(0px)", "blur(0px)"],
-    scale: [1, 1, 1, 1],
-    y: [0, 0, 0, 0],
-  },
-  zoom: {
-    opacity: [0.15, 1, 1, 0.15],
-    blur: ["blur(12px)", "blur(0px)", "blur(0px)", "blur(12px)"],
-    scale: [0.9, 1, 1, 0.95],
-    y: [20, 0, 0, -20],
-  },
-}
-
+// Section is considered "in view" when any part of it enters this band of the
+// viewport (top/bottom 12% shrunk). IntersectionObserver keeps re-firing on
+// every enter/exit, so the blur fades in AND out on each scroll pass — unlike
+// the framer-motion useScroll implementation, which relied on native
+// ScrollTimeline (motion >= 12.30) whose scroll-linked values can freeze
+// after the first pass until a refresh.
 export function ScrollBlurSection({ children, className = "", variant = "default" }: ScrollBlurProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const o = offsets[variant]
+  const [sharp, setSharp] = useState(false)
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  })
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
 
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], o.opacity)
-  const blurFilter = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], o.blur)
-  const scale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], o.scale)
-  const y = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], o.y)
+    const observer = new IntersectionObserver(
+      ([entry]) => setSharp(entry.isIntersecting),
+      { rootMargin: "-12% 0px -12% 0px", threshold: 0 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      style={{
-        opacity,
-        filter: blurFilter,
-        scale,
-        y,
-      }}
-      className={`will-change-[transform,filter,opacity] ${className}`}
+      className={`transition-all duration-500 ease-out ${
+        sharp ? "opacity-100" : "opacity-60"
+      } ${className}`}
+      data-blur-variant={variant}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-  },
-}
-
-export { containerVariants, itemVariants }
+export type { SectionVariant }

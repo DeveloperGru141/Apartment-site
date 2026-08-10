@@ -4,7 +4,7 @@ interface PropertyInquiryDetails {
   title?: string
   location?: string
   price?: string
-  id?: string
+  agentWhatsapp?: string
 }
 
 export function getWhatsAppInquiryLink(property?: PropertyInquiryDetails): string {
@@ -21,5 +21,7 @@ export function getWhatsAppInquiryLink(property?: PropertyInquiryDetails): strin
     message += `. Please share more details and availability for a private viewing.`
   }
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  const target = property?.agentWhatsapp ?? WHATSAPP_NUMBER
+
+  return `https://wa.me/${target}?text=${encodeURIComponent(message)}`
 }

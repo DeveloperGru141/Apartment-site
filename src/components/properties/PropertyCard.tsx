@@ -2,160 +2,149 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { images, LAGOS_IMAGES } from "@/lib/images"
-import { formatPriceShort } from "@/lib/format"
+import { ChevronLeft, ChevronRight, BedDouble, Bath, Ruler, MapPin } from "lucide-react"
+import type { Property } from "@/lib/data/properties"
+import { agents } from "@/lib/data/agents"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 
-interface Property {
-  id: string
-  title: string
-  price_monthly: number
-  currency: string
-  location: string | null
-  bedrooms: number
-  bathrooms: number
-  sqft: number | null
-  image_urls?: string[] | null
-}
-
-interface Props {
+interface PropertyCardProps {
   property: Property
-  forSale?: boolean
-  priceLabel?: string
+  className?: string
 }
 
-export default function PropertyCard({ property, forSale = false, priceLabel }: Props) {
-  const [imgIdx, setImgIdx] = useState(0)
-  const [hovered, setHovered] = useState(false)
+export default function PropertyCard({ property, className = "" }: PropertyCardProps) {
+  const [imageIndex, setImageIndex] = useState(0)
 
-  const imgs = property.image_urls?.length
-    ? property.image_urls
-    : [LAGOS_IMAGES.hero.main, images.listingCardFallback]
+  const agent = agents.find((a) => a.id === property.agentId)
+  const images = property.images
+
+  function go(dir: 1 | -1) {
+    setImageIndex((prev) => (prev + dir + property.images.length) % property.images.length)
+  }
 
   return (
     <div
-      className="group bg-white/70 backdrop-blur-md rounded-2xl overflow-hidden border border-white/30 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:bg-white/90"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className={`group rounded-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:bg-white/90 hover:-translate-y-1 ${className}`}
     >
-      <Link href={`/listings/${property.id}`} className="block relative">
-        <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-          <img
-            src={imgs[imgIdx]}
-            alt={property.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            style={{ viewTransitionName: `listing-img-${property.id}`, contain: "layout" } as React.CSSProperties}
-          />
-
-          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-              <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider bg-white/70 backdrop-blur-md text-text-primary rounded-md border border-white/30 shadow-sm">
-                {forSale ? "For Sale" : "For Rent"}
-              </span>
-              {!forSale && property.price_monthly > 0 && (
-                <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider bg-accent/70 backdrop-blur-md text-white rounded-md border border-white/20 shadow-sm">
-                  Featured
-                </span>
-              )}
-          </div>
-
-          {hovered && imgs.length > 1 && (
+      <Link href={`/properties/${property.slug}`} className="block">
+        <div
+          className="relative aspect-[4/3] overflow-hidden"
+          style={{ viewTransitionName: `listing-img-${property.id}`, contain: "layout" }}
+        >
+          {property.images.length > 1 && (
             <>
               <button
-                onClick={(e) => { e.preventDefault(); setImgIdx((p) => (p === 0 ? imgs.length - 1 : p - 1)) }}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                type="button"
+                aria-label="Previous image"
+                onClick={(e) => {
+                  e.preventDefault()
+                  go(-1)
+                }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-slate-950/50 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-950/80"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" className="w-4 h-4">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
+                <ChevronLeft className="w-4 h-4" />
               </button>
               <button
-                onClick={(e) => { e.preventDefault(); setImgIdx((p) => (p === imgs.length - 1 ? 0 : p + 1)) }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                type="button"
+                aria-label="Next image"
+                onClick={(e) => {
+                  e.preventDefault()
+                  go(1)
+                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-slate-950/50 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-950/80"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" className="w-4 h-4">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
+                <ChevronRight className="w-4 h-4" />
               </button>
             </>
           )}
 
-          {imgs.length > 1 && (
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-              {imgs.map((_, i) => (
-                <span key={i} className={`block rounded-full transition-all ${i === imgIdx ? "w-5 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/50"}`} />
+          {images.map((src, i) => (
+            <div
+              key={src + i}
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                i === imageIndex ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={property.title} className="w-full h-full object-cover" />
+            </div>
+          ))}
+
+          {property.images.length > 1 && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              {property.images.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Image ${i + 1}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setImageIndex(i)
+                  }}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === imageIndex ? "w-5 bg-white" : "w-1.5 bg-white/60"
+                  }`}
+                />
               ))}
             </div>
+          )}
+
+          <div className="absolute top-3 left-3 bg-slate-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md z-10">
+            {property.status}
+          </div>
+          {property.featured && (
+            <div className="absolute top-3 right-3 bg-amber-500/90 backdrop-blur-md text-slate-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md z-10">
+              Featured
+            </div>
+          )}
+        </div>
+
+        <div className="p-5">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h3 className="font-heading font-bold text-lg text-text-primary group-hover:text-accent transition-colors line-clamp-1">
+              {property.title}
+            </h3>
+          </div>
+          <div className="flex items-center gap-1.5 text-text-muted text-sm mb-3">
+            <MapPin className="w-4 h-4 shrink-0" />
+            <span className="truncate">{property.location}</span>
+          </div>
+          <div className="flex items-center gap-4 text-sm text-text-muted mb-4">
+            {property.bedrooms > 0 && (
+              <span className="flex items-center gap-1.5">
+                <BedDouble className="w-4 h-4 text-amber-500" /> {property.bedrooms} Beds
+              </span>
+            )}
+            {property.bathrooms > 0 && (
+              <span className="flex items-center gap-1.5">
+                <Bath className="w-4 h-4 text-amber-500" /> {property.bathrooms} Baths
+              </span>
+            )}
+            <span className="flex items-center gap-1.5">
+              <Ruler className="w-4 h-4 text-amber-500" /> {property.sqft.toLocaleString()} sqft
+            </span>
+          </div>
+          <p className="font-heading font-extrabold text-xl text-text-primary mb-2">
+            {property.priceLabel}
+          </p>
+          {agent && (
+            <p className="text-xs text-text-muted mb-4">Listed by {agent.name}</p>
           )}
         </div>
       </Link>
 
-      <div className="p-5 bg-white/30 backdrop-blur-sm">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex-1 min-w-0 mr-3">
-            <h3 className="font-heading font-bold text-base text-text-primary truncate">
-              <Link href={`/listings/${property.id}`} className="hover:underline">
-                {property.title}
-              </Link>
-            </h3>
-            {property.location && (
-              <p className="font-body text-xs text-gray-400 mt-0.5 truncate flex items-center gap-1">
-                <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                </svg>
-                {property.location}
-              </p>
-            )}
-          </div>
-          <div className="text-right flex-shrink-0">
-            {priceLabel ? (
-              <p className="font-heading font-bold text-lg text-text-primary leading-none">{priceLabel}</p>
-            ) : (
-              <p className="font-heading font-bold text-lg text-text-primary leading-none">
-                {property.currency} {property.price_monthly.toLocaleString()}
-              </p>
-            )}
-            <p className="text-[10px] text-gray-400 font-medium mt-0.5">
-              {forSale ? "Total Price" : "per month"}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 py-3 border-t border-gray-50">
-          <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
-            <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v11m0-4h18m0 4V7a2 2 0 00-2-2H5a2 2 0 00-2 2v4h18z" />
-            </svg>
-            {property.bedrooms} {property.bedrooms === 1 ? "Bed" : "Beds"}
-          </span>
-          <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
-            <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16h16M7 16h.01M12 16h.01M17 16h.01M4 20h16M8 5l-2 3h12l-2-3M4 12V8a4 4 0 014-4h8a4 4 0 014 4v4" />
-            </svg>
-            {property.bathrooms} {property.bathrooms === 1 ? "Bath" : "Baths"}
-          </span>
-          {property.sqft && (
-            <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
-              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
-              </svg>
-              {property.sqft.toLocaleString()} sqft
-            </span>
-          )}
-        </div>
-
+      <div className="px-5 pb-5">
         <a
-          href={getWhatsAppInquiryLink({ title: property.title, location: property.location || undefined, price: priceLabel })}
+          href={getWhatsAppInquiryLink({
+            title: property.title,
+            location: property.location,
+            price: property.priceLabel,
+            agentWhatsapp: agent?.whatsapp,
+          })}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs tracking-wider uppercase rounded-xl transition-colors"
+          className="shine-sweep block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs tracking-wider uppercase rounded-lg py-2.5 font-semibold transition-colors"
         >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
-          </svg>
           Inquire via WhatsApp
         </a>
       </div>

@@ -3,16 +3,18 @@
 import { useState } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { MapPin, Home } from "lucide-react"
+import { Home, MapPin } from "lucide-react"
 import { LAGOS_IMAGES } from "@/lib/images"
+import { properties } from "@/lib/data/properties"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 
 const neighborhoods = Object.entries(LAGOS_IMAGES.neighborhoods).map(([key, val]) => ({
   slug: key.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, ""),
   name: val.title,
   description: val.sub,
-  count: val.count,
   image: val.image,
+  count: properties.filter((p) => p.neighborhood === val.title).length,
 }))
 
 export default function NeighborhoodShowcase() {
@@ -45,7 +47,7 @@ export default function NeighborhoodShowcase() {
                 }`}
               >
                 <p className="text-sm font-semibold font-heading">{n.name}</p>
-                <p className="text-xs mt-0.5 opacity-70">{n.count}</p>
+                <p className="text-xs mt-0.5 opacity-70">{n.count} listings</p>
               </button>
             ))}
           </div>
@@ -61,10 +63,10 @@ export default function NeighborhoodShowcase() {
                 className="relative"
               >
                 <div className="aspect-[4/3] relative overflow-hidden">
-                  <img
+                  <ImageWithShimmer
                     src={current.image || LAGOS_IMAGES.hero.main}
                     alt={current.name}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -72,21 +74,23 @@ export default function NeighborhoodShowcase() {
                       {current.name}
                     </h3>
                     <p className="text-sm text-white/80 mb-1">{current.description}</p>
-                    <p className="text-xs text-amber-400 font-semibold mb-4">{current.count}</p>
-                    <div className="flex gap-3">
+                    <p className="text-xs text-amber-400 font-semibold mb-4">
+                      {current.count} listings available
+                    </p>
+                    <div className="flex flex-wrap gap-3">
                       <Link
-                        href={`/listings?city=${current.slug}`}
+                        href={`/properties?neighborhood=${encodeURIComponent(current.name)}`}
                         className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold uppercase tracking-wider hover:bg-white/30 transition-colors"
                       >
                         <MapPin className="w-3.5 h-3.5" /> View Properties
                       </Link>
                       <a
-                        href={getWhatsAppInquiryLink({ title: `Inquiry: ${current.name}`, location: current.description })}
+                        href={getWhatsAppInquiryLink({ title: `${current.name} Inquiry`, location: current.description })}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-slate-950 text-xs font-semibold uppercase tracking-wider hover:bg-amber-600 transition-colors"
+                        className="shine-sweep inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-slate-950 text-xs font-semibold uppercase tracking-wider hover:bg-amber-600 transition-colors"
                       >
-                        <Home className="w-3.5 h-3.5" /> Inquire
+                        <Home className="w-3.5 h-3.5" /> Inquire About {current.name}
                       </a>
                     </div>
                   </div>

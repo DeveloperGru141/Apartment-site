@@ -14,15 +14,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@supabase/ssr": "^0.12.3",
-    "@supabase/supabase-js": "^2.110.5",
     "framer-motion": "^12.43.0",
     "lucide-react": "^1.27.0",
     "next": "^16.2.10",
-    "next-view-transitions": "^0.3.5",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "zod": "^4.4.3"
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.2",

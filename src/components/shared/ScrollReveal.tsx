@@ -15,7 +15,7 @@ interface Props {
 const variantHidden: Record<RevealVariant, string> = {
   "fade-up": "opacity-0 translate-y-10",
   "fade-in": "opacity-0",
-  unblur: "opacity-0 blur-xl translate-y-6",
+  unblur: "opacity-0 translate-y-6",
   "scale-up": "opacity-0 scale-95",
   "slide-left": "opacity-0 -translate-x-12",
   "slide-right": "opacity-0 translate-x-12",
@@ -99,7 +99,7 @@ export function ScrollRevealItem({
     return () => observer.disconnect()
   }, [])
 
-  const delay = index * 120
+  const delay = index * 80
 
   return (
     <div
@@ -107,7 +107,7 @@ export function ScrollRevealItem({
       className={`${
         visible
           ? `animate-unblur`
-          : `opacity-0 blur-xl translate-y-6`
+          : `opacity-0 translate-y-6`
       } ${className}`}
       style={visible ? { animationDelay: `${delay}ms` } : undefined}
     >

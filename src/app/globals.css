@@ -79,8 +79,8 @@
 }
 
 @keyframes unblur {
-  from { opacity: 0; filter: blur(16px); transform: translateY(20px); }
-  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
@@ -126,7 +126,7 @@
 }
 
 .animate-unblur {
-  animation: unblur 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: unblur 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-scale-in {
@@ -149,6 +149,59 @@
   animation: zoomIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.14);
+  }
+}
+
+.kenburns {
+  animation: kenburns 18s ease-out forwards;
+}
+
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(251, 191, 36, 0.25) 60%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shine-sweep:hover::after {
+  transform: translateX(120%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-unblur,
   .animate-scale-in,
@@ -160,5 +213,18 @@
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
+  }
+
+  .animate-shimmer {
+    animation: none !important;
+  }
+
+  .kenburns {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .shine-sweep::after {
+    display: none;
   }
 }
