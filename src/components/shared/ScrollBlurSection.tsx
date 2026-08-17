@@ -2,12 +2,9 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react"
 
-type SectionVariant = "default" | "parallax" | "fade" | "zoom"
-
 interface ScrollBlurProps {
   children: ReactNode
   className?: string
-  variant?: SectionVariant
 }
 
 // Section is considered "in view" when any part of it enters this band of the
@@ -16,7 +13,7 @@ interface ScrollBlurProps {
 // the framer-motion useScroll implementation, which relied on native
 // ScrollTimeline (motion >= 12.30) whose scroll-linked values can freeze
 // after the first pass until a refresh.
-export function ScrollBlurSection({ children, className = "", variant = "default" }: ScrollBlurProps) {
+export function ScrollBlurSection({ children, className = "" }: ScrollBlurProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [sharp, setSharp] = useState(false)
 
@@ -39,11 +36,8 @@ export function ScrollBlurSection({ children, className = "", variant = "default
       className={`transition-all duration-500 ease-out ${
         sharp ? "opacity-100" : "opacity-60"
       } ${className}`}
-      data-blur-variant={variant}
     >
       {children}
     </div>
   )
 }
-
-export type { SectionVariant }

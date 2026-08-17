@@ -30,13 +30,7 @@ const variantVisible: Record<RevealVariant, string> = {
   "slide-right": "animate-slide-right",
 }
 
-export default function ScrollReveal({
-  children,
-  className = "",
-  delay = 0,
-  variant = "unblur",
-  as: Tag = "div",
-}: Props) {
+function useInViewOnce(delayMs: number) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -46,7 +40,7 @@ export default function ScrollReveal({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), delay)
+          setTimeout(() => setVisible(true), delayMs)
           observer.unobserve(el)
         }
       },
@@ -54,7 +48,19 @@ export default function ScrollReveal({
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [delay])
+  }, [delayMs])
+
+  return { ref, visible }
+}
+
+export default function ScrollReveal({
+  children,
+  className = "",
+  delay = 0,
+  variant = "unblur",
+  as: Tag = "div",
+}: Props) {
+  const { ref, visible } = useInViewOnce(delay)
 
   return (
     <Tag
@@ -80,34 +86,14 @@ export function ScrollRevealItem({
   index?: number
   variant?: RevealVariant
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.08 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
+  const { ref, visible } = useInViewOnce(index * 80)
   const delay = index * 80
 
   return (
     <div
       ref={ref}
       className={`${
-        visible
-          ? `animate-unblur`
-          : `opacity-0 translate-y-6`
+        visible ? variantVisible[variant] : variantHidden[variant]
       } ${className}`}
       style={visible ? { animationDelay: `${delay}ms` } : undefined}
     >

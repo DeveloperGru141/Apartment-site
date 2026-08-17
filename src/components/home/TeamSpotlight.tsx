@@ -6,7 +6,7 @@ import { agents } from "@/lib/data/agents"
 import { properties } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 
-const FEATURED_AGENT_IDS = ["agent-chiamaka", "agent-ngozi", "agent-kunle", "agent-yemi", "agent-emeka"]
+const FEATURED_AGENT_IDS = ["agent-adaeze", "agent-tunde", "agent-ngozi", "agent-femi", "agent-hadiza"]
 
 export default function TeamSpotlight() {
   const featured = agents.filter((a) => FEATURED_AGENT_IDS.includes(a.id))

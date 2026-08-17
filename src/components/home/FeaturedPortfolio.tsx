@@ -3,14 +3,14 @@
 import { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { MapPin, BedDouble, Bath, Ruler } from "lucide-react"
-import { properties, type ListingStatus } from "@/lib/data/properties"
-import { agents } from "@/lib/data/agents"
-import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import { MapPin } from "lucide-react"
+import { properties, LISTING_STATUSES, type ListingStatus } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
+import PropertySpecs from "@/components/properties/PropertySpecs"
+import WhatsAppInquiryButton from "@/components/properties/WhatsAppInquiryButton"
 
-const filters: Array<"All" | ListingStatus> = ["All", "For Rent", "For Sale", "Off-Plan", "Land"]
+const filters: Array<"All" | ListingStatus> = ["All", ...LISTING_STATUSES]
 
 export default function FeaturedPortfolio() {
   const [activeFilter, setActiveFilter] = useState<"All" | ListingStatus>("All")
@@ -62,81 +62,48 @@ export default function FeaturedPortfolio() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filtered.map((p, i) => {
-            const agent = agents.find((a) => a.id === p.agentId)
-            return (
-              <ScrollRevealItem key={p.id} index={i} variant="fade-up">
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.45, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-full"
-                >
-                  <div className="group h-full rounded-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:bg-white/90 hover:-translate-y-1">
-                    <Link href={`/properties/${p.slug}`} className="block">
-                      <div
-                        className="aspect-[4/3] relative overflow-hidden"
-                        style={{ viewTransitionName: `listing-img-${p.id}`, contain: "layout" }}
-                      >
-                        <ImageWithShimmer
-                          src={p.images[0] ?? ""}
-                          alt={p.title}
-                          className="h-full w-full"
-                          imgClassName="group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute top-3 left-3 bg-slate-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
-                          {p.status}
-                        </div>
-                        <div className="absolute top-3 right-3 bg-white/70 backdrop-blur-md text-text-primary text-xs font-bold px-3 py-1.5 rounded-md border border-white/30">
-                          {p.priceLabel}
-                        </div>
-                      </div>
-                    </Link>
-                    <div className="p-5">
-                      <Link href={`/properties/${p.slug}`}>
-                        <h3 className="font-heading font-bold text-lg text-text-primary mb-2 group-hover:text-amber-600 transition-colors">
-                          {p.title}
-                        </h3>
-                      </Link>
-                      <div className="flex items-center gap-1.5 text-text-muted text-sm mb-3">
-                        <MapPin className="w-4 h-4 shrink-0" />
-                        <span className="truncate">{p.location}</span>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-text-muted mb-4">
-                        {p.bedrooms > 0 && (
-                          <span className="flex items-center gap-1.5">
-                            <BedDouble className="w-4 h-4 text-amber-500" /> {p.bedrooms} Beds
-                          </span>
-                        )}
-                        {p.bathrooms > 0 && (
-                          <span className="flex items-center gap-1.5">
-                            <Bath className="w-4 h-4 text-amber-500" /> {p.bathrooms} Baths
-                          </span>
-                        )}
-                        <span className="flex items-center gap-1.5">
-                          <Ruler className="w-4 h-4 text-amber-500" /> {p.sqft.toLocaleString()} sqft
-                        </span>
-                      </div>
-                      <a
-                        href={getWhatsAppInquiryLink({
-                          title: p.title,
-                          location: p.location,
-                          price: p.priceLabel,
-                          agentWhatsapp: agent?.whatsapp,
-                        })}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shine-sweep block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs tracking-wider uppercase rounded-lg py-2.5 font-semibold transition-colors"
-                      >
-                        Inquire via WhatsApp
-                      </a>
+          {filtered.map((p, i) => (
+            <ScrollRevealItem key={p.id} index={i} variant="fade-up" className="h-full">
+              <div className="group h-full rounded-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:bg-white/90 hover:-translate-y-1">
+                <Link href={`/properties/${p.slug}`} className="block">
+                  <div
+                    className="aspect-[4/3] relative overflow-hidden"
+                    style={{ viewTransitionName: `listing-img-${p.id}`, contain: "layout" }}
+                  >
+                    <ImageWithShimmer
+                      src={p.images[0] ?? ""}
+                      alt={p.title}
+                      className="h-full w-full"
+                      imgClassName="group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 left-3 bg-slate-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
+                      {p.status}
+                    </div>
+                    <div className="absolute top-3 right-3 bg-white/70 backdrop-blur-md text-text-primary text-xs font-bold px-3 py-1.5 rounded-md border border-white/30">
+                      {p.priceLabel}
                     </div>
                   </div>
-                </motion.div>
-              </ScrollRevealItem>
-            )
-          })}
+                </Link>
+                <div className="p-5">
+                  <Link href={`/properties/${p.slug}`}>
+                    <h3 className="font-heading font-bold text-lg text-text-primary mb-2 group-hover:text-amber-600 transition-colors">
+                      {p.title}
+                    </h3>
+                  </Link>
+                  <div className="flex items-center gap-1.5 text-text-muted text-sm mb-3">
+                    <MapPin className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{p.location}</span>
+                  </div>
+                  <PropertySpecs bedrooms={p.bedrooms} bathrooms={p.bathrooms} sqft={p.sqft} />
+                  <WhatsAppInquiryButton
+                    title={p.title}
+                    location={p.location}
+                    price={p.priceLabel}
+                  />
+                </div>
+              </div>
+            </ScrollRevealItem>
+          ))}
         </div>
       </div>
     </section>

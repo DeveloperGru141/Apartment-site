@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import Navbar from "@/components/navigation/Navbar"
 import Footer from "@/components/shared/Footer"
 import HeroSearch from "@/components/home/HeroSearch"
+import LocationMarquee from "@/components/home/LocationMarquee"
 import Testimonials from "@/components/home/Testimonials"
 import FeaturedPortfolio from "@/components/home/FeaturedPortfolio"
 import CuratedCategories from "@/components/home/CuratedCategories"
@@ -21,26 +22,27 @@ export default function Home() {
       <ScrollBlurSection>
         <HeroSearch />
       </ScrollBlurSection>
-      <ScrollBlurSection variant="fade">
+      <LocationMarquee />
+      <ScrollBlurSection>
         <Testimonials />
       </ScrollBlurSection>
       <main className="space-y-4">
-        <ScrollBlurSection variant="zoom">
+        <ScrollBlurSection>
           <FeaturedPortfolio />
         </ScrollBlurSection>
-        <ScrollBlurSection variant="fade">
+        <ScrollBlurSection>
           <CuratedCategories />
         </ScrollBlurSection>
-        <ScrollBlurSection variant="parallax">
+        <ScrollBlurSection>
           <NeighborhoodShowcase />
         </ScrollBlurSection>
-        <ScrollBlurSection variant="default">
+        <ScrollBlurSection>
           <ConciergeValueProp />
         </ScrollBlurSection>
-        <ScrollBlurSection variant="zoom">
+        <ScrollBlurSection>
           <TeamSpotlight />
         </ScrollBlurSection>
-        <ScrollBlurSection variant="zoom">
+        <ScrollBlurSection>
           <JournalInsights />
         </ScrollBlurSection>
       </main>

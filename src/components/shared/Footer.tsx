@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp";
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal";
+import { properties } from "@/lib/data/properties";
 
 const propertyTypes = [
   { label: "Apartments", type: "Apartment" },
@@ -11,14 +12,10 @@ const propertyTypes = [
   { label: "Commercial", type: "Commercial" },
 ];
 
-const neighborhoods = [
-  { label: "Ikoyi", name: "Ikoyi" },
-  { label: "Victoria Island", name: "Victoria Island" },
-  { label: "Lekki Phase 1", name: "Lekki Phase 1" },
-  { label: "Banana Island", name: "Banana Island" },
-  { label: "Eko Atlantic City", name: "Eko Atlantic City" },
-  { label: "Ikeja GRA", name: "Ikeja GRA" },
-];
+const neighborhoods = [...new Set(properties.map((p) => p.neighborhood))].map((name) => ({
+  label: name,
+  name,
+}));
 
 const companyLinks = [
   { label: "Agents", href: "/agents" },

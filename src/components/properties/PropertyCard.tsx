@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, BedDouble, Bath, Ruler, MapPin } from "lucide-react"
+import { ChevronLeft, ChevronRight, MapPin } from "lucide-react"
 import type { Property } from "@/lib/data/properties"
 import { agents } from "@/lib/data/agents"
-import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import { useCarousel } from "@/components/properties/use-carousel"
+import PropertySpecs from "@/components/properties/PropertySpecs"
+import WhatsAppInquiryButton from "@/components/properties/WhatsAppInquiryButton"
 
 interface PropertyCardProps {
   property: Property
@@ -13,14 +14,10 @@ interface PropertyCardProps {
 }
 
 export default function PropertyCard({ property, className = "" }: PropertyCardProps) {
-  const [imageIndex, setImageIndex] = useState(0)
+  const { index: imageIndex, go, setIndex: setImageIndex } = useCarousel(property.images.length)
 
   const agent = agents.find((a) => a.id === property.agentId)
   const images = property.images
-
-  function go(dir: 1 | -1) {
-    setImageIndex((prev) => (prev + dir + property.images.length) % property.images.length)
-  }
 
   return (
     <div
@@ -31,7 +28,7 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
           className="relative aspect-[4/3] overflow-hidden"
           style={{ viewTransitionName: `listing-img-${property.id}`, contain: "layout" }}
         >
-          {property.images.length > 1 && (
+          {images.length > 1 && (
             <>
               <button
                 type="button"
@@ -70,9 +67,9 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
             </div>
           ))}
 
-          {property.images.length > 1 && (
+          {images.length > 1 && (
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-              {property.images.map((_, i) => (
+              {images.map((_, i) => (
                 <button
                   key={i}
                   type="button"
@@ -100,53 +97,28 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
         </div>
 
         <div className="p-5">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <h3 className="font-heading font-bold text-lg text-text-primary group-hover:text-accent transition-colors line-clamp-1">
-              {property.title}
-            </h3>
-          </div>
+          <h3 className="font-heading font-bold text-lg text-text-primary mb-2 group-hover:text-accent transition-colors line-clamp-1">
+            {property.title}
+          </h3>
           <div className="flex items-center gap-1.5 text-text-muted text-sm mb-3">
             <MapPin className="w-4 h-4 shrink-0" />
             <span className="truncate">{property.location}</span>
           </div>
-          <div className="flex items-center gap-4 text-sm text-text-muted mb-4">
-            {property.bedrooms > 0 && (
-              <span className="flex items-center gap-1.5">
-                <BedDouble className="w-4 h-4 text-amber-500" /> {property.bedrooms} Beds
-              </span>
-            )}
-            {property.bathrooms > 0 && (
-              <span className="flex items-center gap-1.5">
-                <Bath className="w-4 h-4 text-amber-500" /> {property.bathrooms} Baths
-              </span>
-            )}
-            <span className="flex items-center gap-1.5">
-              <Ruler className="w-4 h-4 text-amber-500" /> {property.sqft.toLocaleString()} sqft
-            </span>
-          </div>
+          <PropertySpecs bedrooms={property.bedrooms} bathrooms={property.bathrooms} sqft={property.sqft} />
           <p className="font-heading font-extrabold text-xl text-text-primary mb-2">
             {property.priceLabel}
           </p>
-          {agent && (
-            <p className="text-xs text-text-muted mb-4">Listed by {agent.name}</p>
-          )}
+          {agent && <p className="text-xs text-text-muted mb-4">Listed by {agent.name}</p>}
         </div>
       </Link>
 
       <div className="px-5 pb-5">
-        <a
-          href={getWhatsAppInquiryLink({
-            title: property.title,
-            location: property.location,
-            price: property.priceLabel,
-            agentWhatsapp: agent?.whatsapp,
-          })}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="shine-sweep block w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs tracking-wider uppercase rounded-lg py-2.5 font-semibold transition-colors"
-        >
-          Inquire via WhatsApp
-        </a>
+        <WhatsAppInquiryButton
+          title={property.title}
+          location={property.location}
+          price={property.priceLabel}
+          agentWhatsapp={agent?.whatsapp}
+        />
       </div>
     </div>
   )

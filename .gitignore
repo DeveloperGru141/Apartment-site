@@ -35,8 +35,6 @@ next-env.d.ts
 
 # dev logs
 dev-*.log
-
-supabase/.temp/
+dev.log
 
 .AGENTS.md
-dev.log

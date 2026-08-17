@@ -63,18 +63,16 @@ function AnimatedStat({ value, label }: { value: string; label: string }) {
   const inView = useInView(ref, { once: true, margin: "-40px" })
   const reduced = useReducedMotion()
   const parsed = useMemo(() => parseStat(value), [value])
-  const [display, setDisplay] = useState(() => (reduced ? parsed.format(parsed.target) : parsed.format(0)))
+  const [progress, setProgress] = useState(0)
+
+  const display = reduced ? parsed.format(parsed.target) : parsed.format(progress)
 
   useEffect(() => {
-    if (!inView) return
-    if (reduced) {
-      setDisplay(parsed.format(parsed.target))
-      return
-    }
+    if (!inView || reduced) return
     const controls = animate(0, parsed.target, {
       duration: 1.8,
       ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setDisplay(parsed.format(v)),
+      onUpdate: (v) => setProgress(v),
     })
     return () => controls.stop()
   }, [inView, reduced, parsed])
@@ -106,6 +104,7 @@ export default function ConciergeValueProp() {
 
           <div className="relative md:w-1/2">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[3/3.4]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={LAGOS_IMAGES.concierge.lobby}
                 alt="HORIZON Private Concierge Lobby"

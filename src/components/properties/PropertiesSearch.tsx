@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useMemo, useState, Suspense } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { SlidersHorizontal, X, Search } from "lucide-react"
@@ -20,7 +20,7 @@ const PRICE_BUCKETS = [
 
 const BEDROOM_OPTIONS = ["Any", "1+", "2+", "3+", "4+", "5+"]
 
-const NEIGHBORHOODS = ["Ikoyi", "Victoria Island", "Lekki Phase 1", "Eko Atlantic City", "Banana Island", "Ikeja GRA"]
+const NEIGHBORHOODS = [...new Set(properties.map((p) => p.neighborhood))]
 
 const PAGE_SIZE = 12
 
@@ -49,7 +49,7 @@ function applyFilters(params: URLSearchParams): typeof properties {
     const filters: Record<string, (p: Property) => boolean> = {
       rental: (p) => p.status === "For Rent",
       "off-plan": (p) => p.status === "Off-Plan",
-      commercial: (p) => p.propertyType === "Commercial" || p.propertyType === "Mixed-Use Land",
+      commercial: (p) => p.propertyType === "Commercial",
       land: (p) => p.status === "Land",
       resale: (p) => p.status === "For Sale",
     }
@@ -372,9 +372,5 @@ function Filter() {
 }
 
 export default function PropertiesPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen" />}>
-      <Filter />
-    </Suspense>
-  )
+  return <Filter />
 }

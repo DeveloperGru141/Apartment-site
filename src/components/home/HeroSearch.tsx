@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, MapPin, Building, ChevronDown, Sparkles } from "lucide-react"
 import { LAGOS_IMAGES } from "@/lib/images"
+import { properties } from "@/lib/data/properties"
+
+const NEIGHBORHOODS = [...new Set(properties.map((p) => p.neighborhood))]
 
 const HERO_SLIDES = [
   {
@@ -58,6 +61,7 @@ export default function HeroSearch() {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="absolute inset-0 z-0 pointer-events-none select-none"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={HERO_SLIDES[currentSlide].image}
             alt="Lagos Luxury Real Estate"
@@ -143,12 +147,10 @@ export default function HeroSearch() {
                 onChange={(e) => setSelectedNeighborhood(e.target.value)}
                 className="w-full bg-slate-950/80 border border-slate-800 text-white text-xs pl-10 pr-8 py-3.5 focus:outline-none focus:border-amber-400 appearance-none"
               >
-                <option value="">All Locations (Ikoyi, VI, Lekki)</option>
-                <option value="Ikoyi">Ikoyi (Bourdillon & Alexander)</option>
-                <option value="Banana Island">Banana Island</option>
-                <option value="Victoria Island">Victoria Island</option>
-                <option value="Lekki Phase 1">Lekki Phase 1</option>
-                <option value="Eko Atlantic">Eko Atlantic City</option>
+                <option value="">All Locations</option>
+                {NEIGHBORHOODS.map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
               </select>
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
             </div>

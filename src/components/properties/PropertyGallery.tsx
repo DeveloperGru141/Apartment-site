@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useCarousel } from "@/components/properties/use-carousel"
 
 interface PropertyGalleryProps {
   images: string[]
@@ -11,11 +11,7 @@ interface PropertyGalleryProps {
 }
 
 export default function PropertyGallery({ images, title, propertyId }: PropertyGalleryProps) {
-  const [index, setIndex] = useState(0)
-
-  function go(dir: 1 | -1) {
-    setIndex((prev) => (prev + dir + images.length) % images.length)
-  }
+  const { index, go, setIndex } = useCarousel(images.length)
 
   return (
     <div>
@@ -32,7 +28,7 @@ export default function PropertyGallery({ images, title, propertyId }: PropertyG
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover animate-zoom-in"
           />
         </AnimatePresence>
 

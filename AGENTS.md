@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Architecture
 
-This repository contains the **HORIZON** luxury apartment rental platform. Built with **Next.js 16 (App Router)**, **TypeScript 5.7+**, **Tailwind CSS v4**, and **Supabase**.
+This repository contains the **HORIZON** luxury apartment rental platform. Built with **Next.js 16 (App Router)**, **TypeScript 5.7+**, and **Tailwind CSS v4**.
 
 All automated agents and execution flows MUST maintain strict adherence to Next.js App Router patterns, atomic component structure, strict type safety, and fluid View Transitions.
 
@@ -10,7 +10,7 @@ All automated agents and execution flows MUST maintain strict adherence to Next.
 - **Framework:** Next.js 16.x (App Router, Turbopack)
 - **Language:** TypeScript 5.7.x
 - **Styling:** Tailwind CSS v4 (`@theme` variables in `src/app/globals.css`)
-- **Database / Auth:** Supabase (`@supabase/ssr`)
+- **Content / Data:** Static seed data in `src/lib/data/` (marketing-only frontend — no database or auth layer)
 - **Transitions:** Native View Transitions API via custom `ViewTransition` provider (`src/components/view-transition.tsx`)
 - **Path Alias:** `@/*` maps directly to `src/*`
 
@@ -36,20 +36,15 @@ All automated agents and execution flows MUST maintain strict adherence to Next.
 - DO NOT invent arbitrary hex values inline if standard theme tokens exist in `globals.css`.
 
 ### C. Component & Data Architecture
-- Place shared layout primitives in `src/components/shared/` and section-specific modules in `src/components/landing/`.
-- Keep centralized constants in `src/lib/constants.ts` (e.g., `PUBLIC_ROUTES`, `UUID_RE`).
+- Place shared layout primitives in `src/components/shared/`, navigation in `src/components/navigation/`, home sections in `src/components/home/`, and listing sections in `src/components/properties/`.
+- Edition of record for all content (properties, agents, testimonials, journal): `src/lib/data/`. Images must come from the validated pool in `src/lib/images.ts` (`LAGOS_IMAGES`) — do not introduce unvalidated image URLs.
 - Default to React Server Components (RSC). Apply `'use client'` strictly to interactive leaf components (stateful filters, drawers, interactive cards).
+- Client components that read search params (`useSearchParams`) MUST be wrapped in a `<Suspense>` boundary at their render site (layout or page), or static prerendering of that route fails.
 
-### D. Supabase Integration & Auth
-- **Server client:** `src/lib/supabase/server.ts` — uses `getAll`/`setAll` cookie methods with optional `NextResponse` fallback for Route Handlers.
-- **Browser client:** `src/lib/supabase/browser.ts` — uses `createBrowserClient`.
-- **Auth context:** `src/lib/auth/AuthProvider.tsx` provides `user`, `isLoading`, `signOut`, `handleLogout`, `fetchWithAuth`.
-  - `handleLogout` calls `signOut()` then `window.location.replace("/login?error=session_expired")`.
-  - `fetchWithAuth` intercepts 401 responses and redirects to login.
-- **Route protection:** `src/proxy.ts` (Next.js 16 `proxy` convention, not `middleware.ts`). Uses `isPublicRoute`/`isAuthRoute` from `constants.ts`.
-  - Matcher excludes `/api/`, `/_next/`, images.
-- **API auth:** Use `requireAuth()` from `@/lib/auth/server` in Route Handlers. Returns the user or throws 401.
-- **Cookie note:** In Route Handlers ALWAYS pass a `NextResponse` to `createClient(response)` so `setAll` can fall back to `response.cookies.set()`.
+### D. Routing & Navigation
+- All internal navigation uses `next/link`. Programmatic navigation uses `useRouter` (`router.push` / `router.replace(..., { scroll: false })` for filter updates). No `window.location` for internal navigation.
+- `Navbar` highlights the active route via `usePathname` + `useSearchParams` (the four property links resolve by the `status` query param; the property categories are Rentals `/properties?status=For Rent`, Sales/For Sale, Off-Plan, Land).
+- There is no auth layer, no `proxy.ts`/middleware, and no `pages/` directory — the site is a fully server-rendered marketing frontend.
 
 ### E. TypeScript
 - Explicitly type all component props, API parameters, and database query results.
@@ -61,9 +56,9 @@ All automated agents and execution flows MUST maintain strict adherence to Next.
 
 - ❌ DO NOT import from `next/link` — use standard `<a>` tags or Next.js `<Link>` as needed (import from `next/link` is allowed in this project).
 - ❌ DO NOT use the legacy Next.js Pages Router (`pages/` directory).
-- ❌ DO NOT expose Supabase Service Keys or sensitive environment variables in client-side components.
-- ❌ DO NOT add mock/fake data for features that have real API endpoints (e.g., favorites, listings).
+- ❌ DO NOT add editing layer: content belongs in `src/lib/data/`. Do not introduce API routes, database clients, or auth for content that already exists as seed data.
 - ❌ DO NOT remove the `ViewTransition` wrapper from the root layout.
+- ❌ DO NOT add new external image domains to `next.config.ts` without validating the URLs return HTTP 200.
 
 ---
 
@@ -87,5 +82,5 @@ Before declaring any task complete, verify:
 - [ ] Tailwind utility classes reference existing design tokens (`bg-bg-primary`, `font-heading`, etc.).
 - [ ] Mobile and desktop responsiveness adhere to project breakpoints (`sm:`, `md:`, `lg:`).
 - [ ] No dead code, commented-out code, or console.log statements remain.
-- [ ] Auth flow works: login → dashboard renders, middleware does not redirect back to login.
+- [ ] Data in `src/lib/data/` stays internally consistent (unique IDs, filter values match `PropertyCategory`/`status` unions).
 - [ ] Changes are committed with a descriptive message.

@@ -195,7 +195,7 @@ npm run build
 ```
 
 ### Environment Variables
-No environment variables required for the landing page. Backend integration (Supabase, Stripe) will be configured separately.
+Only `NEXT_PUBLIC_APP_URL` (the deployed origin) is used; all content is static seed data with no database or auth layer.
 
 ## 📱 Responsive Breakpoints
 
@@ -273,11 +273,6 @@ export default nextConfig;
 ```
 
 ## 📋 Roadmap / Next Steps
-
-- [ ] **Backend Integration**
-  - Supabase: Auth (magic links, OAuth), Database (profiles, listings, leases), Storage
-  - Stripe Connect: Multi-party payments, payouts to landlords
-  - Digital signatures: DocuSign API or open-source alternative
 
 - [ ] **Dashboard & App Routes**
   - Tenant dashboard (saved searches, applications, lease management)
