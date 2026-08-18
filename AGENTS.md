@@ -10,7 +10,8 @@ All automated agents and execution flows MUST maintain strict adherence to Next.
 - **Framework:** Next.js 16.x (App Router, Turbopack)
 - **Language:** TypeScript 5.7.x
 - **Styling:** Tailwind CSS v4 (`@theme` variables in `src/app/globals.css`)
-- **Content / Data:** Static seed data in `src/lib/data/` (marketing-only frontend — no database or auth layer)
+- **Content / Data:** Static seed data in `src/lib/data/` (agents, testimonials, journal — the agent roster is code-managed) plus **live seller-submitted properties** in Supabase (Postgres + RLS + storage). The seed `properties.ts` file is the reference/fixture for `scripts/seed-properties.ts` (seed all 28 into the `properties` table).
+- **Auth / Backend:** Supabase (sellers only — buyers browse anonymously). SSR client pair in `src/lib/supabase/` (`client.ts` browser, `server.ts` server), session refresh in `src/proxy.ts` (Next 16 renamed the `middleware` convention to `proxy`).
 - **Transitions:** Native View Transitions API via custom `ViewTransition` provider (`src/components/view-transition.tsx`)
 - **Path Alias:** `@/*` maps directly to `src/*`
 
@@ -37,14 +38,17 @@ All automated agents and execution flows MUST maintain strict adherence to Next.
 
 ### C. Component & Data Architecture
 - Place shared layout primitives in `src/components/shared/`, navigation in `src/components/navigation/`, home sections in `src/components/home/`, and listing sections in `src/components/properties/`.
-- Edition of record for all content (properties, agents, testimonials, journal): `src/lib/data/`. Images must come from the validated pool in `src/lib/images.ts` (`LAGOS_IMAGES`) — do not introduce unvalidated image URLs.
+- Edition of record for agents, testimonials, journal: `src/lib/data/`. Images must come from the validated pool in `src/lib/images.ts` (`LAGOS_IMAGES`) — do not introduce unvalidated image URLs.
+- **Browse-side properties come from Supabase** (the `properties` table, `publish_status = 'live'`), queried via the server client in `src/lib/supabase/server.ts`. Do NOT import `properties` from `src/lib/data/properties.ts` for user-facing rendering — that file is the seed fixture only.
+- Sellers upload images to the `property-images` bucket at path `{seller_id}/{uuid}/{filename}` (RLS folder-scoping depends on this shape).
 - Default to React Server Components (RSC). Apply `'use client'` strictly to interactive leaf components (stateful filters, drawers, interactive cards).
 - Client components that read search params (`useSearchParams`) MUST be wrapped in a `<Suspense>` boundary at their render site (layout or page), or static prerendering of that route fails.
 
 ### D. Routing & Navigation
 - All internal navigation uses `next/link`. Programmatic navigation uses `useRouter` (`router.push` / `router.replace(..., { scroll: false })` for filter updates). No `window.location` for internal navigation.
 - `Navbar` highlights the active route via `usePathname` + `useSearchParams` (the four property links resolve by the `status` query param; the property categories are Rentals `/properties?status=For Rent`, Sales/For Sale, Off-Plan, Land).
-- There is no auth layer, no `proxy.ts`/middleware, and no `pages/` directory — the site is a fully server-rendered marketing frontend.
+- Auth surfaces: `/sell` (marketing), `/auth/sign-up`, `/auth/login`, and the seller dashboard under `/dashboard` (session-checked server-side in `src/app/dashboard/layout.tsx`). Sellers only — buyers never authenticate.
+- `src/proxy.ts` (the Next 16 successor to `middleware.ts`) refreshes the Supabase session cookie on every request; do not remove or duplicate it. No `pages/` directory.
 
 ### E. TypeScript
 - Explicitly type all component props, API parameters, and database query results.
@@ -56,9 +60,11 @@ All automated agents and execution flows MUST maintain strict adherence to Next.
 
 - ❌ DO NOT import from `next/link` — use standard `<a>` tags or Next.js `<Link>` as needed (import from `next/link` is allowed in this project).
 - ❌ DO NOT use the legacy Next.js Pages Router (`pages/` directory).
-- ❌ DO NOT add editing layer: content belongs in `src/lib/data/`. Do not introduce API routes, database clients, or auth for content that already exists as seed data.
+- ❌ DO NOT add an editing layer for curated content (agents, testimonials, journal): it belongs in `src/lib/data/`. Seller-submitted properties DO go to Supabase (that is the product).
+- ❌ DO NOT loosen RLS conventions: every auth-dependent policy is `TO authenticated`, INSERT/UPDATE policies carry `WITH CHECK`, and SECURITY DEFINER helpers pin `search_path` with EXECUTE revoked from PUBLIC/anon.
 - ❌ DO NOT remove the `ViewTransition` wrapper from the root layout.
 - ❌ DO NOT add new external image domains to `next.config.ts` without validating the URLs return HTTP 200.
+- ❌ DO NOT expose `SUPABASE_SERVICE_ROLE_KEY` to the client — server-only (seed scripts, Server Actions).
 
 ---
 

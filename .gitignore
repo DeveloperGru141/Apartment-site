@@ -38,3 +38,6 @@ dev-*.log
 dev.log
 
 .AGENTS.md
+
+# Supabase CLI temp files
+supabase/.temp/
