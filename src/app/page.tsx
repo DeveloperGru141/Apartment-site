@@ -18,8 +18,7 @@ import { getNavbarUser } from "@/lib/navbar-user"
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const properties = await fetchLiveProperties();
-  const user = await getNavbarUser();
+  const [properties, user] = await Promise.all([fetchLiveProperties(), getNavbarUser()]);
 
   return (
     <>

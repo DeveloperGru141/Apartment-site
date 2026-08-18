@@ -6,9 +6,8 @@ export interface NavbarUser {
 
 export async function getNavbarUser(): Promise<NavbarUser | null> {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data } = await supabase.auth.getSession()
+  const user = data.session?.user
 
   if (!user) return null
 

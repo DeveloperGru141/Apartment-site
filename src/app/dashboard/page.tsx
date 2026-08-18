@@ -20,8 +20,10 @@ const PUBLISH_STYLES: Record<string, string> = {
 export default async function DashboardPage() {
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const user = session?.user;
 
   if (!user) return null;
 

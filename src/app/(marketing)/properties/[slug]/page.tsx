@@ -21,13 +21,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const property = await fetchLivePropertyBySlug(slug);
+  const [property, all] = await Promise.all([
+    fetchLivePropertyBySlug(slug),
+    fetchLiveProperties(),
+  ]);
 
   if (!property) notFound();
 
   const agent = agents.find((a) => a.id === property.agentId);
 
-  const all = await fetchLiveProperties();
   const similar = all
     .filter(
       (p) =>

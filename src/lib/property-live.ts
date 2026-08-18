@@ -1,6 +1,7 @@
+import { unstable_cache } from "next/cache"
 import type { Property } from "@/lib/data/properties"
 import type { Database } from "@/types/database.types"
-import { createClient } from "@/lib/supabase/server"
+import { createAnonClient } from "@/lib/supabase/anon"
 
 type PropertyRow = Database["public"]["Tables"]["properties"]["Row"]
 
@@ -27,19 +28,19 @@ export function mapPropertyRow(row: PropertyRow): Property {
   }
 }
 
-export async function fetchLiveProperties(): Promise<Property[]> {
-  const supabase = await createClient()
+async function queryLiveProperties(): Promise<PropertyRow[]> {
+  const supabase = createAnonClient()
   const { data } = await supabase
     .from("properties")
     .select("*")
     .eq("publish_status", "live")
     .order("created_at", { ascending: false })
 
-  return (data ?? []).map(mapPropertyRow)
+  return data ?? []
 }
 
-export async function fetchLivePropertyBySlug(slug: string): Promise<Property | null> {
-  const supabase = await createClient()
+async function queryLivePropertyBySlug(slug: string): Promise<PropertyRow | null> {
+  const supabase = createAnonClient()
   const { data } = await supabase
     .from("properties")
     .select("*")
@@ -47,5 +48,29 @@ export async function fetchLivePropertyBySlug(slug: string): Promise<Property | 
     .eq("publish_status", "live")
     .maybeSingle()
 
-  return data ? mapPropertyRow(data) : null
+  return data ?? null
+}
+
+const fetchCachedLiveProperties = unstable_cache(queryLiveProperties, ["live-properties"], {
+  tags: ["properties"],
+  revalidate: 60,
+})
+
+const fetchCachedLivePropertyBySlug = unstable_cache(
+  (slug: string) => queryLivePropertyBySlug(slug),
+  ["live-property-by-slug"],
+  {
+    tags: ["properties"],
+    revalidate: 60,
+  }
+)
+
+export async function fetchLiveProperties(): Promise<Property[]> {
+  const rows = await fetchCachedLiveProperties()
+  return rows.map(mapPropertyRow)
+}
+
+export async function fetchLivePropertyBySlug(slug: string): Promise<Property | null> {
+  const row = await fetchCachedLivePropertyBySlug(slug)
+  return row ? mapPropertyRow(row) : null
 }

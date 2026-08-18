@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, updateTag } from "next/cache"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { deriveCategory, uniqueSlug } from "@/lib/listing-utils"
@@ -108,6 +108,7 @@ export async function saveListing(formData: FormData) {
   revalidatePath("/dashboard")
   revalidatePath("/properties")
   revalidatePath("/", "layout")
+  updateTag("properties")
   redirect("/dashboard")
 }
 
@@ -119,6 +120,8 @@ export async function archiveListing(formData: FormData) {
   await supabase.from("properties").update({ publish_status: "archived" }).eq("id", id)
 
   revalidatePath("/dashboard")
+  revalidatePath("/properties")
+  updateTag("properties")
 }
 
 export async function deleteListing(formData: FormData) {
@@ -129,6 +132,8 @@ export async function deleteListing(formData: FormData) {
   await supabase.from("properties").delete().eq("id", id)
 
   revalidatePath("/dashboard")
+  revalidatePath("/properties")
+  updateTag("properties")
 }
 
 export async function unarchiveListing(formData: FormData) {
@@ -139,5 +144,7 @@ export async function unarchiveListing(formData: FormData) {
   await supabase.from("properties").update({ publish_status: "live" }).eq("id", id)
 
   revalidatePath("/dashboard")
+  revalidatePath("/properties")
+  updateTag("properties")
   redirect("/dashboard")
 }
