@@ -13,6 +13,9 @@ export type PropertyType =
   | "Semi-Detached"
   | "Detached Bungalow"
   | "Residential Land"
+  | "Commercial Land"
+  | "Industrial Land"
+  | "Mixed-Use Land"
   | "Commercial"
 
 export type PropertyCategory = "rental" | "off-plan" | "commercial" | "land" | "resale"
@@ -50,6 +53,9 @@ export const PROPERTY_TYPES: PropertyType[] = [
   "Semi-Detached",
   "Detached Bungalow",
   "Residential Land",
+  "Commercial Land",
+  "Industrial Land",
+  "Mixed-Use Land",
   "Commercial",
 ]
 

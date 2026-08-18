@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { agents } from "@/lib/data/agents";
-import { properties } from "@/lib/data/properties";
+import { fetchLiveProperties } from "@/lib/property-live";
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal";
 
 export const metadata: Metadata = {
@@ -11,7 +11,11 @@ export const metadata: Metadata = {
     "Meet the HORIZON Lagos team: specialist sales, leasing, off-plan, and land advisory executives covering the island and mainland.",
 };
 
-export default function AgentsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AgentsPage() {
+  const properties = await fetchLiveProperties();
+
   return (
     <section className="py-16 md:py-24 bg-bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

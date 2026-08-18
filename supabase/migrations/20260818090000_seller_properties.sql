@@ -181,11 +181,12 @@ SET search_path TO 'public'
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, full_name, role)
+  INSERT INTO public.profiles (id, email, full_name, phone, role)
   VALUES (
     NEW.id,
     NEW.email,
     NEW.raw_user_meta_data ->> 'full_name',
+    NEW.raw_user_meta_data ->> 'phone',
     COALESCE(
       (NEW.raw_user_meta_data ->> 'role')::user_role,
       'seller'::user_role

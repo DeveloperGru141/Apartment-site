@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import PropertiesSearch from "@/components/properties/PropertiesSearch";
+import { fetchLiveProperties } from "@/lib/property-live";
 
 export const metadata: Metadata = {
   title: "Properties — HORIZON Lagos",
@@ -8,10 +9,14 @@ export const metadata: Metadata = {
     "Browse the HORIZON portfolio: prime apartments, penthouses, maisonettes, commercial spaces, and land across Ikoyi, Victoria Island, Lekki, and Eko Atlantic.",
 };
 
-export default function PropertiesPage() {
+export const dynamic = "force-dynamic";
+
+export default async function PropertiesPage() {
+  const properties = await fetchLiveProperties();
+
   return (
     <Suspense fallback={<div className="min-h-screen bg-bg-primary" />}>
-      <PropertiesSearch />
+      <PropertiesSearch properties={properties} />
     </Suspense>
   );
 }

@@ -3,12 +3,12 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { agents } from "@/lib/data/agents"
-import { properties } from "@/lib/data/properties"
+import type { Property } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 
 const FEATURED_AGENT_IDS = ["agent-adaeze", "agent-tunde", "agent-ngozi", "agent-femi", "agent-hadiza"]
 
-export default function TeamSpotlight() {
+export default function TeamSpotlight({ properties }: { properties: Property[] }) {
   const featured = agents.filter((a) => FEATURED_AGENT_IDS.includes(a.id))
 
   return (

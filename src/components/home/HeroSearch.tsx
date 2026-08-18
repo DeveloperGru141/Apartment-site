@@ -4,10 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, MapPin, Building, ChevronDown, Sparkles } from "lucide-react"
-import { LAGOS_IMAGES } from "@/lib/images"
-import { properties } from "@/lib/data/properties"
-
-const NEIGHBORHOODS = [...new Set(properties.map((p) => p.neighborhood))]
+import { LAGOS_IMAGES, NEIGHBORHOODS } from "@/lib/images"
 
 const HERO_SLIDES = [
   {

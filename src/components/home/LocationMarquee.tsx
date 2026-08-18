@@ -1,9 +1,7 @@
-import { properties } from "@/lib/data/properties"
-
-const neighborhoods = [...new Set(properties.map((p) => p.neighborhood))]
+import { NEIGHBORHOODS } from "@/lib/images"
 
 export default function LocationMarquee() {
-  const items = [...neighborhoods, ...neighborhoods]
+  const items = [...NEIGHBORHOODS, ...NEIGHBORHOODS]
   return (
     <div className="overflow-hidden border-y border-gray-100 bg-bg-alt py-4">
       <div className="animate-scroll flex w-max items-center">

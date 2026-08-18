@@ -4,7 +4,7 @@ import Link from "next/link"
 import { LAGOS_IMAGES } from "@/lib/images"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
-import { properties } from "@/lib/data/properties"
+import type { Property } from "@/lib/data/properties"
 
 const categories = [
   {
@@ -41,7 +41,7 @@ const categories = [
   },
 ]
 
-export default function CuratedCategories() {
+export default function CuratedCategories({ properties }: { properties: Property[] }) {
   return (
     <section className="py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { Phone, Menu, X } from "lucide-react"
+import { Phone, Menu, X, LayoutDashboard, LogOut } from "lucide-react"
 import { useReducedMotion } from "framer-motion"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import { signOut } from "@/app/auth/actions"
 
 const NAV_LINKS = [
   { label: "Rentals", href: "/properties?status=For Rent", match: "/properties", status: "For Rent" },
@@ -14,9 +15,10 @@ const NAV_LINKS = [
   { label: "Land", href: "/properties?status=Land", match: "/properties", status: "Land" },
   { label: "Agents", href: "/agents", match: "/agents" },
   { label: "Journal", href: "/journal", match: "/journal" },
+  { label: "List Your Property", href: "/sell", match: "/sell" },
 ]
 
-export default function Navbar() {
+export default function Navbar({ user }: { user: { name: string } | null }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const reduced = useReducedMotion()
@@ -79,14 +81,33 @@ export default function Navbar() {
               <Phone className="w-3.5 h-3.5" />
               Concierge
             </a>
-            <a
-              href={getWhatsAppInquiryLink({ title: "General Viewing Request" })}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shine-sweep bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded-none transition-colors"
-            >
-              Book Viewing
-            </a>
+            {user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-200 hover:text-amber-400 transition-colors"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5" />
+                  {user.name}
+                </Link>
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-amber-400 transition-colors"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    Sign Out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-200 hover:text-amber-400 transition-colors"
+              >
+                Log In
+              </Link>
+            )}
           </div>
 
           <button
@@ -144,14 +165,33 @@ export default function Navbar() {
               >
                 <Phone className="w-4 h-4" /> Concierge
               </a>
-              <a
-                href={getWhatsAppInquiryLink({ title: "General Viewing Request" })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shine-sweep text-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-sm uppercase tracking-wider px-4 py-3 transition-colors"
-              >
-                Book Viewing
-              </a>
+              {user ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-center gap-2 text-sm uppercase tracking-widest text-slate-200 px-4 py-3 transition-colors"
+                  >
+                    <LayoutDashboard className="w-4 h-4" /> {user.name}
+                  </Link>
+                  <form action={signOut}>
+                    <button
+                      type="submit"
+                      className="flex items-center justify-center gap-2 text-sm uppercase tracking-widest text-slate-400 hover:text-amber-400 px-4 py-3 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <Link
+                  href="/auth/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-center text-sm uppercase tracking-widest text-slate-200 hover:text-amber-400 px-4 py-3 transition-colors"
+                >
+                  Log In
+                </Link>
+              )}
             </div>
           </div>
         </div>

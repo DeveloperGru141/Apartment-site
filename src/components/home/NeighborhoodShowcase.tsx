@@ -5,19 +5,19 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Home, MapPin } from "lucide-react"
 import { LAGOS_IMAGES } from "@/lib/images"
-import { properties } from "@/lib/data/properties"
+import type { Property } from "@/lib/data/properties"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 
-const neighborhoods = Object.entries(LAGOS_IMAGES.neighborhoods).map(([key, val]) => ({
-  slug: key.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, ""),
-  name: val.title,
-  description: val.sub,
-  image: val.image,
-  count: properties.filter((p) => p.neighborhood === val.title).length,
-}))
+export default function NeighborhoodShowcase({ properties }: { properties: Property[] }) {
+  const neighborhoods = Object.entries(LAGOS_IMAGES.neighborhoods).map(([key, val]) => ({
+    slug: key.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, ""),
+    name: val.title,
+    description: val.sub,
+    image: val.image,
+    count: properties.filter((p) => p.neighborhood === val.title).length,
+  }))
 
-export default function NeighborhoodShowcase() {
   const [active, setActive] = useState(0)
 
   const current = neighborhoods[active]

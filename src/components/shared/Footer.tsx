@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp";
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal";
-import { properties } from "@/lib/data/properties";
+import { NEIGHBORHOODS } from "@/lib/images";
 
 const propertyTypes = [
   { label: "Apartments", type: "Apartment" },
@@ -12,7 +12,7 @@ const propertyTypes = [
   { label: "Commercial", type: "Commercial" },
 ];
 
-const neighborhoods = [...new Set(properties.map((p) => p.neighborhood))].map((name) => ({
+const neighborhoods = NEIGHBORHOODS.map((name) => ({
   label: name,
   name,
 }));

@@ -4,17 +4,15 @@ import { notFound } from "next/navigation";
 import { BedDouble, Bath, Ruler, MapPin, Building2 } from "lucide-react";
 import PropertyGallery from "@/components/properties/PropertyGallery";
 import PropertyCard from "@/components/properties/PropertyCard";
-import { properties } from "@/lib/data/properties";
+import { fetchLivePropertyBySlug, fetchLiveProperties } from "@/lib/property-live";
 import { agents } from "@/lib/data/agents";
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp";
 
-export function generateStaticParams() {
-  return properties.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const property = properties.find((p) => p.slug === slug);
+  const property = await fetchLivePropertyBySlug(slug);
   return {
     title: property ? `${property.title} — HORIZON Lagos` : "Property — HORIZON Lagos",
     description: property?.description,
@@ -23,13 +21,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const property = properties.find((p) => p.slug === slug);
+  const property = await fetchLivePropertyBySlug(slug);
 
   if (!property) notFound();
 
   const agent = agents.find((a) => a.id === property.agentId);
 
-  const similar = properties
+  const all = await fetchLiveProperties();
+  const similar = all
     .filter(
       (p) =>
         p.slug !== property.slug &&

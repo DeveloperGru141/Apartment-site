@@ -4,13 +4,11 @@ import { notFound } from "next/navigation";
 import { MessageSquare, Mail } from "lucide-react";
 import PropertyCard from "@/components/properties/PropertyCard";
 import { agents } from "@/lib/data/agents";
-import { properties } from "@/lib/data/properties";
+import { fetchLiveProperties } from "@/lib/property-live";
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp";
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal";
 
-export function generateStaticParams() {
-  return agents.map((a) => ({ slug: a.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -27,7 +25,8 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
 
   if (!agent) notFound();
 
-  const listings = properties.filter((p) => p.agentId === agent.id);
+  const all = await fetchLiveProperties();
+  const listings = all.filter((p) => p.agentId === agent.id);
 
   return (
     <section className="py-16 md:py-24 bg-bg-primary">

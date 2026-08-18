@@ -12,12 +12,19 @@ import TeamSpotlight from "@/components/home/TeamSpotlight"
 import JournalInsights from "@/components/home/JournalInsights"
 import FloatingConcierge from "@/components/shared/FloatingConcierge"
 import { ScrollBlurSection } from "@/components/shared/ScrollBlurSection"
+import { fetchLiveProperties } from "@/lib/property-live"
+import { getNavbarUser } from "@/lib/navbar-user"
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const properties = await fetchLiveProperties();
+  const user = await getNavbarUser();
+
   return (
     <>
       <Suspense>
-        <Navbar />
+        <Navbar user={user} />
       </Suspense>
       <ScrollBlurSection>
         <HeroSearch />
@@ -28,19 +35,19 @@ export default function Home() {
       </ScrollBlurSection>
       <main className="space-y-4">
         <ScrollBlurSection>
-          <FeaturedPortfolio />
+          <FeaturedPortfolio properties={properties} />
         </ScrollBlurSection>
         <ScrollBlurSection>
-          <CuratedCategories />
+          <CuratedCategories properties={properties} />
         </ScrollBlurSection>
         <ScrollBlurSection>
-          <NeighborhoodShowcase />
+          <NeighborhoodShowcase properties={properties} />
         </ScrollBlurSection>
         <ScrollBlurSection>
           <ConciergeValueProp />
         </ScrollBlurSection>
         <ScrollBlurSection>
-          <TeamSpotlight />
+          <TeamSpotlight properties={properties} />
         </ScrollBlurSection>
         <ScrollBlurSection>
           <JournalInsights />

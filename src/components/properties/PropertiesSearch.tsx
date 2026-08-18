@@ -6,8 +6,9 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { SlidersHorizontal, X, Search } from "lucide-react"
 import PropertyCard from "@/components/properties/PropertyCard"
 import type { Property } from "@/lib/data/properties"
-import { properties, LISTING_STATUSES, PROPERTY_TYPES } from "@/lib/data/properties"
+import { LISTING_STATUSES, PROPERTY_TYPES } from "@/lib/data/properties"
 import { agents } from "@/lib/data/agents"
+import { NEIGHBORHOODS } from "@/lib/images"
 
 const PRICE_BUCKETS = [
   { label: "Any price", value: "" },
@@ -20,11 +21,9 @@ const PRICE_BUCKETS = [
 
 const BEDROOM_OPTIONS = ["Any", "1+", "2+", "3+", "4+", "5+"]
 
-const NEIGHBORHOODS = [...new Set(properties.map((p) => p.neighborhood))]
-
 const PAGE_SIZE = 12
 
-function applyFilters(params: URLSearchParams): typeof properties {
+function applyFilters(params: URLSearchParams, properties: Property[]): Property[] {
   let list = properties
 
   const q = params.get("q")?.trim().toLowerCase()
@@ -80,7 +79,7 @@ function applyFilters(params: URLSearchParams): typeof properties {
   return list
 }
 
-function Filter() {
+function Filter({ properties }: { properties: Property[] }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const reduced = useReducedMotion()
@@ -89,7 +88,7 @@ function Filter() {
 
   const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams])
 
-  const results = useMemo(() => applyFilters(params), [params])
+  const results = useMemo(() => applyFilters(params, properties), [params, properties])
 
   const visibleResults = results.slice(0, visible)
 
@@ -371,6 +370,6 @@ function Filter() {
   )
 }
 
-export default function PropertiesPage() {
-  return <Filter />
+export default function PropertiesSearch({ properties }: { properties: Property[] }) {
+  return <Filter properties={properties} />
 }

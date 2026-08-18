@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { MapPin } from "lucide-react"
-import { properties, LISTING_STATUSES, type ListingStatus } from "@/lib/data/properties"
+import { LISTING_STATUSES, type ListingStatus, type Property } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 import PropertySpecs from "@/components/properties/PropertySpecs"
@@ -12,7 +12,7 @@ import WhatsAppInquiryButton from "@/components/properties/WhatsAppInquiryButton
 
 const filters: Array<"All" | ListingStatus> = ["All", ...LISTING_STATUSES]
 
-export default function FeaturedPortfolio() {
+export default function FeaturedPortfolio({ properties }: { properties: Property[] }) {
   const [activeFilter, setActiveFilter] = useState<"All" | ListingStatus>("All")
 
   const featured = properties.filter((p) => p.featured)

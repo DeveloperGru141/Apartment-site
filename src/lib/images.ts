@@ -52,3 +52,5 @@ export const LAGOS_IMAGES = {
     commercial: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80',
   },
 }
+
+export const NEIGHBORHOODS: string[] = Object.values(LAGOS_IMAGES.neighborhoods).map((n) => n.title)
