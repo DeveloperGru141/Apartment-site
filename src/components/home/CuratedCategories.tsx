@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { LAGOS_IMAGES } from "@/lib/images"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
@@ -54,14 +53,11 @@ export default function CuratedCategories({ properties }: { properties: Property
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:auto-rows-fr">
-          {categories.map(({ label, description, param, value, image, className }, i) => {
+          {categories.map(({ label, description, value, image, className }, i) => {
             const count = properties.filter((p) => p.propertyType === value || (value === "Detached Duplex" && p.propertyType === "Maisonette")).length
             return (
               <ScrollRevealItem key={label} index={i} variant="unblur" className={className}>
-                <Link
-                  href={`/properties?${param}=${encodeURIComponent(value)}`}
-                  className="group absolute inset-0 block overflow-hidden rounded-2xl border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-                >
+                <div className="group relative h-full w-full overflow-hidden rounded-2xl border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
                   <div className="absolute inset-0 overflow-hidden">
                     <ImageWithShimmer
                       src={image}
@@ -81,7 +77,7 @@ export default function CuratedCategories({ properties }: { properties: Property
                       {count} {count === 1 ? "listing" : "listings"}
                     </p>
                   </div>
-                </Link>
+                </div>
               </ScrollRevealItem>
             )
           })}

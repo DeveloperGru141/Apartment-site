@@ -1,33 +1,23 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
-import { Phone, Menu, X, LayoutDashboard, LogOut } from "lucide-react"
+import { Phone, Menu, X } from "lucide-react"
 import { useReducedMotion } from "framer-motion"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
-import { signOut } from "@/app/auth/actions"
 
 const NAV_LINKS = [
-  { label: "Rentals", href: "/properties?status=For Rent", match: "/properties", status: "For Rent" },
-  { label: "Sales", href: "/properties?status=For Sale", match: "/properties", status: "For Sale" },
-  { label: "Agents", href: "/agents", match: "/agents" },
-  { label: "Journal", href: "/journal", match: "/journal" },
-  { label: "List Your Property", href: "/sell", match: "/sell" },
+  { label: "Home", href: "#top" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Neighborhoods", href: "#neighborhoods" },
+  { label: "Concierge", href: "#concierge" },
+  { label: "Team", href: "#team" },
+  { label: "Journal", href: "#journal" },
 ]
 
-export default function Navbar({ user }: { user: { name: string } | null }) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const reduced = useReducedMotion()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  const isActive = (link: (typeof NAV_LINKS)[number]) => {
-    if (pathname !== link.match && !pathname.startsWith(`${link.match}/`)) return false
-    if (link.status) return searchParams.get("status") === link.status
-    return true
-  }
 
   useEffect(() => {
     if (reduced) return
@@ -51,21 +41,15 @@ export default function Navbar({ user }: { user: { name: string } | null }) {
         style={reduced ? undefined : { height: scrolled ? "4rem" : "5rem" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
+          <a href="#top" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
             <span className="font-heading font-extrabold tracking-[0.3em] text-lg">HORIZON</span>
-          </Link>
+          </a>
 
           <nav className="hidden lg:flex items-center gap-7 text-sm font-medium tracking-wide uppercase text-slate-300">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={`transition-colors ${
-                  isActive(link) ? "text-amber-400" : "hover:text-amber-400"
-                }`}
-              >
+              <a key={link.label} href={link.href} className="transition-colors hover:text-amber-400">
                 {link.label}
-              </Link>
+              </a>
             ))}
           </nav>
 
@@ -79,33 +63,6 @@ export default function Navbar({ user }: { user: { name: string } | null }) {
               <Phone className="w-3.5 h-3.5" />
               Concierge
             </a>
-            {user ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-200 hover:text-amber-400 transition-colors"
-                >
-                  <LayoutDashboard className="w-3.5 h-3.5" />
-                  {user.name}
-                </Link>
-                <form action={signOut}>
-                  <button
-                    type="submit"
-                    className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-amber-400 transition-colors"
-                  >
-                    <LogOut className="w-3.5 h-3.5" />
-                    Sign Out
-                  </button>
-                </form>
-              </>
-            ) : (
-              <Link
-                href="/auth/login"
-                className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-200 hover:text-amber-400 transition-colors"
-              >
-                Log In
-              </Link>
-            )}
           </div>
 
           <button
@@ -141,16 +98,14 @@ export default function Navbar({ user }: { user: { name: string } | null }) {
 
             <nav className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
-                <Link
+                <a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`py-3 text-base font-medium uppercase tracking-wider transition-colors ${
-                    isActive(link) ? "text-amber-400" : "text-slate-200 hover:text-amber-400"
-                  }`}
+                  className="py-3 text-base font-medium uppercase tracking-wider transition-colors text-slate-200 hover:text-amber-400"
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
             </nav>
 
@@ -163,33 +118,6 @@ export default function Navbar({ user }: { user: { name: string } | null }) {
               >
                 <Phone className="w-4 h-4" /> Concierge
               </a>
-              {user ? (
-                <>
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center justify-center gap-2 text-sm uppercase tracking-widest text-slate-200 px-4 py-3 transition-colors"
-                  >
-                    <LayoutDashboard className="w-4 h-4" /> {user.name}
-                  </Link>
-                  <form action={signOut}>
-                    <button
-                      type="submit"
-                      className="flex items-center justify-center gap-2 text-sm uppercase tracking-widest text-slate-400 hover:text-amber-400 px-4 py-3 transition-colors"
-                    >
-                      <LogOut className="w-4 h-4" /> Sign Out
-                    </button>
-                  </form>
-                </>
-              ) : (
-                <Link
-                  href="/auth/login"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-center text-sm uppercase tracking-widest text-slate-200 hover:text-amber-400 px-4 py-3 transition-colors"
-                >
-                  Log In
-                </Link>
-              )}
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react"
 import type { Property } from "@/lib/data/properties"
 import { agents } from "@/lib/data/agents"
@@ -23,11 +22,7 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
     <div
       className={`group rounded-2xl overflow-hidden bg-white/90 backdrop-blur-sm border border-gray-100/80 shadow-sm transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-black/10 hover:border-amber-500/30 hover:bg-white hover:-translate-y-1.5 ${className}`}
     >
-      <Link href={`/properties/${property.slug}`} className="block">
-        <div
-          className="relative aspect-[4/3] overflow-hidden bg-slate-900"
-          style={{ viewTransitionName: `listing-img-${property.id}`, contain: "layout" }}
-        >
+      <div className="relative aspect-[4/3] overflow-hidden bg-slate-900">
           {images.length > 1 && (
             <>
               <button
@@ -116,7 +111,6 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
           </p>
           {agent && <p className="text-xs text-text-muted mb-4">Listed by {agent.name}</p>}
         </div>
-      </Link>
 
       <div className="px-5 pb-5">
         <WhatsAppInquiryButton

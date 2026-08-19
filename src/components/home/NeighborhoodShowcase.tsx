@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Home, MapPin } from "lucide-react"
+import { Home } from "lucide-react"
 import { LAGOS_IMAGES } from "@/lib/images"
 import type { Property } from "@/lib/data/properties"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
@@ -23,7 +22,7 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
   const current = neighborhoods[active]
 
   return (
-    <section className="py-24 bg-bg-primary">
+    <section id="neighborhoods" className="py-24 bg-bg-primary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <span className="mb-4 inline-block rounded-full bg-bg-dark px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
@@ -79,12 +78,6 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
                       {current.count} listings available
                     </p>
                     <div className="flex flex-wrap gap-3">
-                      <Link
-                        href={`/properties?neighborhood=${encodeURIComponent(current.name)}`}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold uppercase tracking-wider hover:bg-white/30 transition-colors"
-                      >
-                        <MapPin className="w-3.5 h-3.5" /> View Properties
-                      </Link>
                       <a
                         href={getWhatsAppInquiryLink({ title: `${current.name} Inquiry`, location: current.description })}
                         target="_blank"

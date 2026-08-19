@@ -1,33 +1,24 @@
 "use client"
 
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
 import { agents } from "@/lib/data/agents"
 import type { Property } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
+import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 
 export default function TeamSpotlight({ properties }: { properties: Property[] }) {
   const leadAgent = agents[0]
   const count = properties.filter((p) => p.agentId === leadAgent.id).length
 
   return (
-    <section className="py-24 bg-bg-alt">
+    <section id="team" className="py-24 bg-bg-alt">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
-              Mandate Advisory
-            </p>
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-text-primary">
-              Featured Senior Executive
-            </h2>
-          </div>
-          <Link
-            href="/agents"
-            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-text-primary hover:text-amber-600 transition-colors"
-          >
-            Meet the Advisory Team <ArrowRight className="w-4 h-4" />
-          </Link>
+        <div className="mb-12">
+          <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
+            Mandate Advisory
+          </p>
+          <h2 className="font-heading font-bold text-3xl md:text-4xl text-text-primary">
+            Featured Senior Executive
+          </h2>
         </div>
 
         <div className="max-w-3xl mx-auto">
@@ -53,21 +44,21 @@ export default function TeamSpotlight({ properties }: { properties: Property[] }
                   </h3>
                   <p className="text-sm font-semibold text-amber-500 mt-0.5">{leadAgent.role}</p>
                   <p className="text-sm text-text-body leading-relaxed mt-3">{leadAgent.bio}</p>
-                  
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-6">
-                    <Link
-                      href={`/agents/${leadAgent.slug}`}
-                      className="shine-sweep inline-flex items-center gap-2 bg-slate-950 hover:bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-colors"
-                    >
-                      View Listings ({count}) <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                    <Link
-                      href="/agents"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary transition-colors py-3"
-                    >
-                      All Agents &rarr;
-                    </Link>
-                  </div>
+                  <p className="text-sm text-text-muted mt-3">
+                    {count} active {count === 1 ? "listing" : "listings"} in the portfolio
+                  </p>
+
+                  <a
+                    href={getWhatsAppInquiryLink({
+                      title: `Consultation with ${leadAgent.name}`,
+                      agentWhatsapp: leadAgent.whatsapp,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shine-sweep inline-flex items-center gap-2 mt-6 bg-slate-950 hover:bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-colors"
+                  >
+                    Book a Private Consultation
+                  </a>
                 </div>
               </div>
             </div>

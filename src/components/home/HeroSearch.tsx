@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Search, MapPin, Building, ChevronDown, Sparkles } from "lucide-react"
-import { LAGOS_IMAGES, NEIGHBORHOODS } from "@/lib/images"
+import { ArrowDown, Phone } from "lucide-react"
+import { LAGOS_IMAGES } from "@/lib/images"
+import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 
 const HERO_SLIDES = [
   {
@@ -26,10 +26,6 @@ const HERO_SLIDES = [
 
 export default function HeroSearch() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [activeTab, setActiveTab] = useState<"FOR_RENT" | "FOR_SALE">("FOR_RENT")
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState("")
-  const [selectedType, setSelectedType] = useState("")
-  const router = useRouter()
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,17 +34,8 @@ export default function HeroSearch() {
     return () => clearInterval(timer)
   }, [])
 
-  function handleSearch() {
-    const params = new URLSearchParams()
-    if (activeTab === "FOR_RENT") params.set("status", "For Rent")
-    if (activeTab === "FOR_SALE") params.set("status", "For Sale")
-    if (selectedNeighborhood) params.set("neighborhood", selectedNeighborhood)
-    if (selectedType) params.set("propertyType", selectedType)
-    router.push(`/properties?${params.toString()}`)
-  }
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 text-white">
+    <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 text-white">
       <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute top-1/4 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-teal-400/10 rounded-full blur-3xl" />
@@ -95,7 +82,7 @@ export default function HeroSearch() {
           transition={{ duration: 0.35 }}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-400 text-xs tracking-widest uppercase mb-6 backdrop-blur-md"
         >
-          <Sparkles className="w-3.5 h-3.5" /> HORIZON Lagos Luxury Portfolio
+          HORIZON Lagos Luxury Portfolio
         </motion.div>
 
         <motion.h1
@@ -122,63 +109,22 @@ export default function HeroSearch() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="bg-slate-900/85 backdrop-blur-xl border border-slate-800 p-3 sm:p-4 shadow-2xl max-w-4xl mx-auto"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <div className="flex gap-2 border-b border-slate-800 pb-3 mb-4">
-            {(["FOR_RENT", "FOR_SALE"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 text-xs font-semibold tracking-wider uppercase transition-all ${
-                  activeTab === tab
-                    ? "bg-amber-500 text-slate-950 shadow-md"
-                    : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-                }`}
-              >
-                {tab.replace("_", " ")}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-400" />
-              <select
-                value={selectedNeighborhood}
-                onChange={(e) => setSelectedNeighborhood(e.target.value)}
-                className="w-full bg-slate-950/80 border border-slate-800 text-white text-xs pl-10 pr-8 py-3.5 focus:outline-none focus:border-amber-400 appearance-none"
-              >
-                <option value="">All Locations</option>
-                {NEIGHBORHOODS.map((n) => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
-            </div>
-
-            <div className="relative">
-              <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-400" />
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full bg-slate-950/80 border border-slate-800 text-white text-xs pl-10 pr-8 py-3.5 focus:outline-none focus:border-amber-400 appearance-none"
-              >
-                <option value="">Property Type (All)</option>
-                <option value="Apartment">Apartments</option>
-                <option value="Detached Duplex">Duplexes & Maisonettes</option>
-                <option value="Penthouse">Mansions & Penthouses</option>
-                <option value="Commercial">Commercial Spaces</option>
-              </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
-            </div>
-
-            <button
-              onClick={handleSearch}
-              className="shine-sweep bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs uppercase tracking-wider py-3.5 px-6 flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-amber-500/20"
-            >
-              <Search className="w-4 h-4" /> Search Portfolio
-            </button>
-          </div>
+          <a
+            href="#portfolio"
+            className="shine-sweep inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs uppercase tracking-wider py-4 px-8 transition-all shadow-lg hover:shadow-amber-500/20"
+          >
+            <ArrowDown className="w-4 h-4" /> Explore the Portfolio
+          </a>
+          <a
+            href={getWhatsAppInquiryLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-white/30 hover:border-amber-400/60 hover:text-amber-400 text-white text-xs font-semibold uppercase tracking-wider py-4 px-8 transition-colors"
+          >
+            <Phone className="w-4 h-4" /> Speak with Concierge
+          </a>
         </motion.div>
       </div>
     </section>

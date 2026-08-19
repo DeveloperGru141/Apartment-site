@@ -1,27 +1,12 @@
-import Link from "next/link";
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp";
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal";
-import { NEIGHBORHOODS } from "@/lib/images";
 
-const propertyTypes = [
-  { label: "Apartments", type: "Apartment" },
-  { label: "Duplexes", type: "Detached Duplex" },
-  { label: "Mansions", type: "Penthouse" },
-  { label: "Commercial", type: "Commercial" },
-];
-
-const neighborhoods = NEIGHBORHOODS.map((name) => ({
-  label: name,
-  name,
-}));
-
-const companyLinks = [
-  { label: "Agents", href: "/agents" },
-  { label: "Journal", href: "/journal" },
-  { label: "Privacy Policy", href: "/legal/privacy" },
-  { label: "Terms", href: "/legal/terms" },
-  { label: "Cookies", href: "/legal/cookies" },
-  { label: "Disclaimer", href: "/legal/disclaimer" },
+const quickLinks = [
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Neighborhoods", href: "#neighborhoods" },
+  { label: "Concierge", href: "#concierge" },
+  { label: "The Team", href: "#team" },
+  { label: "Journal", href: "#journal" },
 ];
 
 const socialLinks = [
@@ -70,11 +55,12 @@ export default function Footer() {
   return (
     <footer className="bg-bg-dark text-white">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <ScrollRevealItem index={0} variant="fade-up">
             <h3 className="mb-4 text-xl font-bold tracking-widest">HORIZON</h3>
             <p className="mb-6 text-sm leading-relaxed text-gray-400">
-              Your premier destination for luxury property listings across Nigeria&apos;s most desirable neighborhoods.
+              Your premier destination for luxury property listings across Lagos&apos; most desirable
+              neighborhoods.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((link) => (
@@ -93,54 +79,47 @@ export default function Footer() {
           </ScrollRevealItem>
 
           <ScrollRevealItem index={1} variant="fade-up">
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider">Property Types</h4>
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider">Explore</h4>
             <ul className="space-y-3">
-              {propertyTypes.map((item) => (
-                <li key={item.type}>
-                  <Link
-                    href={`/properties?propertyType=${encodeURIComponent(item.type)}`}
+              {quickLinks.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
                     className="text-sm text-gray-400 transition-colors hover:text-white"
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </ScrollRevealItem>
 
           <ScrollRevealItem index={2} variant="fade-up">
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider">Neighborhoods</h4>
-            <ul className="space-y-3">
-              {neighborhoods.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={`/properties?neighborhood=${encodeURIComponent(item.name)}`}
-                    className="text-sm text-gray-400 transition-colors hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider">Contact</h4>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li>Lagos, Nigeria</li>
+              <li>
+                <a
+                  href={getWhatsAppInquiryLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-white"
+                >
+                  +234 (0) 801 234 5009
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:concierge@horizon.ng"
+                  className="transition-colors hover:text-white"
+                >
+                  concierge@horizon.ng
+                </a>
+              </li>
             </ul>
           </ScrollRevealItem>
 
           <ScrollRevealItem index={3} variant="fade-up">
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider">Company</h4>
-            <ul className="space-y-3">
-              {companyLinks.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-gray-400 transition-colors hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </ScrollRevealItem>
-
-          <ScrollRevealItem index={4} variant="fade-up">
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider">Contact Concierge</h4>
             <p className="mb-4 text-sm leading-relaxed text-gray-400">
               Speak directly with our team for private viewings and inquiries.

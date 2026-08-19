@@ -12,18 +12,13 @@ import TeamSpotlight from "@/components/home/TeamSpotlight"
 import JournalInsights from "@/components/home/JournalInsights"
 import FloatingConcierge from "@/components/shared/FloatingConcierge"
 import { ScrollBlurSection } from "@/components/shared/ScrollBlurSection"
-import { fetchLiveProperties } from "@/lib/property-live"
-import { getNavbarUser } from "@/lib/navbar-user"
+import { properties } from "@/lib/data/properties"
 
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
-  const [properties, user] = await Promise.all([fetchLiveProperties(), getNavbarUser()]);
-
+export default function Home() {
   return (
     <>
       <Suspense>
-        <Navbar user={user} />
+        <Navbar />
       </Suspense>
       <ScrollBlurSection>
         <HeroSearch />
