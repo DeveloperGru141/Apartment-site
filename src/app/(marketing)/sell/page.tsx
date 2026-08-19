@@ -15,7 +15,7 @@ const PITCH_POINTS = [
     icon: Handshake,
     title: "Matched with a specialist agent",
     description:
-      "Your listing is assigned to one of our named sales, leasing, off-plan, or land executives — the same people buyers already trust.",
+      "Your listing is assigned to one of our named sales, leasing, or residential advisory executives — the same people buyers already trust.",
   },
   {
     icon: Globe,

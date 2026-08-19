@@ -21,11 +21,11 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
 
   return (
     <div
-      className={`group rounded-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:bg-white/90 hover:-translate-y-1 ${className}`}
+      className={`group rounded-2xl overflow-hidden bg-white/90 backdrop-blur-sm border border-gray-100/80 shadow-sm transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-black/10 hover:border-amber-500/30 hover:bg-white hover:-translate-y-1.5 ${className}`}
     >
       <Link href={`/properties/${property.slug}`} className="block">
         <div
-          className="relative aspect-[4/3] overflow-hidden"
+          className="relative aspect-[4/3] overflow-hidden bg-slate-900"
           style={{ viewTransitionName: `listing-img-${property.id}`, contain: "layout" }}
         >
           {images.length > 1 && (
@@ -37,7 +37,7 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
                   e.preventDefault()
                   go(-1)
                 }}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-slate-950/50 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-950/80"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-slate-950/60 backdrop-blur-sm text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-slate-950 hover:scale-110"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -48,7 +48,7 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
                   e.preventDefault()
                   go(1)
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-slate-950/50 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-950/80"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-slate-950/60 backdrop-blur-sm text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-slate-950 hover:scale-110"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -58,17 +58,23 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
           {images.map((src, i) => (
             <div
               key={src + i}
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                i === imageIndex ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 transition-opacity duration-300 ease-out ${
+                i === imageIndex ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={property.title} className="w-full h-full object-cover" />
+              <img
+                src={src}
+                alt={property.title}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
             </div>
           ))}
 
           {images.length > 1 && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               {images.map((_, i) => (
                 <button
                   key={i}
@@ -78,26 +84,26 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
                     e.preventDefault()
                     setImageIndex(i)
                   }}
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === imageIndex ? "w-5 bg-white" : "w-1.5 bg-white/60"
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === imageIndex ? "w-5 bg-amber-400" : "w-1.5 bg-white/70 hover:bg-white"
                   }`}
                 />
               ))}
             </div>
           )}
 
-          <div className="absolute top-3 left-3 bg-slate-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md z-10">
+          <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md z-10 border border-white/10">
             {property.status}
           </div>
           {property.featured && (
-            <div className="absolute top-3 right-3 bg-amber-500/90 backdrop-blur-md text-slate-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md z-10">
+            <div className="absolute top-3 right-3 bg-amber-500 text-slate-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md z-10 shadow-md">
               Featured
             </div>
           )}
         </div>
 
         <div className="p-5">
-          <h3 className="font-heading font-bold text-lg text-text-primary mb-2 group-hover:text-accent transition-colors line-clamp-1">
+          <h3 className="font-heading font-bold text-lg text-text-primary mb-2 group-hover:text-amber-600 transition-colors line-clamp-1">
             {property.title}
           </h3>
           <div className="flex items-center gap-1.5 text-text-muted text-sm mb-3">

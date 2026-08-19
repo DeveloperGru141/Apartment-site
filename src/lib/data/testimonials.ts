@@ -29,17 +29,17 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "I bought a plot on the mainland through their lands desk. Every title document was presented and explained before we paid a kobo — that rarely happens here.",
+      "I acquired a luxury penthouse on Victoria Island through their advisory desk. Every title document was verified and presented before we paid a kobo — seamless execution.",
     name: "Dr. Ikenna Osahor",
-    context: "Bought land in Ikeja GRA",
+    context: "Bought a penthouse in Victoria Island",
     rating: 5,
   },
   {
     quote:
-      "They walked us through an off-plan tower purchase with zero pressure. Three years later we took delivery exactly on schedule, exactly to spec.",
+      "They walked us through our luxury duplex acquisition with zero pressure. Handover was executed seamlessly and exactly to spec.",
     name: "Olamide & Yinka B.",
-    context: "Bought off-plan in Eko Atlantic",
-    rating: 4,
+    context: "Bought a duplex in Ikoyi",
+    rating: 5,
   },
   {
     quote:

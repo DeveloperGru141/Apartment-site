@@ -117,7 +117,7 @@ export default function ConciergeValueProp() {
                 </p>
               </div>
             </div>
-            <div className="relative z-10 p-6 -mt-16 md:-mt-20 md:mx-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
+            <div className="animated-border-card relative z-10 p-6 -mt-16 md:-mt-20 md:mx-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
               <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight mb-6">
                 Elevated Living, Curated for You
               </h2>
@@ -128,10 +128,9 @@ export default function ConciergeValueProp() {
               </p>
               <ul className="space-y-4">
                 {services.map((service, i) => (
-                  <ScrollRevealItem key={service} index={i + 4} variant="fade-up">
-                  <li className="flex items-center gap-3">
+                  <ScrollRevealItem key={service} index={i} variant="fade-up" as="li" className="flex items-center gap-3">
                     <svg
-                      className="w-5 h-5 shrink-0 text-green-400"
+                      className="w-5 h-5 shrink-0 text-amber-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -144,7 +143,6 @@ export default function ConciergeValueProp() {
                       />
                     </svg>
                     <span className="font-body text-white">{service}</span>
-                  </li>
                   </ScrollRevealItem>
                 ))}
               </ul>

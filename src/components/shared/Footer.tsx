@@ -5,10 +5,8 @@ import { NEIGHBORHOODS } from "@/lib/images";
 
 const propertyTypes = [
   { label: "Apartments", type: "Apartment" },
-  { label: "Penthouses", type: "Penthouse" },
   { label: "Duplexes", type: "Detached Duplex" },
-  { label: "Terraces & Townhouses", type: "Terrace" },
-  { label: "Maisonettes", type: "Maisonette" },
+  { label: "Mansions", type: "Penthouse" },
   { label: "Commercial", type: "Commercial" },
 ];
 
@@ -170,7 +168,7 @@ export default function Footer() {
               &copy; 2026 HORIZON. All rights reserved.
             </p>
             <p className="text-xs text-gray-500">
-              Lagos &bull; Abuja &bull; London &bull; New York
+              Lagos, Nigeria
             </p>
           </div>
         </div>

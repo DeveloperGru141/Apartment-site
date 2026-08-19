@@ -27,8 +27,8 @@ export default function PropertyGallery({ images, title, propertyId }: PropertyG
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 w-full h-full object-cover animate-zoom-in"
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </AnimatePresence>
 
@@ -70,7 +70,7 @@ export default function PropertyGallery({ images, title, propertyId }: PropertyG
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" className="w-full h-full object-cover" />
+              <img src={src} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
             </button>
           ))}
         </div>

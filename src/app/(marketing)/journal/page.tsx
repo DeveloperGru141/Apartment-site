@@ -38,6 +38,7 @@ export default function JournalIndexPage() {
                     src={post.image}
                     alt={post.title}
                     className="h-full w-full"
+                    priority={i < 3}
                     imgClassName="group-hover:scale-105 transition-transform duration-500"
                   />
                   <span className="absolute top-3 left-3 bg-white/70 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded border border-white/30">

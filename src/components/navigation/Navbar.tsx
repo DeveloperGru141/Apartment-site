@@ -11,8 +11,6 @@ import { signOut } from "@/app/auth/actions"
 const NAV_LINKS = [
   { label: "Rentals", href: "/properties?status=For Rent", match: "/properties", status: "For Rent" },
   { label: "Sales", href: "/properties?status=For Sale", match: "/properties", status: "For Sale" },
-  { label: "Off-Plan", href: "/properties?status=Off-Plan", match: "/properties", status: "Off-Plan" },
-  { label: "Land", href: "/properties?status=Land", match: "/properties", status: "Land" },
   { label: "Agents", href: "/agents", match: "/agents" },
   { label: "Journal", href: "/journal", match: "/journal" },
   { label: "List Your Property", href: "/sell", match: "/sell" },

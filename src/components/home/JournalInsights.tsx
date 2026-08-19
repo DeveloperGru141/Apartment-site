@@ -34,28 +34,29 @@ export default function JournalInsights() {
             <ScrollRevealItem key={article.slug} index={i} variant="unblur">
               <Link
                 href={`/journal/${article.slug}`}
-                className="group block p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/20 hover:bg-white/60 transition-all duration-300 hover:-translate-y-1"
+                className="group block p-5 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100/80 hover:border-amber-500/30 hover:bg-white shadow-sm hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1.5"
               >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl mb-4 bg-slate-900">
                   <ImageWithShimmer
                     src={article.image}
                     alt={article.title}
                     className="h-full w-full"
-                    imgClassName="group-hover:scale-105 transition-transform duration-500"
+                    priority={i === 0}
+                    imgClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <span className="absolute top-3 left-3 bg-white/70 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded border border-white/30">
+                  <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-md border border-white/40 shadow-sm text-text-primary">
                     {article.category}
                   </span>
                 </div>
-                <p className="text-gray-400 text-xs mb-1">{article.date}</p>
-                <h3 className="font-heading font-bold text-lg text-text-primary mb-1">
+                <p className="text-gray-400 text-xs mb-1.5 font-medium">{article.date}</p>
+                <h3 className="font-heading font-bold text-lg text-text-primary mb-1.5 group-hover:text-amber-600 transition-colors line-clamp-1">
                   {article.title}
                 </h3>
-                <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4">
                   {article.excerpt}
                 </p>
-                <span className="text-sm font-semibold text-text-primary group-hover:text-amber-600 transition-colors">
-                  Read More &rarr;
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-text-primary group-hover:text-amber-600 transition-colors">
+                  Read Article <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
                 </span>
               </Link>
             </ScrollRevealItem>

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { ArrowRight, Loader2, MailCheck } from "lucide-react"
+import { LAGOS_IMAGES } from "@/lib/images"
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -48,12 +49,23 @@ export default function SignUpPage() {
 
   if (checkInbox) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-16">
-        <div className="w-full max-w-md">
+      <main className="relative min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-16 overflow-hidden">
+        {/* Blurred background image layer */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={LAGOS_IMAGES.hero.main}
+            alt="HORIZON luxury real estate background"
+            className="w-full h-full object-cover scale-105 filter blur-[6px] opacity-40 brightness-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/80" />
+        </div>
+
+        <div className="relative z-10 w-full max-w-md">
           <Link href="/" className="block text-center mb-8">
-            <span className="font-heading font-extrabold tracking-[0.3em] text-2xl">HORIZON</span>
+            <span className="font-heading font-extrabold tracking-[0.3em] text-2xl drop-shadow-md">HORIZON</span>
           </Link>
-          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl text-center">
+          <div className="bg-slate-900/75 backdrop-blur-xl border border-white/15 rounded-2xl p-8 shadow-2xl text-center">
             <MailCheck className="w-12 h-12 text-amber-400 mx-auto mb-4" />
             <h1 className="font-heading text-2xl font-bold text-white">Check your inbox</h1>
             <p className="text-sm text-slate-400 mt-3 leading-relaxed">
@@ -73,13 +85,24 @@ export default function SignUpPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md">
+    <main className="relative min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-16 overflow-hidden">
+      {/* Blurred background image layer */}
+      <div className="absolute inset-0 z-0 select-none pointer-events-none">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={LAGOS_IMAGES.hero.main}
+          alt="HORIZON luxury real estate background"
+          className="w-full h-full object-cover scale-105 filter blur-[6px] opacity-40 brightness-75"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/80" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
         <Link href="/" className="block text-center mb-8">
-          <span className="font-heading font-extrabold tracking-[0.3em] text-2xl">HORIZON</span>
+          <span className="font-heading font-extrabold tracking-[0.3em] text-2xl drop-shadow-md">HORIZON</span>
         </Link>
 
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-slate-900/75 backdrop-blur-xl border border-white/15 rounded-2xl p-8 shadow-2xl">
           <h1 className="font-heading text-2xl font-bold text-white">Become a Seller</h1>
           <p className="text-sm text-slate-400 mt-2">
             List your property, get matched with one of our agents, and let HORIZON handle buyer

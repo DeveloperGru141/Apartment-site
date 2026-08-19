@@ -47,10 +47,11 @@ function applyFilters(params: URLSearchParams, properties: Property[]): Property
   if (category) {
     const filters: Record<string, (p: Property) => boolean> = {
       rental: (p) => p.status === "For Rent",
-      "off-plan": (p) => p.status === "Off-Plan",
       commercial: (p) => p.propertyType === "Commercial",
-      land: (p) => p.status === "Land",
       resale: (p) => p.status === "For Sale",
+      apartments: (p) => p.propertyType === "Apartment",
+      duplexes: (p) => p.propertyType === "Detached Duplex" || p.propertyType === "Maisonette",
+      mansions: (p) => p.propertyType === "Penthouse" || p.propertyType === "Detached Duplex",
     }
     const match = filters[category]
     if (match) list = list.filter(match)
@@ -298,10 +299,10 @@ function Filter({ properties }: { properties: Property[] }) {
                   <motion.div
                     key={p.id}
                     layout
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.35, delay: reduced ? 0 : Math.min(i % PAGE_SIZE, 8) * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.25, delay: reduced ? 0 : Math.min(i % PAGE_SIZE, 4) * 0.02, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <PropertyCard property={p} className="h-full" />
                   </motion.div>

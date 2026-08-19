@@ -6,10 +6,9 @@ import { agents } from "@/lib/data/agents"
 import type { Property } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 
-const FEATURED_AGENT_IDS = ["agent-adaeze", "agent-tunde", "agent-ngozi", "agent-femi", "agent-hadiza"]
-
 export default function TeamSpotlight({ properties }: { properties: Property[] }) {
-  const featured = agents.filter((a) => FEATURED_AGENT_IDS.includes(a.id))
+  const leadAgent = agents[0]
+  const count = properties.filter((p) => p.agentId === leadAgent.id).length
 
   return (
     <section className="py-24 bg-bg-alt">
@@ -17,55 +16,62 @@ export default function TeamSpotlight({ properties }: { properties: Property[] }
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
-              Meet the Team
+              Mandate Advisory
             </p>
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-text-primary">
-              The Names Behind the Mandates
+              Featured Senior Executive
             </h2>
           </div>
           <Link
             href="/agents"
             className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-text-primary hover:text-amber-600 transition-colors"
           >
-            See All Agents <ArrowRight className="w-4 h-4" />
+            Meet the Advisory Team <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {featured.map((agent, i) => {
-            const count = properties.filter((p) => p.agentId === agent.id).length
-            return (
-              <ScrollRevealItem key={agent.id} index={i} variant="fade-up">
-                <Link
-                  href={`/agents/${agent.slug}`}
-                  className="group block text-center"
-                >
-                  <div className="aspect-[4/5] overflow-hidden rounded-2xl border border-gray-100 shadow-sm group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1.5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={agent.photo}
-                      alt={agent.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+        <div className="max-w-3xl mx-auto">
+          <ScrollRevealItem index={0} variant="fade-up">
+            <div className="group bg-white/90 backdrop-blur-md border border-white/40 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+                <div className="shrink-0 w-36 h-36 sm:w-48 sm:h-48 aspect-square overflow-hidden rounded-2xl border-2 border-amber-500/30 shadow-md">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={leadAgent.photo}
+                    alt={leadAgent.name}
+                    loading="eager"
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                </div>
+                <div className="flex-1 text-center sm:text-left">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 text-xs font-semibold uppercase tracking-wider mb-2">
+                    Lead Partner
                   </div>
-                  <p className="font-heading font-bold text-text-primary text-sm mt-3">
-                    {agent.name}
-                  </p>
-                  <p className="text-xs text-text-muted mt-0.5">{agent.role}</p>
-                  <p className="text-xs text-text-muted mt-1">{count} listings</p>
-                </Link>
-              </ScrollRevealItem>
-            )
-          })}
-        </div>
-
-        <div className="mt-8 text-center sm:hidden">
-          <Link
-            href="/agents"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-text-primary hover:text-amber-600 transition-colors"
-          >
-            See All Agents <ArrowRight className="w-4 h-4" />
-          </Link>
+                  <h3 className="font-heading font-bold text-2xl text-text-primary">
+                    {leadAgent.name}
+                  </h3>
+                  <p className="text-sm font-semibold text-amber-500 mt-0.5">{leadAgent.role}</p>
+                  <p className="text-sm text-text-body leading-relaxed mt-3">{leadAgent.bio}</p>
+                  
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-6">
+                    <Link
+                      href={`/agents/${leadAgent.slug}`}
+                      className="shine-sweep inline-flex items-center gap-2 bg-slate-950 hover:bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-colors"
+                    >
+                      View Listings ({count}) <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                    <Link
+                      href="/agents"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-text-primary transition-colors py-3"
+                    >
+                      All Agents &rarr;
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollRevealItem>
         </div>
       </div>
     </section>

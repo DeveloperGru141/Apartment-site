@@ -13,6 +13,16 @@ export interface Agent {
 
 export const agents: Agent[] = [
   {
+    id: "agent-salami",
+    slug: "salami-ademola",
+    name: "Salami Ademola",
+    role: "Founder & Principal Partner",
+    photo: portrait("/api/portraits/men/66.jpg"),
+    bio: "Salami leads HORIZON's advisory desk in Lagos, pairing deep knowledge of the island market with a white-glove, end-to-end service for buyers, sellers, and tenants.",
+    whatsapp: "2348012345009",
+    email: "ademola@horizon.ng",
+  },
+  {
     id: "agent-adaeze",
     slug: "adaeze-chukwuma",
     name: "Adaeze Chukwuma",
@@ -45,9 +55,9 @@ export const agents: Agent[] = [
     id: "agent-femi",
     slug: "femi-adebayo",
     name: "Femi Adebayo",
-    role: "Off-Plan Sales Executive",
+    role: "Luxury Residential Specialist",
     photo: portrait("/api/portraits/men/75.jpg"),
-    bio: "Femi specialises in pre-construction towers in Eko Atlantic and the new estates, walking buyers through every stage payment and milestone.",
+    bio: "Femi specialises in luxury penthouses and sky suites across Eko Atlantic and the island, guiding clients through viewings and handovers.",
     whatsapp: "2348012345004",
   },
   {
@@ -64,9 +74,9 @@ export const agents: Agent[] = [
     id: "agent-chidi",
     slug: "chidi-okafor",
     name: "Chidi Okafor",
-    role: "Land & Commercial Lead",
+    role: "Commercial & Corporate Lead",
     photo: portrait("/api/portraits/men/86.jpg"),
-    bio: "Chidi has matched serious buyers with everything from Banana Island waterfront to industrial clusters — always with a full title dossier.",
+    bio: "Chidi matches corporate and private investors with prime office towers, executive retail spaces, and luxury commercial assets.",
     whatsapp: "2348012345006",
   },
   {

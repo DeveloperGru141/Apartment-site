@@ -63,23 +63,24 @@ export default function FeaturedPortfolio({ properties }: { properties: Property
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filtered.map((p, i) => (
-            <ScrollRevealItem key={p.id} index={i} variant="fade-up" className="h-full">
-              <div className="group h-full rounded-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:bg-white/90 hover:-translate-y-1">
+            <ScrollRevealItem key={p.id} index={i} variant={i % 2 === 0 ? "from-tl" : "from-tr"} className="h-full">
+              <div className="group h-full rounded-2xl overflow-hidden bg-white/90 backdrop-blur-sm border border-gray-100/80 shadow-sm transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-black/10 hover:border-amber-500/30 hover:bg-white hover:-translate-y-1.5">
                 <Link href={`/properties/${p.slug}`} className="block">
                   <div
-                    className="aspect-[4/3] relative overflow-hidden"
+                    className="aspect-[4/3] relative overflow-hidden bg-slate-900"
                     style={{ viewTransitionName: `listing-img-${p.id}`, contain: "layout" }}
                   >
                     <ImageWithShimmer
                       src={p.images[0] ?? ""}
                       alt={p.title}
                       className="h-full w-full"
-                      imgClassName="group-hover:scale-105 transition-transform duration-500"
+                      priority={i < 2}
+                      imgClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
-                    <div className="absolute top-3 left-3 bg-slate-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
+                    <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/10">
                       {p.status}
                     </div>
-                    <div className="absolute top-3 right-3 bg-white/70 backdrop-blur-md text-text-primary text-xs font-bold px-3 py-1.5 rounded-md border border-white/30">
+                    <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-md text-text-primary text-xs font-bold px-3 py-1.5 rounded-md border border-white/40 shadow-sm">
                       {p.priceLabel}
                     </div>
                   </div>

@@ -5,18 +5,9 @@ type PropertyStatus = Database["public"]["Enums"]["property_status"]
 type PropertyType = Database["public"]["Enums"]["property_type"]
 type PropertyCategory = Database["public"]["Enums"]["property_category"]
 
-const LAND_TYPES: PropertyType[] = [
-  "Residential Land",
-  "Commercial Land",
-  "Industrial Land",
-  "Mixed-Use Land",
-]
-
 export function deriveCategory(status: PropertyStatus, propertyType: PropertyType): PropertyCategory {
   if (status === "For Rent") return "rental"
-  if (status === "Off-Plan") return "off-plan"
   if (propertyType === "Commercial") return "commercial"
-  if (LAND_TYPES.includes(propertyType)) return "land"
   return "resale"
 }
 

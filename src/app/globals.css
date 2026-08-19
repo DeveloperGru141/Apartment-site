@@ -29,14 +29,14 @@
 }
 
 ::view-transition-old(root) {
-  animation: 300ms ease-out both view-fade-out;
+  animation: 180ms cubic-bezier(0.4, 0, 1, 1) both view-fade-out;
 }
 ::view-transition-new(root) {
-  animation: 375ms ease-out both view-fade-in;
+  animation: 240ms cubic-bezier(0, 0, 0.2, 1) both view-fade-in;
 }
 
 @keyframes view-fade-in {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes view-fade-out {
@@ -75,61 +75,97 @@
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
 @keyframes unblur {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.92); }
+  from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(40px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideLeft {
-  from { opacity: 0; transform: translateX(-40px); }
+  from { opacity: 0; transform: translateX(-14px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes slideRight {
-  from { opacity: 0; transform: translateX(40px); }
+  from { opacity: 0; transform: translateX(14px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes zoomIn {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
 
 .animate-unblur {
-  animation: unblur 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: unblur 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-slide-left {
-  animation: slideLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-slide-right {
-  animation: slideRight 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-zoom-in {
-  animation: zoomIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fromTL {
+  from { opacity: 0; transform: translate(-14px, -14px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes fromTR {
+  from { opacity: 0; transform: translate(14px, -14px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes fromBL {
+  from { opacity: 0; transform: translate(-14px, 14px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes fromBR {
+  from { opacity: 0; transform: translate(14px, 14px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+.animate-from-tl {
+  animation: fromTL 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-from-tr {
+  animation: fromTR 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-from-bl {
+  animation: fromBL 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-from-br {
+  animation: fromBR 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes shimmer {
@@ -185,13 +221,51 @@
   transform: translateX(120%);
 }
 
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.animated-border-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.animated-border-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  z-index: -1;
+  background: linear-gradient(
+    120deg,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0.9) 25%,
+    rgba(94, 234, 212, 0.7) 50%,
+    rgba(251, 191, 36, 0.9) 75%,
+    rgba(251, 191, 36, 0) 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  animation: border-flow 5s linear infinite;
+}
+
+.animated-border-card:hover::before {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-unblur,
   .animate-scale-in,
   .animate-slide-up,
   .animate-slide-left,
   .animate-slide-right,
-  .animate-zoom-in {
+  .animate-zoom-in,
+  .animate-from-tl,
+  .animate-from-tr,
+  .animate-from-bl,
+  .animate-from-br {
     animation: none !important;
     opacity: 1 !important;
     filter: none !important;
@@ -213,5 +287,10 @@
 
   .shine-sweep::after {
     display: none;
+  }
+
+  .animated-border-card::before {
+    animation: none;
+    opacity: 0;
   }
 }

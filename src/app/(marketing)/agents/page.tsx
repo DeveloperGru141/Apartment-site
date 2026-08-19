@@ -8,7 +8,7 @@ import { ScrollRevealItem } from "@/components/shared/ScrollReveal";
 export const metadata: Metadata = {
   title: "Our Agents — HORIZON Lagos",
   description:
-    "Meet the HORIZON Lagos team: specialist sales, leasing, off-plan, and land advisory executives covering the island and mainland.",
+    "Meet the HORIZON Lagos team: specialist sales, leasing, and residential advisory executives covering the island and mainland.",
 };
 
 export const dynamic = "force-dynamic";
@@ -41,6 +41,8 @@ export default async function AgentsPage() {
                     <img
                       src={agent.photo}
                       alt={agent.name}
+                      loading={i < 4 ? "eager" : "lazy"}
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>

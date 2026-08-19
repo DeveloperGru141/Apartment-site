@@ -13,7 +13,7 @@ import type { Database } from "@/types/database.types"
 
 type PropertyRow = Database["public"]["Tables"]["properties"]["Row"]
 
-const STATUSES: Database["public"]["Enums"]["property_status"][] = ["For Rent", "For Sale", "Off-Plan", "Land"]
+const STATUSES: Database["public"]["Enums"]["property_status"][] = ["For Rent", "For Sale"]
 
 const PROPERTY_TYPES: Database["public"]["Enums"]["property_type"][] = [
   "Apartment",
@@ -24,10 +24,6 @@ const PROPERTY_TYPES: Database["public"]["Enums"]["property_type"][] = [
   "Detached Duplex",
   "Semi-Detached",
   "Detached Bungalow",
-  "Residential Land",
-  "Commercial Land",
-  "Industrial Land",
-  "Mixed-Use Land",
   "Commercial",
 ]
 

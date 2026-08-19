@@ -1,7 +1,7 @@
 const img = (id: string, w = 1200) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`
 
-export type ListingStatus = "For Rent" | "For Sale" | "Off-Plan" | "Land"
+export type ListingStatus = "For Rent" | "For Sale"
 
 export type PropertyType =
   | "Apartment"
@@ -12,13 +12,9 @@ export type PropertyType =
   | "Detached Duplex"
   | "Semi-Detached"
   | "Detached Bungalow"
-  | "Residential Land"
-  | "Commercial Land"
-  | "Industrial Land"
-  | "Mixed-Use Land"
   | "Commercial"
 
-export type PropertyCategory = "rental" | "off-plan" | "commercial" | "land" | "resale"
+export type PropertyCategory = "rental" | "commercial" | "resale"
 
 export interface Property {
   id: string
@@ -41,7 +37,7 @@ export interface Property {
   createdAt: string
 }
 
-export const LISTING_STATUSES: ListingStatus[] = ["For Rent", "For Sale", "Off-Plan", "Land"]
+export const LISTING_STATUSES: ListingStatus[] = ["For Rent", "For Sale"]
 
 export const PROPERTY_TYPES: PropertyType[] = [
   "Apartment",
@@ -52,10 +48,6 @@ export const PROPERTY_TYPES: PropertyType[] = [
   "Detached Duplex",
   "Semi-Detached",
   "Detached Bungalow",
-  "Residential Land",
-  "Commercial Land",
-  "Industrial Land",
-  "Mixed-Use Land",
   "Commercial",
 ]
 
@@ -125,22 +117,22 @@ export const properties: Property[] = [
   },
   {
     id: "ak-004",
-    slug: "ajah-waterfront-plot",
-    title: "Ajah Waterfront Plot",
+    slug: "ajah-waterfront-residence",
+    title: "Ajah Waterfront Residence",
     description:
-      "A certified residential plot on a quiet waterfront-adjacent lane, with all entitlement paperwork complete.",
+      "A luxury four-bedroom residence on a quiet waterfront-adjacent lane in Ajah, with private garden and jetty access.",
     neighborhood: "Ajah",
     location: "Ajah, Lagos",
-    status: "Land",
-    propertyType: "Residential Land",
-    bedrooms: 0,
-    bathrooms: 0,
-    sqft: 6000,
-    price: 85000000,
-    priceLabel: "₦85,000,000",
-    images: [img("1500530855697-b586d89ba3ee"), img("1454165804606-c3d57bc86b40")],
+    status: "For Sale",
+    propertyType: "Detached Duplex",
+    bedrooms: 4,
+    bathrooms: 4.5,
+    sqft: 3800,
+    price: 185000000,
+    priceLabel: "₦185,000,000",
+    images: [img("1600585154340-be6161a56a0c"), img("1600566753190-17f0baa2a6c3")],
     agentId: "agent-chidi",
-    category: "land",
+    category: "resale",
     featured: false,
     createdAt: "2026-06-15",
   },
@@ -320,7 +312,7 @@ export const properties: Property[] = [
       "A new-build three-bedroom residence in the heart of Eko Atlantic City, with ocean-facing balconies and district-wide power.",
     neighborhood: "Eko Atlantic City",
     location: "Eko Atlantic City, Lagos",
-    status: "Off-Plan",
+    status: "For Sale",
     propertyType: "Apartment",
     bedrooms: 3,
     bathrooms: 3.5,
@@ -329,7 +321,7 @@ export const properties: Property[] = [
     priceLabel: "₦420,000,000",
     images: [img("1545324418-cc1a3fa10c00"), img("1512918728675-ed5a9ecdebfd")],
     agentId: "agent-femi",
-    category: "off-plan",
+    category: "resale",
     featured: true,
     createdAt: "2026-05-20",
   },
@@ -341,7 +333,7 @@ export const properties: Property[] = [
       "A three-bedroom apartment in one of the district's most established towers, with marina views and hotel-grade amenities.",
     neighborhood: "Eko Atlantic City",
     location: "The Quay, Eko Atlantic City, Lagos",
-    status: "Off-Plan",
+    status: "For Sale",
     propertyType: "Apartment",
     bedrooms: 3,
     bathrooms: 3,
@@ -350,7 +342,7 @@ export const properties: Property[] = [
     priceLabel: "₦380,000,000",
     images: [img("1545324418-cc1a3fa10c00"), img("1600607687939-ce8a6c25118c")],
     agentId: "agent-femi",
-    category: "off-plan",
+    category: "resale",
     featured: false,
     createdAt: "2026-05-25",
   },
@@ -362,7 +354,7 @@ export const properties: Property[] = [
       "A four-bedroom penthouse in Eko Pearl with double-height ceilings, a private terrace, and sweeping ocean views.",
     neighborhood: "Eko Atlantic City",
     location: "Eko Pearl Towers, Eko Atlantic City, Lagos",
-    status: "Off-Plan",
+    status: "For Sale",
     propertyType: "Penthouse",
     bedrooms: 4,
     bathrooms: 4.5,
@@ -371,7 +363,7 @@ export const properties: Property[] = [
     priceLabel: "₦650,000,000",
     images: [img("1600607687920-4e2a09cf159d"), img("1600573472592-401b489a3cdc"), img("1600585154363-67eb9e2e2099")],
     agentId: "agent-femi",
-    category: "off-plan",
+    category: "resale",
     featured: false,
     createdAt: "2026-06-05",
   },
@@ -461,22 +453,22 @@ export const properties: Property[] = [
   },
   {
     id: "bi-004",
-    slug: "banana-island-waterfront-plot",
-    title: "Banana Island Waterfront Plot",
+    slug: "banana-island-waterfront-villa",
+    title: "Banana Island Waterfront Villa",
     description:
-      "A rare serviced and leveled waterfront plot with direct water access and approved building plans available.",
+      "A bespoke five-bedroom contemporary waterfront villa with private jetty, infinity pool, and world-class finishes.",
     neighborhood: "Banana Island",
     location: "Banana Island, Ikoyi, Lagos",
-    status: "Land",
-    propertyType: "Residential Land",
-    bedrooms: 0,
-    bathrooms: 0,
-    sqft: 12000,
-    price: 650000000,
-    priceLabel: "₦650,000,000",
-    images: [img("1500530855697-b586d89ba3ee"), img("1454165804606-c3d57bc86b40")],
-    agentId: "agent-chidi",
-    category: "land",
+    status: "For Sale",
+    propertyType: "Detached Duplex",
+    bedrooms: 5,
+    bathrooms: 5.5,
+    sqft: 7500,
+    price: 1650000000,
+    priceLabel: "₦1,650,000,000",
+    images: [img("1600585154340-be6161a56a0c"), img("1512917774080-9991f1c4c750")],
+    agentId: "agent-hadiza",
+    category: "resale",
     featured: false,
     createdAt: "2026-06-14",
   },
@@ -629,22 +621,22 @@ export const properties: Property[] = [
   },
   {
     id: "lk-004",
-    slug: "lekki-coastal-land-parcel",
-    title: "Lekki Coastal Land Parcel",
+    slug: "lekki-coastal-mansion",
+    title: "Lekki Coastal Mansion",
     description:
-      "A certified residential land parcel close to the Lekki coastal developments, with title documents and survey ready.",
+      "A serene four-bedroom coastal mansion close to the Lekki coastline, with private pool and expansive outdoor terrace.",
     neighborhood: "Lekki",
     location: "Lekki, Lagos",
-    status: "Land",
-    propertyType: "Residential Land",
-    bedrooms: 0,
-    bathrooms: 0,
-    sqft: 8000,
-    price: 145000000,
-    priceLabel: "₦145,000,000",
-    images: [img("1500530855697-b586d89ba3ee"), img("1454165804606-c3d57bc86b40")],
-    agentId: "agent-chidi",
-    category: "land",
+    status: "For Sale",
+    propertyType: "Detached Duplex",
+    bedrooms: 4,
+    bathrooms: 4.5,
+    sqft: 4200,
+    price: 245000000,
+    priceLabel: "₦245,000,000",
+    images: [img("1600596542815-ffad4c1539a9"), img("1600573472550-8090b5e0745e")],
+    agentId: "agent-folake",
+    category: "resale",
     featured: false,
     createdAt: "2026-06-16",
   },

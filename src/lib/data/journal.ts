@@ -22,7 +22,7 @@ export const journalPosts: JournalPost[] = [
       "Lagos' luxury residential market closed 2025 with its strongest quarter in five years. Transaction volumes across Ikoyi, Victoria Island, and Lekki Phase 1 grew by fourteen percent year on year, driven by diaspora buyers and local executives repositioning their asset base.",
       "Pricing has matured from the rapid appreciation of earlier years into a steadier single-digit drift. One exception stands out: waterfront and sky-level residences at the very top of the market still attract multiple offers within weeks of listing.",
       "Rentals tightened sharply over the same period. Prime island lease rates rose close to double digits, and key buildings rarely carry vacancies through a full quarter. That is good news for landlords, and a reminder for tenants to move quickly on the right home.",
-      "Looking ahead, the pipeline of off-plan towers in Eko Atlantic and new estate schemes around Lekki will add supply during 2027. Most units are already committed. Our advice to buyers remains the same: quality homes in prime locations continue to outpace the wider market.",
+      "Looking ahead, the pipeline of luxury residential towers in Eko Atlantic and new estate schemes around Lekki will add supply during 2027. Most units are already committed. Our advice to buyers remains the same: quality homes in prime locations continue to outpace the wider market.",
     ],
   },
   {
@@ -59,20 +59,20 @@ export const journalPosts: JournalPost[] = [
     ],
   },
   {
-    slug: "understanding-off-plan-investment-risk-in-lagos",
+    slug: "navigating-luxury-residential-acquisitions-in-lagos",
     image:
       "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
     category: "Investing",
     date: "Jun 25, 2026",
-    title: "Understanding Off-Plan Investment Risk in Lagos",
+    title: "Navigating Luxury Residential Acquisitions in Lagos",
     excerpt:
-      "What separates a smart off-plan commitment from a costly lesson — the risk checklist every buyer should run.",
+      "What separates a sound luxury investment from a costly lesson — the due diligence checklist every buyer should run.",
     body: [
-      "Off-plan buying in Lagos is a bet on three things at once: the land title, the developer's delivery record, and your own patience. The market rewards buyers who interrogate all three before committing a kobo.",
-      "Start with the land. A project is only as strong as the title beneath it. Verify registered ownership, check that planning approvals exist, and confirm the land is not encumbered. Any hesitation on this front is a reason to walk away.",
-      "Then examine the developer like a banker would. Visit a completed project if one exists, speak to residents, and check how past handovers matched their schedules. Two delivered towers weigh more than three promised ones.",
-      "Finally, structure your payment against milestones. Staggered tranches tied to foundation, structure, and finishes keep the developer's interest aligned with your own. Even when the developer insists on a fixed schedule, the conversation is worth having.",
-      "Off-plan risk is manageable — that is the honest headline. The discipline is in the paperwork, not the brochures. Every off-plan listing on our platform carries a verified title dossier, and our team will walk your lawyer through it before you sign.",
+      "Luxury residential buying in Lagos is an art that blends market timing, architectural inspection, and stringent legal due diligence. The market rewards buyers who interrogate all three before committing capital.",
+      "Start with the property title. An asset is only as secure as the documentation beneath it. Verify Governor's Consent, check that planning approvals are unencumbered, and confirm survey coordinates match the ground reality.",
+      "Then examine the structural integrity and amenities. Inspect backup power systems, smart automation, water treatment plants, and facility management agreements. Exceptional build quality retains long-term asset value.",
+      "Finally, structure your closing with professional guidance. A seasoned advisory team ensures that payment tranches, escrow conditions, and deed handovers occur with zero friction.",
+      "Every residence on our platform carries a verified title dossier, and our concierge team walks your legal counsel through every detail before signing.",
     ],
   },
   {

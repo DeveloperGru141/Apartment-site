@@ -59,7 +59,7 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="relative"
               >
                 <div className="aspect-[4/3] relative overflow-hidden">
@@ -67,6 +67,7 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
                     src={current.image || LAGOS_IMAGES.hero.main}
                     alt={current.name}
                     className="h-full w-full"
+                    priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
