@@ -8,6 +8,8 @@ import type { Property } from "@/lib/data/properties"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 
+const EASE = [0.16, 1, 0.3, 1] as const
+
 export default function NeighborhoodShowcase({ properties }: { properties: Property[] }) {
   const neighborhoods = Object.entries(LAGOS_IMAGES.neighborhoods).map(([key, val]) => ({
     slug: key.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, ""),
@@ -18,8 +20,14 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
   }))
 
   const [active, setActive] = useState(0)
+  const [dir, setDir] = useState<1 | -1>(1)
 
   const current = neighborhoods[active]
+
+  function go(i: number) {
+    setDir(i > active ? 1 : -1)
+    setActive(i)
+  }
 
   return (
     <section id="neighborhoods" className="py-24 bg-bg-primary">
@@ -38,7 +46,7 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
             {neighborhoods.map((n, i) => (
               <button
                 key={n.slug}
-                onClick={() => setActive(i)}
+                onClick={() => go(i)}
                 className={`flex-shrink-0 text-left px-5 py-4 border transition-all duration-300 ${
                   active === i
                     ? "border-amber-500 bg-amber-50 text-text-primary"
@@ -52,13 +60,14 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
           </div>
 
           <div className="lg:col-span-3 relative overflow-hidden">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" custom={dir}>
               <motion.div
                 key={active}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                custom={dir}
+                initial={{ opacity: 0, x: dir * 64 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: dir * -64 }}
+                transition={{ duration: 0.45, ease: EASE }}
                 className="relative"
               >
                 <div className="aspect-[4/3] relative overflow-hidden">

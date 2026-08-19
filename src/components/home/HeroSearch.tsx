@@ -126,6 +126,25 @@ export default function HeroSearch() {
             <Phone className="w-4 h-4" /> Speak with Concierge
           </a>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-12 inline-grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10 border border-white/15 bg-slate-950/40 backdrop-blur-md rounded-lg overflow-hidden"
+        >
+          {[
+            { value: "28+", label: "Active Listings" },
+            { value: "7", label: "Prime Neighborhoods" },
+            { value: "100%", label: "Vetted & Verified" },
+            { value: "24/7", label: "Concierge Support" },
+          ].map((s) => (
+            <div key={s.label} className="px-6 py-4 text-left">
+              <p className="font-heading text-xl sm:text-2xl font-bold text-amber-400">{s.value}</p>
+              <p className="text-[11px] uppercase tracking-widest text-white/70 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   )

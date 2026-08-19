@@ -1,5 +1,6 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react"
 import type { Property } from "@/lib/data/properties"
 import { agents } from "@/lib/data/agents"
@@ -50,23 +51,24 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
             </>
           )}
 
-          {images.map((src, i) => (
-            <div
-              key={src + i}
-              className={`absolute inset-0 transition-opacity duration-300 ease-out ${
-                i === imageIndex ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={property.title}
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding="async"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-            </div>
-          ))}
+          <motion.div
+            className="flex h-full w-full"
+            animate={{ x: `${-imageIndex * 100}%` }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {images.map((src, i) => (
+              <div key={src + i} className="relative h-full w-full shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={i === imageIndex ? property.title : ""}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </motion.div>
 
           {images.length > 1 && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

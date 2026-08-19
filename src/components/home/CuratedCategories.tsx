@@ -9,7 +9,6 @@ const categories = [
   {
     label: "Luxury Apartments",
     description: "Curated sky suites, penthouses & serviced residences across the islands",
-    param: "propertyType",
     value: "Apartment",
     image: LAGOS_IMAGES.categories.penthouses,
     className: "relative min-h-[300px] md:col-span-1 md:row-span-2 md:min-h-[500px]",
@@ -17,7 +16,6 @@ const categories = [
   {
     label: "Duplexes & Maisonettes",
     description: "Multi-level contemporary homes with private courtyards and terraces",
-    param: "propertyType",
     value: "Detached Duplex",
     image: LAGOS_IMAGES.categories.maisonettes,
     className: "relative min-h-[260px] md:col-span-1 md:row-span-1",
@@ -25,7 +23,6 @@ const categories = [
   {
     label: "Private Mansions",
     description: "Exclusive waterfront estates and architectural residences in Banana Island & Ikoyi",
-    param: "propertyType",
     value: "Penthouse",
     image: LAGOS_IMAGES.categories.waterfront,
     className: "relative min-h-[260px] md:col-span-1 md:row-span-1",
@@ -33,7 +30,6 @@ const categories = [
   {
     label: "Commercial Spaces",
     description: "Grade-A corporate office floors, executive suites and prime island retail",
-    param: "propertyType",
     value: "Commercial",
     image: LAGOS_IMAGES.categories.commercial,
     className: "relative min-h-[260px] md:col-span-2 md:row-span-1",
@@ -41,22 +37,29 @@ const categories = [
 ]
 
 export default function CuratedCategories({ properties }: { properties: Property[] }) {
+  const variants = ["from-tl", "from-tr", "from-bl", "from-br"] as const
+
   return (
     <section className="py-24 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
-            Prime Collections
-          </p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-text-primary">
-            Curated Portfolio Categories
-          </h2>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+          <div>
+            <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
+              Prime Collections
+            </p>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-text-primary">
+              Curated Portfolio Categories
+            </h2>
+            <p className="mt-3 max-w-xl text-text-muted">
+              Every asset class we manage — from skyline penthouses to prime commercial floors.
+            </p>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:auto-rows-fr">
           {categories.map(({ label, description, value, image, className }, i) => {
             const count = properties.filter((p) => p.propertyType === value || (value === "Detached Duplex" && p.propertyType === "Maisonette")).length
             return (
-              <ScrollRevealItem key={label} index={i} variant="unblur" className={className}>
+              <ScrollRevealItem key={label} index={i} variant={variants[i]} className={className}>
                 <div className="group relative h-full w-full overflow-hidden rounded-2xl border border-white/20 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
                   <div className="absolute inset-0 overflow-hidden">
                     <ImageWithShimmer
@@ -73,9 +76,9 @@ export default function CuratedCategories({ properties }: { properties: Property
                       {label}
                     </h3>
                     <p className="mt-2 text-sm text-white/75 max-w-xs">{description}</p>
-                    <p className="mt-3 text-xs text-amber-400 font-semibold uppercase tracking-wider">
+                    <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-400/60 bg-black/30 px-4 py-1.5 text-xs text-amber-400 font-semibold uppercase tracking-wider backdrop-blur-sm transition-all duration-300 group-hover:bg-amber-500 group-hover:text-slate-950">
                       {count} {count === 1 ? "listing" : "listings"}
-                    </p>
+                    </span>
                   </div>
                 </div>
               </ScrollRevealItem>

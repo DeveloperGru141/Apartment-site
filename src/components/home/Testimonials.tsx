@@ -8,17 +8,20 @@ import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 
 export default function Testimonials() {
   const [active, setActive] = useState(0)
+  const [dir, setDir] = useState<1 | -1>(1)
   const [resetKey, setResetKey] = useState(0)
   const reduced = useReducedMotion()
 
   useEffect(() => {
     const timer = setInterval(() => {
+      setDir(1)
       setActive((prev) => (prev + 1) % testimonials.length)
     }, 6000)
     return () => clearInterval(timer)
   }, [resetKey])
 
   function go(dir: 1 | -1) {
+    setDir(dir)
     setActive((prev) => (prev + dir + testimonials.length) % testimonials.length)
     setResetKey((k) => k + 1)
   }
@@ -57,13 +60,14 @@ export default function Testimonials() {
 
         <ScrollRevealItem variant="fade-up" index={1}>
           <div className="relative min-h-[240px]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" custom={dir}>
               <motion.figure
                 key={active}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: reduced ? 0 : 0.45, ease: [0.16, 1, 0.3, 1] }}
+                custom={dir}
+                initial={{ opacity: 0, x: reduced ? 0 : dir * 48 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: reduced ? 0 : dir * -48 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-3xl mx-auto text-center"
               >
                 <Quote className="w-10 h-10 text-amber-400 mx-auto mb-6" />
@@ -113,6 +117,7 @@ export default function Testimonials() {
                   type="button"
                   aria-label={`Testimonial ${i + 1}`}
                   onClick={() => {
+                    setDir(i > active ? 1 : -1)
                     setActive(i)
                     setResetKey((k) => k + 1)
                   }}
