@@ -17,7 +17,7 @@ export const agents: Agent[] = [
     slug: "salami-ademola",
     name: "Salami Ademola",
     role: "Founder & Principal Partner",
-    photo: portrait("/api/portraits/men/66.jpg"),
+    photo: "/images/salami-ademola.png",
     bio: "Salami leads HORIZON's advisory desk in Lagos, pairing deep knowledge of the island market with a white-glove, end-to-end service for buyers, sellers, and tenants.",
     whatsapp: "2348012345009",
     email: "ademola@horizon.ng",
