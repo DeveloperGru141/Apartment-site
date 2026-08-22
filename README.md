@@ -7,6 +7,7 @@ A modern, responsive landing page for a luxury apartment rental SaaS platform bu
 **Apartment-site** is the marketing landing page for "HORIZON" - a premium apartment rental platform targeting the US market. The platform focuses exclusively on luxury rentals (no buying/selling), featuring digital lease signatures, multi-currency payment support, and a concierge-level user experience.
 
 ### Key Features
+
 - **Luxury Brand Identity** - "Where Dreams Meet Reality" tagline with premium visual design
 - **Responsive Design** - Mobile-first approach with optimized layouts across all breakpoints
 - **Component Architecture** - Reusable, maintainable components following atomic design principles
@@ -16,6 +17,7 @@ A modern, responsive landing page for a luxury apartment rental SaaS platform bu
 ## 🛠️ Tech Stack
 
 | Category | Technology | Version |
+
 |----------|------------|---------|
 | **Framework** | Next.js | 15.x (App Router) |
 | **Language** | TypeScript | 5.7.x |
@@ -27,10 +29,12 @@ A modern, responsive landing page for a luxury apartment rental SaaS platform bu
 ## 🎨 Design System
 
 ### Color Palette
+
 Defined in `src/app/globals.css` as CSS custom properties:
 
 | Token | Hex | Usage |
 |-------|-----|-------|
+
 | `--color-bg-primary` | `#FFFFFF` | Primary backgrounds, white sections |
 | `--color-bg-alt` | `#F9F9F9` | Alternate section backgrounds |
 | `--color-bg-dark` | `#111111` | Dark footer, primary text |
@@ -41,21 +45,22 @@ Defined in `src/app/globals.css` as CSS custom properties:
 | `--color-accent` | `#111111` | Brand accent (same as primary) |
 
 ### Typography
+
 Loaded via `next/font/google` in `src/app/layout.tsx`:
 
-| Font | Weights | CSS Variable | Usage |
-|------|---------|--------------|-------|
-| **Plus Jakarta Sans** | 500, 700, 800 | `--font-heading` | All headings (H1-H3), kickers, logo |
-| **Inter** | 400, 500, 600 | `--font-body` | Body text, navigation, buttons, metadata |
+| Font                  | Weights       | CSS Variable     | Usage                                    |
+|-----------------------|---------------|------------------|------------------------------------------|
+| **Plus Jakarta Sans** | 500, 700, 800 | `--font-heading` | All headings (H1-H3), kickers, logo      |
+| **Inter**             | 400, 500, 600 | `--font-body`    | Body text, navigation, buttons, metadata |
 
 ### Spacing & Layout
+
 - **Container**: `max-w-7xl` (1280px) with responsive padding (`px-6 md:px-16`)
 - **Section Padding**: `py-16 md:py-32` (tight) / `py-24 md:py-32` (standard)
 - **Grid System**: Tailwind's responsive grid (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`)
 
 ## 📁 Project Structure
 
-```
 apartment-site/
 ├── src/
 │   ├── app/
@@ -91,18 +96,19 @@ apartment-site/
 ├── tsconfig.json                  # TypeScript configuration
 ├── package.json                   # Dependencies & scripts
 └── README.md                      # This file
-```
 
 ## 🧩 Component Architecture
 
 ### Shared Components (`src/components/shared/`)
 
 **Section.tsx** - Layout primitives:
+
 - `Section` - Wrapper with variant (`primary`/`alt`) and padding (`default`/`tight`)
 - `SectionHeader` - Consistent section titles with optional subtitle, alignment
 - `SplitHeading` - Multi-line headings with `<br />` splits
 
 **UIComponents.tsx** - Reusable cards & links:
+
 - `ViewProjectLink` - Styled "VIEW PROJECT" link with underline animation
 - `ArticleCard` - Blog articles (featured + compact variants)
 - `StatCard` - Key metrics display (value + label)
@@ -113,6 +119,7 @@ apartment-site/
 ### Landing Sections (`src/components/landing/`)
 
 | Component | Description | Key Features |
+
 |-----------|-------------|--------------|
 | `Navbar` | Sticky header with blur gradient | Mobile drawer, branded logo, CTA |
 | `Hero` | Full-screen hero with CTA | Background image, dark overlay, responsive text |
@@ -129,8 +136,11 @@ apartment-site/
 ## 📦 Centralized Constants
 
 ### Images (`src/lib/images.ts`)
+
 All Unsplash URLs centralized with semantic keys:
+
 ```typescript
+
 export const IMAGES = {
   hero: { background: "..." },
   about: { main: "...", gallery: ["...", "...", "..."] },
@@ -145,6 +155,7 @@ export const IMAGES = {
 ```
 
 ### Footer Links (`src/lib/footer-links.ts`)
+
 ```typescript
 export const QUICK_LINKS = ["Home", "Services", "Portfolio", "About Us", "Blog"];
 export const POLICIES = ["Privacy Policy", "Terms of Service", "Cookie Policy", "Disclaimer"];
@@ -154,10 +165,12 @@ export const SOCIAL = ["Instagram", "LinkedIn", "Twitter", "Facebook"];
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm 10+
 
 ### Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/DeveloperGru141/Apartment-site.git
@@ -173,7 +186,9 @@ npm run dev
 Visit `http://localhost:3000`
 
 ### Available Scripts
+
 | Command | Description |
+
 |---------|-------------|
 | `npm run dev` | Start dev server with Turbopack |
 | `npm run build` | Production build (static export) |
@@ -183,23 +198,27 @@ Visit `http://localhost:3000`
 ## 🌐 Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 # Connect to Vercel
 npx vercel
 ```
 
 ### Static Export
+
 ```bash
 npm run build
 # Output in /out directory
 ```
 
 ### Environment Variables
+
 Only `NEXT_PUBLIC_APP_URL` (the deployed origin) is used; all content is static seed data with no database or auth layer.
 
 ## 📱 Responsive Breakpoints
 
 | Breakpoint | Width | Columns | Notes |
+
 |------------|-------|---------|-------|
 | `mobile` | < 640px | 1 | Stacked layouts, hidden nav links |
 | `tablet` | 640-1023px | 2 | Side-by-side grids, drawer menu |
@@ -207,6 +226,7 @@ Only `NEXT_PUBLIC_APP_URL` (the deployed origin) is used; all content is static 
 | `large` | ≥ 1280px | 3-4 | Max container width, generous spacing |
 
 ### Mobile-Specific Patterns
+
 - **Navbar**: Hamburger menu → full-screen drawer (fixed inset, white bg)
 - **Grids**: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
 - **Images**: Reduced heights (`h-40 md:h-64`, `h-72 md:h-96`)
@@ -225,6 +245,7 @@ Only `NEXT_PUBLIC_APP_URL` (the deployed origin) is used; all content is static 
 ## 🔧 Configuration Files
 
 ### `next.config.ts`
+
 ```typescript
 import type { NextConfig } from "next";
 
@@ -238,11 +259,13 @@ export default nextConfig;
 ```
 
 ### `tsconfig.json`
+
 - Strict mode enabled
 - Path aliases: `@/*` → `src/*`
 - Next.js plugin for App Router
 
 ### `globals.css` (Tailwind v4)
+
 ```css
 @import "tailwindcss";
 
@@ -304,6 +327,7 @@ export default nextConfig;
 5. Open a Pull Request
 
 ### Code Style
+
 - TypeScript strict mode
 - ESLint + Prettier (run `npm run lint`)
 - Conventional commits (feat, fix, chore, docs, refactor)
