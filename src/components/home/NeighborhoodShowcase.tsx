@@ -74,9 +74,10 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
               >
                 <div className="aspect-[4/3] relative overflow-hidden">
                   <ImageWithShimmer
-                    src={current.image || LAGOS_IMAGES.hero.main}
+                    src={current.image}
                     alt={current.name}
                     className="h-full w-full"
+                    sizes="(min-width: 1024px) 60vw, 100vw"
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

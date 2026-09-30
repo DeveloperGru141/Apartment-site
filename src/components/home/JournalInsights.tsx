@@ -52,6 +52,7 @@ export default function JournalInsights() {
                     alt={article.title}
                     className="h-full w-full"
                     priority={i === 0}
+                    sizes="(min-width: 768px) 33vw, 100vw"
                     imgClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-md border border-white/40 shadow-sm text-text-primary">

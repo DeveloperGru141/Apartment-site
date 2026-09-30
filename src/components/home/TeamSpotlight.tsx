@@ -3,6 +3,7 @@
 import { agents } from "@/lib/data/agents"
 import type { Property } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
+import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 import Section from "@/components/shared/Section"
 import Container from "@/components/shared/Container"
@@ -34,13 +35,12 @@ export default function TeamSpotlight({ properties }: { properties: Property[] }
                 <div className="shrink-0 relative w-36 h-36 sm:w-48 sm:h-48">
                   <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-amber-400/40 via-transparent to-amber-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true" />
                   <div className="relative w-full h-full overflow-hidden rounded-2xl border-2 border-amber-500/30 shadow-md">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <ImageWithShimmer
                       src={leadAgent.photo}
                       alt={leadAgent.name}
-                      loading="eager"
-                      decoding="async"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      className="h-full w-full"
+                      sizes="(min-width: 640px) 12rem, 9rem"
+                      imgClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   </div>
                 </div>

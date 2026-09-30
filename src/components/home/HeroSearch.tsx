@@ -1,10 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowDown, Phone } from "lucide-react"
 import { LAGOS_IMAGES } from "@/lib/images"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import { SHIMMER_BLUR } from "@/components/shared/ImageWithShimmer"
 
 const HERO_SLIDES = [
   {
@@ -49,11 +51,17 @@ export default function HeroSearch() {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="absolute inset-0 z-0 pointer-events-none select-none"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          {/* LCP image: priority + high fetch priority, full-viewport sizes */}
+          <Image
             src={HERO_SLIDES[currentSlide].image}
-            alt="Lagos Luxury Real Estate"
-            className="w-full h-full object-cover object-center kenburns"
+            alt="Oceanfront luxury residences in Eko Atlantic, Lagos"
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            placeholder="blur"
+            blurDataURL={SHIMMER_BLUR}
+            className="object-cover object-center kenburns"
             draggable={false}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/30" />

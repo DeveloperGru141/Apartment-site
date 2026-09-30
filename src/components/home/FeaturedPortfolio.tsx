@@ -159,13 +159,14 @@ export default function FeaturedPortfolio({ properties }: { properties: Property
                 <SpotlightCard className="group animated-border-card h-full rounded-2xl isolate">
                   <div className="relative h-full rounded-2xl bg-white/90 backdrop-blur-sm border border-gray-100/80 shadow-sm transition-shadow duration-500 ease-out hover:shadow-2xl hover:shadow-black/10">
                     <div className="shine-sweep relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-slate-900">
-                      <ImageWithShimmer
-                        src={p.images[0] ?? ""}
-                        alt={p.title}
-                        className="h-full w-full"
-                        priority={i < 2}
-                        imgClassName="group-hover:scale-110 transition-transform duration-[1200ms] ease-out"
-                      />
+                    <ImageWithShimmer
+                      src={p.images[0] ?? ""}
+                      alt={p.title}
+                      className="h-full w-full"
+                      priority={i < 2}
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      imgClassName="group-hover:scale-110 transition-transform duration-[1200ms] ease-out"
+                    />
                       <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/10 transition-transform duration-500 group-hover:-translate-y-0.5">
                         {p.status}
                       </div>

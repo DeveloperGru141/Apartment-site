@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { animate, useInView, useReducedMotion } from "framer-motion"
 import { LAGOS_IMAGES } from "@/lib/images"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
+import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 import Section from "@/components/shared/Section"
 import Container from "@/components/shared/Container"
 
@@ -106,11 +107,11 @@ export default function ConciergeValueProp() {
 
           <div className="relative md:w-1/2">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[3/3.4]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <ImageWithShimmer
                 src={LAGOS_IMAGES.concierge.lobby}
                 alt="HORIZON Private Concierge Lobby"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 h-full w-full"
+                sizes="(min-width: 768px) 50vw, 100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/90 via-bg-dark/40 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/10">

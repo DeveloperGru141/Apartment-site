@@ -69,6 +69,7 @@ export default function CuratedCategories({ properties }: { properties: Property
                       alt={label}
                       className="h-full w-full"
                       priority={i === 0}
+                      sizes="(min-width: 768px) 50vw, 100vw"
                       imgClassName="transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   </div>

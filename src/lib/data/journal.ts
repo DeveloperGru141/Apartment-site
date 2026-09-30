@@ -28,7 +28,7 @@ export const journalPosts: JournalPost[] = [
   {
     slug: "the-art-of-african-interior-design",
     image:
-      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
     category: "Interior Design",
     date: "Mar 10, 2026",
     title: "The Art of African Interior Design",
@@ -44,7 +44,7 @@ export const journalPosts: JournalPost[] = [
   {
     slug: "your-complete-guide-to-buying-in-lagos",
     image:
-      "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?auto=format&fit=crop&w=1200&q=80",
     category: "Buying Guide",
     date: "Mar 5, 2026",
     title: "Your Complete Guide to Buying in Lagos",

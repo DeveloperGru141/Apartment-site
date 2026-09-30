@@ -31,7 +31,7 @@ export const LAGOS_IMAGES = {
     ekoAtlantic: {
       title: 'Eko Atlantic City',
       sub: 'A&A Towers & Eko Pearl Sky Suites',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80',
+      image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=80',
     },
     lekki: {
       title: 'Lekki',
@@ -41,7 +41,7 @@ export const LAGOS_IMAGES = {
     ajah: {
       title: 'Ajah',
       sub: 'Chevron, Agungi & Jakande',
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80',
+      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80',
     },
   },
 
