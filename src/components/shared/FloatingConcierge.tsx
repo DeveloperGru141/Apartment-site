@@ -21,7 +21,7 @@ export default function FloatingConcierge() {
         </span>
       </div>
       <div className="text-left hidden sm:block">
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest leading-none">HORIZON</p>
+        <p className="text-xs text-slate-400 uppercase tracking-widest leading-none">HORIZON</p>
         <p className="text-xs font-medium text-amber-400 tracking-wide leading-tight">Private Concierge</p>
       </div>
     </a>

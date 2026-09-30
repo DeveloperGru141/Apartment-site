@@ -5,13 +5,15 @@ import { journalPosts } from "@/lib/data/journal"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 export default function JournalInsights() {
   const articles = journalPosts.slice(0, 3)
 
   return (
-    <section id="journal" className="py-24 bg-bg-primary">
-      <div className="max-w-7xl mx-auto px-4">
+    <Section tone="paper" id="journal">
+      <Container>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
           <div>
             <p className="text-sm font-semibold text-text-primary/60 uppercase tracking-wider mb-2">
@@ -72,7 +74,7 @@ export default function JournalInsights() {
             </ScrollRevealItem>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

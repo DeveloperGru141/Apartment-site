@@ -4,6 +4,8 @@ import { LAGOS_IMAGES } from "@/lib/images"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 import type { Property } from "@/lib/data/properties"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 const categories = [
   {
@@ -40,8 +42,8 @@ export default function CuratedCategories({ properties }: { properties: Property
   const variants = ["from-tl", "from-tr", "from-bl", "from-br"] as const
 
   return (
-    <section className="py-24 bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <Section tone="paper-2">
+      <Container>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
           <div>
             <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
@@ -85,7 +87,7 @@ export default function CuratedCategories({ properties }: { properties: Property
             )
           })}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

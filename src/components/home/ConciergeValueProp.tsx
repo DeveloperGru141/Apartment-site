@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { animate, useInView, useReducedMotion } from "framer-motion"
 import { LAGOS_IMAGES } from "@/lib/images"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 const stats = [
   { value: "$340M+", label: "Total Transaction Volume" },
@@ -91,8 +93,8 @@ function AnimatedStat({ value, label }: { value: string; label: string }) {
 
 export default function ConciergeValueProp() {
   return (
-    <section id="concierge" className="py-24 bg-bg-dark text-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <Section tone="ink" id="concierge">
+      <Container>
         <div className="md:flex md:gap-16 lg:gap-24 items-center">
           <div className="grid grid-cols-2 gap-8 mb-12 md:mb-0 md:w-1/2">
             {stats.map((s, i) => (
@@ -149,7 +151,7 @@ export default function ConciergeValueProp() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

@@ -51,7 +51,12 @@ Reconnect in phases; each phase restores the deleted code from git history + re-
   - Primary Background: `bg-bg-primary` (#FFFFFF)
   - Dark/Text Accent: `bg-bg-dark` / `text-text-primary` (#111111)
   - Headings Font: `font-heading` (Plus Jakarta Sans)
-  - Body Font: `font-body` (Inter)
+  - Body Font: `font-body` (Plus Jakarta Sans — Inter removed in Phase 1)
+  - Display Serif: `font-display` (Fraunces, hero moment only)
+  - Phase 1 surfaces/text: `bg-ink`/`bg-paper`/`bg-paper-2`, `text-fg`/`text-fg-muted`/`text-fg-on-dark(-muted)`, `bg-line`
+  - Phase 1 accent scale: `bg-accent`/`text-accent` (#f59e0b), `accent-hover`, `accent-fg`
+  - Phase 1 layout: `Section` (`tone: ink|paper|paper-2`, py 56/80/112) + `Container` (max-w-7xl, gutters 16/24/36) in `src/components/shared/`
+  - Phase 1 type roles: `.type-display/.type-h2/.type-h3/.type-lead/.type-body/.type-small/.type-caption` (apply in Phases 3-8, not before)
 - DO NOT invent arbitrary hex values inline if standard theme tokens exist in `globals.css`.
 
 ### C. Component & Data Architecture

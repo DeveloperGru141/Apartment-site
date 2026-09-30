@@ -89,11 +89,11 @@ export default function PropertyCard({ property, className = "" }: PropertyCardP
             </div>
           )}
 
-          <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md z-10 border border-white/10">
+          <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md z-10 border border-white/10">
             {property.status}
           </div>
           {property.featured && (
-            <div className="absolute top-3 right-3 bg-amber-500 text-slate-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md z-10 shadow-md">
+            <div className="absolute top-3 right-3 bg-amber-500 text-slate-950 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md z-10 shadow-md">
               Featured
             </div>
           )}

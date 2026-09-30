@@ -14,6 +14,8 @@ import { LISTING_STATUSES, type ListingStatus, type Property } from "@/lib/data/
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
 import PropertySpecs from "@/components/properties/PropertySpecs"
 import WhatsAppInquiryButton from "@/components/properties/WhatsAppInquiryButton"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 const filters: Array<"All" | ListingStatus> = ["All", ...LISTING_STATUSES]
 
@@ -80,8 +82,8 @@ export default function FeaturedPortfolio({ properties }: { properties: Property
     activeFilter === "All" ? featured : featured.filter((p) => p.status === activeFilter)
 
   return (
-    <section id="portfolio" className="py-24 bg-bg-primary">
-      <div className="max-w-7xl mx-auto px-4">
+    <Section tone="paper" id="portfolio">
+      <Container>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
           <div>
             <p className="text-sm font-medium tracking-widest uppercase text-text-muted mb-2">
@@ -164,7 +166,7 @@ export default function FeaturedPortfolio({ properties }: { properties: Property
                         priority={i < 2}
                         imgClassName="group-hover:scale-110 transition-transform duration-[1200ms] ease-out"
                       />
-                      <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/10 transition-transform duration-500 group-hover:-translate-y-0.5">
+                      <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/10 transition-transform duration-500 group-hover:-translate-y-0.5">
                         {p.status}
                       </div>
                       <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-md text-text-primary text-xs font-bold px-3 py-1.5 rounded-md border border-white/40 shadow-sm transition-all duration-500 group-hover:bg-amber-500 group-hover:text-slate-950 group-hover:border-amber-500">
@@ -195,7 +197,7 @@ export default function FeaturedPortfolio({ properties }: { properties: Property
             ))}
           </AnimatePresence>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

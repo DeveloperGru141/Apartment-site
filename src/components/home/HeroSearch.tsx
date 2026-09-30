@@ -141,7 +141,7 @@ export default function HeroSearch() {
           ].map((s) => (
             <div key={s.label} className="px-6 py-4 text-left">
               <p className="font-heading text-xl sm:text-2xl font-bold text-amber-400">{s.value}</p>
-              <p className="text-[11px] uppercase tracking-widest text-white/70 mt-1">{s.label}</p>
+              <p className="text-xs uppercase tracking-widest text-white/70 mt-1">{s.label}</p>
             </div>
           ))}
         </motion.div>

@@ -5,6 +5,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
 import { testimonials } from "@/lib/data/testimonials"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 export default function Testimonials() {
   const [active, setActive] = useState(0)
@@ -27,8 +29,8 @@ export default function Testimonials() {
   }
 
   return (
-    <section className="py-20 bg-bg-dark text-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <Section tone="ink">
+      <Container>
         <ScrollRevealItem variant="fade-up">
           <div className="flex items-end justify-between mb-12">
             <div>
@@ -129,7 +131,7 @@ export default function Testimonials() {
             </div>
           </div>
         </ScrollRevealItem>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

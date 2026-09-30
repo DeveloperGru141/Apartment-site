@@ -7,6 +7,8 @@ import { LAGOS_IMAGES } from "@/lib/images"
 import type { Property } from "@/lib/data/properties"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
 import ImageWithShimmer from "@/components/shared/ImageWithShimmer"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -30,8 +32,8 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
   }
 
   return (
-    <section id="neighborhoods" className="py-24 bg-bg-primary">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <Section tone="paper" id="neighborhoods">
+      <Container>
         <div className="mb-12">
           <span className="mb-4 inline-block rounded-full bg-bg-dark px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
             Prime Locations
@@ -102,7 +104,7 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
             </AnimatePresence>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

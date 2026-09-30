@@ -4,14 +4,16 @@ import { agents } from "@/lib/data/agents"
 import type { Property } from "@/lib/data/properties"
 import { ScrollRevealItem } from "@/components/shared/ScrollReveal"
 import { getWhatsAppInquiryLink } from "@/lib/whatsapp"
+import Section from "@/components/shared/Section"
+import Container from "@/components/shared/Container"
 
 export default function TeamSpotlight({ properties }: { properties: Property[] }) {
   const leadAgent = agents[0]
   const count = properties.filter((p) => p.agentId === leadAgent.id).length
 
   return (
-    <section id="team" className="py-24 bg-bg-alt">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Section tone="paper-2" id="team">
+      <Container>
         <div className="mb-12">
           <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
             Mandate Advisory
@@ -76,7 +78,7 @@ export default function TeamSpotlight({ properties }: { properties: Property[] }
             </div>
           </ScrollRevealItem>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }
