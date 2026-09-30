@@ -9,9 +9,9 @@
   --color-text-body: #555555;
   --color-text-meta: #333333;
   --color-text-inverse: #ffffff;
-  --font-heading: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  /* NOTE: --font-heading/--font-body/--font-display are owned by the
+     `@theme inline` block below (next/font hashed families). Do not
+     redeclare them here or body text falls back to system-ui. */
 
   /* Phase 1 — warm editorial surfaces (accent hue sampled from existing amber, unchanged) */
   --color-ink: #191512;
@@ -31,6 +31,8 @@
   --color-accent: #f59e0b;
   --color-accent-hover: #d97706;
   --color-accent-fg: #1d1813;
+  /* Phase 4 — accent text on light surfaces: ~6.7:1 on paper, ~6.0:1 on paper-2 */
+  --color-accent-ink: #92400e;
 
   /* Phase 1 — exactly three radii: controls, cards, large media */
   --radius-control: 0.625rem;

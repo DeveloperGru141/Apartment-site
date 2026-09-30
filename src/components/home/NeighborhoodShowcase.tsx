@@ -34,11 +34,8 @@ export default function NeighborhoodShowcase({ properties }: { properties: Prope
   return (
     <Section tone="paper" id="neighborhoods">
       <Container>
-        <div className="mb-12">
-          <span className="mb-4 inline-block rounded-full bg-bg-dark px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
-            Prime Locations
-          </span>
-          <h2 className="font-heading text-3xl font-bold text-text-primary sm:text-4xl lg:text-5xl">
+        <div className="mb-10 md:mb-12">
+          <h2 className="type-h2 text-fg">
             Explore Neighborhoods
           </h2>
         </div>

@@ -14,15 +14,12 @@ export default function JournalInsights() {
   return (
     <Section tone="paper" id="journal">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-12">
           <div>
-            <p className="text-sm font-semibold text-text-primary/60 uppercase tracking-wider mb-2">
-              Latest from HORIZON
-            </p>
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-text-primary">
+            <h2 className="type-h2 text-fg">
               Journal &amp; Market Insights
             </h2>
-            <p className="mt-3 max-w-xl text-text-muted">
+            <p className="mt-3 text-fg-muted type-body">
               Market intelligence, neighborhood deep-dives and buying guides — written by our
               Lagos-based analysts.
             </p>
@@ -31,7 +28,7 @@ export default function JournalInsights() {
             href={getWhatsAppInquiryLink({ title: "Journal & Market Insights" })}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-amber-600 hover:text-amber-700 transition-colors group"
+            className="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-accent-ink hover:text-accent-hover transition-colors group"
           >
             Get market updates
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

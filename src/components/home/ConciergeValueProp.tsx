@@ -121,7 +121,7 @@ export default function ConciergeValueProp() {
               </div>
             </div>
             <div className="animated-border-card relative z-10 p-6 -mt-16 md:-mt-20 md:mx-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10">
-              <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight mb-6">
+              <h2 className="font-heading font-bold text-3xl md:text-4xl tracking-tight mb-6 text-fg-on-dark">
                 Elevated Living, Curated for You
               </h2>
               <p className="font-body text-base leading-relaxed text-gray-300 mb-8">

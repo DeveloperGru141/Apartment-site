@@ -29,22 +29,19 @@ export default function Testimonials() {
   }
 
   return (
-    <Section tone="ink">
+    <Section tone="paper-2">
       <Container>
         <ScrollRevealItem variant="fade-up">
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex items-end justify-between mb-10 md:mb-12">
             <div>
-              <p className="text-sm font-medium tracking-widest uppercase text-amber-400 mb-2">
-                Client Verbatim
-              </p>
-              <h2 className="font-heading font-bold text-3xl md:text-4xl">What Our Clients Say</h2>
+              <h2 className="type-h2 text-fg">What Our Clients Say</h2>
             </div>
             <div className="hidden sm:flex gap-3">
               <button
                 type="button"
                 aria-label="Previous testimonial"
                 onClick={() => go(-1)}
-                className="border border-white/20 p-2.5 rounded-full hover:bg-white/10 transition-colors text-white"
+                className="border border-line p-2.5 rounded-full hover:bg-paper transition-colors text-fg"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -52,7 +49,7 @@ export default function Testimonials() {
                 type="button"
                 aria-label="Next testimonial"
                 onClick={() => go(1)}
-                className="border border-white/20 p-2.5 rounded-full hover:bg-white/10 transition-colors text-white"
+                className="border border-line p-2.5 rounded-full hover:bg-paper transition-colors text-fg"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -72,13 +69,13 @@ export default function Testimonials() {
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-3xl mx-auto text-center"
               >
-                <Quote className="w-10 h-10 text-amber-400 mx-auto mb-6" />
-                <blockquote className="text-xl md:text-2xl font-light leading-relaxed">
+                <Quote className="w-10 h-10 text-accent-ink mx-auto mb-6" />
+                <blockquote className="text-xl md:text-2xl leading-relaxed">
                   &ldquo;{testimonials[active].quote}&rdquo;
                 </blockquote>
                 <figcaption className="mt-8 flex flex-col items-center gap-3">
                   <div className="w-16 h-16 rounded-full bg-amber-400/20 ring-2 ring-amber-400/60 flex items-center justify-center">
-                    <span className="font-heading font-bold text-amber-400">
+                    <span className="font-heading font-bold text-accent-ink">
                       {testimonials[active].name
                         .split("&")
                         .map((part) =>
@@ -97,15 +94,15 @@ export default function Testimonials() {
                       {Array.from({ length: 5 }, (_, i) => (
                         <span
                           key={i}
-                          className={i < testimonials[active].rating ? "text-amber-400" : "text-white/20"}
+                          className={i < testimonials[active].rating ? "text-accent-ink" : "text-fg-muted/30"}
                         >
                           ★
                         </span>
                       ))}
                     </div>
-                    <p className="font-heading font-bold text-white">{testimonials[active].name}</p>
+                    <p className="font-heading font-bold text-fg">{testimonials[active].name}</p>
                     {testimonials[active].context && (
-                      <p className="text-sm text-amber-400/80 mt-1">{testimonials[active].context}</p>
+                      <p className="text-sm text-accent-ink mt-1">{testimonials[active].context}</p>
                     )}
                   </div>
                 </figcaption>
@@ -124,7 +121,7 @@ export default function Testimonials() {
                     setResetKey((k) => k + 1)
                   }}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    active === i ? "w-8 bg-amber-400" : "w-4 bg-white/30 hover:bg-white/60"
+                    active === i ? "w-8 bg-accent-ink" : "w-4 bg-fg-muted/30 hover:bg-fg-muted/60"
                   }`}
                 />
               ))}

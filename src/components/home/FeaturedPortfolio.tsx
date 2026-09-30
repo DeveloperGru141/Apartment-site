@@ -84,20 +84,17 @@ export default function FeaturedPortfolio({ properties }: { properties: Property
   return (
     <Section tone="paper" id="portfolio">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-12">
           <div>
-            <p className="text-sm font-medium tracking-widest uppercase text-text-muted mb-2">
-              Curated Collection
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold font-heading text-text-primary">
+            <h2 className="type-h2 text-fg">
               Featured Portfolio
             </h2>
-            <p className="mt-3 max-w-xl text-text-muted">
+            <p className="mt-3 text-fg-muted type-body">
               Handpicked residences across Lagos&rsquo; most sought-after addresses — each one
               inspected and vetted in person by our principals.
             </p>
           </div>
-          <p className="hidden md:block text-sm text-text-muted border-l-2 border-amber-500 pl-4 leading-relaxed">
+          <p className="hidden md:block text-sm text-fg-muted border-l-2 border-amber-500 pl-4 leading-relaxed">
             {featured.length} active listings
             <br />
             {activeFilter !== "All" ? `filtered by ${activeFilter}` : "curated this quarter"}

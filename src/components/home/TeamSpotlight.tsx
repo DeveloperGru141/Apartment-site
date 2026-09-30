@@ -15,14 +15,11 @@ export default function TeamSpotlight({ properties }: { properties: Property[] }
   return (
     <Section tone="paper-2" id="team">
       <Container>
-        <div className="mb-12">
-          <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
-            Mandate Advisory
-          </p>
-          <h2 className="font-heading font-bold text-3xl md:text-4xl text-text-primary">
+        <div className="mb-10 md:mb-12">
+          <h2 className="type-h2 text-fg">
             Featured Senior Executive
           </h2>
-          <p className="mt-3 max-w-xl text-text-muted">
+          <p className="mt-3 text-fg-muted type-body">
             One principal, one mandate — every portfolio below is negotiated and closed under
             Salami&rsquo;s direct oversight.
           </p>

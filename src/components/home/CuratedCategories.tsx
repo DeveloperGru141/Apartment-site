@@ -44,15 +44,12 @@ export default function CuratedCategories({ properties }: { properties: Property
   return (
     <Section tone="paper-2">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-12">
           <div>
-            <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">
-              Prime Collections
-            </p>
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-text-primary">
+            <h2 className="type-h2 text-fg">
               Curated Portfolio Categories
             </h2>
-            <p className="mt-3 max-w-xl text-text-muted">
+            <p className="mt-3 text-fg-muted type-body">
               Every asset class we manage — from skyline penthouses to prime commercial floors.
             </p>
           </div>

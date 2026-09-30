@@ -11,7 +11,6 @@ import ConciergeValueProp from "@/components/home/ConciergeValueProp"
 import TeamSpotlight from "@/components/home/TeamSpotlight"
 import JournalInsights from "@/components/home/JournalInsights"
 import FloatingConcierge from "@/components/shared/FloatingConcierge"
-import { ScrollBlurSection } from "@/components/shared/ScrollBlurSection"
 import { properties } from "@/lib/data/properties"
 import { LAGOS_IMAGES } from "@/lib/images"
 
@@ -21,39 +20,21 @@ export default function Home() {
       <Suspense>
         <Navbar />
       </Suspense>
-      <ScrollBlurSection>
+      <main>
         <HeroSearch
           listingCount={properties.length}
           neighborhoodCount={Object.keys(LAGOS_IMAGES.neighborhoods).length}
         />
-      </ScrollBlurSection>
-      <LocationMarquee />
-      <ScrollBlurSection>
+        <LocationMarquee />
         <Testimonials />
-      </ScrollBlurSection>
-      <main className="space-y-4">
-        <ScrollBlurSection>
-          <FeaturedPortfolio properties={properties} />
-        </ScrollBlurSection>
-        <ScrollBlurSection>
-          <CuratedCategories properties={properties} />
-        </ScrollBlurSection>
-        <ScrollBlurSection>
-          <NeighborhoodShowcase properties={properties} />
-        </ScrollBlurSection>
-        <ScrollBlurSection>
-          <ConciergeValueProp />
-        </ScrollBlurSection>
-        <ScrollBlurSection>
-          <TeamSpotlight properties={properties} />
-        </ScrollBlurSection>
-        <ScrollBlurSection>
-          <JournalInsights />
-        </ScrollBlurSection>
+        <FeaturedPortfolio properties={properties} />
+        <CuratedCategories properties={properties} />
+        <NeighborhoodShowcase properties={properties} />
+        <ConciergeValueProp />
+        <TeamSpotlight properties={properties} />
+        <JournalInsights />
       </main>
-      <ScrollBlurSection>
-        <Footer />
-      </ScrollBlurSection>
+      <Footer />
       <FloatingConcierge />
     </>
   )
