@@ -47,6 +47,16 @@
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* 3b-1: single source of truth — next/font owns the hashed families
+   (--font-jakarta, --font-fraunces on <html>). `@theme inline` inlines these
+   var() refs into utilities so body text resolves to self-hosted Jakarta
+   instead of falling through to system-ui. */
+@theme inline {
+  --font-heading: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

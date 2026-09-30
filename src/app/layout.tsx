@@ -6,13 +6,13 @@ import "./globals.css";
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-heading",
+  variable: "--font-jakarta",
 });
 
 const display = Fraunces({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-display",
+  variable: "--font-fraunces",
 });
 
 export const metadata: Metadata = {

@@ -36,7 +36,9 @@ interface HeroSearchProps {
 
 export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSearchProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [suspended, setSuspended] = useState(false)
+  const [prevSlide, setPrevSlide] = useState(0)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
   const [hidden, setHidden] = useState(false)
   const reduced = useReducedMotion()
 
@@ -46,22 +48,28 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
     return () => document.removeEventListener("visibilitychange", onVisibility)
   }, [])
 
+  function go(i: number) {
+    setPrevSlide(currentSlide)
+    setCurrentSlide(i)
+  }
+
   useEffect(() => {
-    if (reduced || suspended || hidden) return
+    if (reduced || hovered || focused || hidden) return
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length)
+      go((currentSlide + 1) % HERO_SLIDES.length)
     }, 6000)
     return () => clearInterval(timer)
-  }, [reduced, suspended, hidden])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduced, hovered, focused, hidden, currentSlide])
 
   return (
     <section
       id="top"
-      onMouseEnter={() => setSuspended(true)}
-      onMouseLeave={() => setSuspended(false)}
-      onFocus={() => setSuspended(true)}
-      onBlur={() => setSuspended(false)}
-      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-slate-950 text-white"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      className="relative min-h-[calc(100svh-5rem)] flex items-center justify-center overflow-hidden bg-ink text-fg-on-dark"
     >
       {/* Stacked slide layers crossfade by opacity — no blank frame between slides */}
       {HERO_SLIDES.map((slide, i) => (
@@ -80,10 +88,10 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
             sizes="100vw"
             placeholder="blur"
             blurDataURL={SHIMMER_BLUR}
-            className={`object-cover object-center ${i === currentSlide && !reduced ? "kenburns" : ""}`}
+            className={`object-cover object-center ${(i === currentSlide || i === prevSlide) && !reduced ? "kenburns" : ""}`}
             draggable={false}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
         </div>
       ))}
 
@@ -94,7 +102,7 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
             type="button"
             aria-label={`Show slide ${i + 1}: ${slide.title}`}
             aria-current={currentSlide === i}
-            onClick={() => setCurrentSlide(i)}
+            onClick={() => go(i)}
             className="flex items-center justify-center w-11 h-11"
           >
             <span
@@ -115,7 +123,7 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="type-display text-white mb-4"
+          className="type-display text-fg-on-dark mb-4"
         >
           {HERO_SLIDES[currentSlide].title}
         </motion.h1>
@@ -125,7 +133,7 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="text-lg text-fg-on-dark-muted font-light max-w-2xl mx-auto mb-10"
+          className="text-lg text-fg-on-dark-muted max-w-2xl mx-auto mb-10"
         >
           {HERO_SLIDES[currentSlide].sub}
         </motion.p>
@@ -138,7 +146,7 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
         >
           <a
             href="#portfolio"
-            className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-accent-fg font-semibold text-sm py-4 px-8 transition-all shadow-lg hover:shadow-amber-500/20"
+            className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-accent-fg font-semibold text-sm py-4 px-8 transition-colors shadow-lg"
           >
             <ArrowDown className="w-4 h-4" /> Explore the portfolio
           </a>
@@ -146,7 +154,7 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
             href={getWhatsAppInquiryLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border border-line-dark hover:border-accent hover:text-accent text-white text-sm font-semibold py-4 px-8 transition-colors"
+            className="inline-flex items-center gap-2 border border-line-dark hover:border-accent hover:text-accent text-fg-on-dark text-sm font-semibold py-4 px-8 transition-colors"
           >
             <Phone className="w-4 h-4" /> Speak with concierge
           </a>
