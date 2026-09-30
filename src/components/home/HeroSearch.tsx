@@ -67,7 +67,9 @@ export default function HeroSearch({ listingCount, neighborhoodCount }: HeroSear
       id="top"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
+      onFocus={(e) => {
+        if ((e.target as HTMLElement).matches?.(":focus-visible")) setFocused(true)
+      }}
       onBlur={() => setFocused(false)}
       className="relative min-h-[calc(100svh-5rem)] flex items-center justify-center overflow-hidden bg-ink text-fg-on-dark"
     >
