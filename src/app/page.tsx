@@ -13,6 +13,7 @@ import JournalInsights from "@/components/home/JournalInsights"
 import FloatingConcierge from "@/components/shared/FloatingConcierge"
 import { ScrollBlurSection } from "@/components/shared/ScrollBlurSection"
 import { properties } from "@/lib/data/properties"
+import { LAGOS_IMAGES } from "@/lib/images"
 
 export default function Home() {
   return (
@@ -21,7 +22,10 @@ export default function Home() {
         <Navbar />
       </Suspense>
       <ScrollBlurSection>
-        <HeroSearch />
+        <HeroSearch
+          listingCount={properties.length}
+          neighborhoodCount={Object.keys(LAGOS_IMAGES.neighborhoods).length}
+        />
       </ScrollBlurSection>
       <LocationMarquee />
       <ScrollBlurSection>
