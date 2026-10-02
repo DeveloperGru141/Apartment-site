@@ -15,7 +15,7 @@ interface ImageWithShimmerProps {
 
 /** Tiny warm blur-up placeholder for remote images (no static imports on the landing page). */
 export const SHIMMER_BLUR =
-  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjYiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjYiIGZpbGw9IiNmMWViZTBkZiIvPjwvc3ZnPg=="
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjYiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjYiIGZpbGw9IiNmMWViZTAiLz48L3N2Zz4="
 
 export default function ImageWithShimmer({
   src,
@@ -41,7 +41,7 @@ export default function ImageWithShimmer({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {!loaded && (
-        <div className="absolute inset-0 bg-gradient-to-r from-neutral-200 via-neutral-300 to-neutral-200 animate-shimmer" />
+        <div className="absolute inset-0 bg-gradient-to-r from-paper-2 via-line to-paper-2 animate-shimmer" />
       )}
       <Image
         src={src}

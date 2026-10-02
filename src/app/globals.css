@@ -301,6 +301,14 @@
   animation: kenburns 18s ease-out forwards;
 }
 
+/* Phase 5 — hide scrollbars on touch-native carousels, keep scrollability */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .shine-sweep {
   position: relative;
   overflow: hidden;
